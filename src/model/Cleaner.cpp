@@ -28,6 +28,10 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
+std::string Cleaner::getCleanerId()
+{
+    return this->cleanerId;
+}
 
 //------------------------------------------------- Surcharge d'opérateurs
 Cleaner & Cleaner::operator = ( const Cleaner & unCleaner )
@@ -48,7 +52,7 @@ Cleaner & Cleaner::operator = ( const Cleaner & unCleaner )
 
 //-------------------------------------------- Constructeurs - destructeur
 Cleaner::Cleaner ( const Cleaner & unCleaner ) :
-cleanerId(unCleaner.cleanerId), latitude(unCleaner.latitude), longitude(unCleaner.longitude), startTime(unCleaner.startTime), stopTime(unCleaner.stopTime)
+    cleanerId(unCleaner.cleanerId), latitude(unCleaner.latitude), longitude(unCleaner.longitude), startTime(unCleaner.startTime), stopTime(unCleaner.stopTime)
 // Algorithme :
 //
 {

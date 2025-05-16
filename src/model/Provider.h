@@ -42,6 +42,7 @@ public:
     // Contrat :
     //
 
+    std::string getProviderId();
 
 //------------------------------------------------- Surcharge d'opérateurs
     Provider & operator = ( const Provider & unProvider );
