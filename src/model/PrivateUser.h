@@ -1,28 +1,29 @@
+
 /*************************************************************************
-                           Xxx  -  description
+                           PrivateUser  -  description
                              -------------------
-    début                : $DATE$
-    copyright            : (C) $YEAR$ par $AUTHOR$
-    e-mail               : $EMAIL$
+    début                : 16/05/2025
+    copyright            : (C) 2025 par Ewan
+    e-mail               : ---
 *************************************************************************/
 
-//---------- Interface de la classe <Xxx> (fichier Xxx.h) ----------------
-#if ! defined ( XXX_H )
-#define XXX_H
+//---------- Interface de la classe <PrivateUser> (fichier PrivateUser.h) ----------------
+#if ! defined ( PRIVATE_USER_H )
+#define PRIVATE_USER_H
 
 //--------------------------------------------------- Interfaces utilisées
-
+#include "User.h"
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
 
 //------------------------------------------------------------------------
-// Rôle de la classe <Xxx>
+// Rôle de la classe <PrivateUser>
 //
 //
 //------------------------------------------------------------------------
 
-class Xxx : public Ancetre
+class PrivateUser : public User
 {
 //----------------------------------------------------------------- PUBLIC
 
@@ -35,30 +36,41 @@ public:
     //
 
 
-//------------------------------------------------- Surcharge d'opérateurs
-    Xxx & operator = ( const Xxx & unXxx );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
-
 //-------------------------------------------- Constructeurs - destructeur
-    Xxx ( const Xxx & unXxx );
-    // Mode d'emploi (constructeur de copie) :
-    //
-    // Contrat :
-    //
-
-    Xxx ( );
+    PrivateUser (int id,  std::string pwd );
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    virtual ~Xxx ( );
+    virtual ~PrivateUser ( );
     // Mode d'emploi :
     //
+    // Contrat :
+    //
+
+    bool isReliable() const;
+    // Mode d'emploi :
+    // Accéder à 'reliable'
+    // Contrat :
+    //
+
+
+    void setReliable(bool value);
+    // Mode d'emploi :
+    // Accéder à 'reliable'
+    // Contrat :
+    //
+
+
+    int getPoints();
+    // Mode d'emploi :
+    // Accéder à 'points'
+    // Contrat :
+    //
+    void givePoints(int pts);
+    // Mode d'emploi :
+    // Ajouter ou enlever des points
     // Contrat :
     //
 
@@ -68,10 +80,10 @@ protected:
 //----------------------------------------------------- Méthodes protégées
 
 //----------------------------------------------------- Attributs protégés
-
+    bool reliable;
+    int points;
 };
 
 //-------------------------------- Autres définitions dépendantes de <Xxx>
 
-#endif // XXX_H
-
+#endif // PRIVATE_USER_H
