@@ -21,9 +21,9 @@ class Measurement
 //----------------------------------------------------------------- PUBLIC
 public:
 //----------------------------------------------------- Méthodes publiques
-    Attribute GetAttrubute() const;
-    float GetValue() const;
-    std::string GetTimestamp() const;
+    std::string GetAttributeAsString() const;
+    float getValue() const;
+    std::string getTimestamp() const;
 
 //-------------------------------------------- Constructeurs - destructeur
     Measurement(const std::string& timestamp, const Atrribute& attriubute, float value);
