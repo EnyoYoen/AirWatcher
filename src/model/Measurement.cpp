@@ -1,8 +1,8 @@
 /*************************************************************************
-                           Xxx  -  description
+                           Measurement  -  implements the Measurement class
                              -------------------
-    début                : $DATE$
-    copyright            : (C) $YEAR$ par $AUTHOR$
+    début                : 16/05/2025
+    copyright            : (C) 2025 par $AUTHOR$
     e-mail               : $EMAIL$
 *************************************************************************/
 
@@ -15,57 +15,58 @@ using namespace std;
 #include <iostream>
 
 //------------------------------------------------------ Include personnel
-#include "Xxx.h"
+#include "Measurement.h"
 
 //------------------------------------------------------------- Constantes
 
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-// type Xxx::Méthode ( liste des paramètres )
-// Algorithme :
-//
-//{
-//} //----- Fin de Méthode
-
-
-//------------------------------------------------- Surcharge d'opérateurs
-Xxx & Xxx::operator = ( const Xxx & unXxx )
-// Algorithme :
-//
+Attribute Measurement::GetAttribute() const
 {
-} //----- Fin de operator =
+    return attribute;
+}
 
+float Measurement::GetValue()const
+{
+  return value;
+}
+
+string Measurement::getTimestamp() const
+{
+  return timestamp;
+}
 
 //-------------------------------------------- Constructeurs - destructeur
-Xxx::Xxx ( const Xxx & unXxx )
+Measurement::Measurement (const string& timestamp, const Attribute&attrubute, float value)
+  : timestamp(timestamp), attribute(attribute), value(value)
 // Algorithme :
 //
 {
 #ifdef MAP
-    cout << "Appel au constructeur de copie de <Xxx>" << endl;
+    cout << "Appel au constructeur de copie de Measurement" << endl;
 #endif
-} //----- Fin de Xxx (constructeur de copie)
+} //----- Fin de Measurement (constructeur de copie)
 
 
-Xxx::Xxx ( )
+Measurement::Measurement(const Measurement& other)
+   : timestamp(other.timestamp),attribute(other.attribute), value (other.value)
+//
+{
+#ifdef MAP
+    cout << "Appel au constructeur de Measurement" << endl;
+#endif
+} //----- Fin de Measurement
+
+
+Measurement::~Measurement()
 // Algorithme :
 //
 {
 #ifdef MAP
-    cout << "Appel au constructeur de <Xxx>" << endl;
+    cout << "Appel au destructeur de Measurement" << endl;
 #endif
-} //----- Fin de Xxx
-
-
-Xxx::~Xxx ( )
-// Algorithme :
-//
-{
-#ifdef MAP
-    cout << "Appel au destructeur de <Xxx>" << endl;
-#endif
-} //----- Fin de ~Xxx
+} //----- Fin de ~Measurement
 
 
 //------------------------------------------------------------------ PRIVE
