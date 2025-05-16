@@ -1,14 +1,14 @@
 /*************************************************************************
-                           Xxx  -  description
+                           Measurement - represents a sensor measurement  
                              -------------------
-    début                : $DATE$
-    copyright            : (C) $YEAR$ par $AUTHOR$
+    début                : 16/05/2025
+    copyright            : (C) 2025 par $AUTHOR$
     e-mail               : $EMAIL$
 *************************************************************************/
 
 //---------- Interface de la classe <Xxx> (fichier Xxx.h) ----------------
-#if ! defined ( XXX_H )
-#define XXX_H
+#ifndef MEASUREMENT_H 
+#define MEASUREMENT_H
 
 //--------------------------------------------------- Interfaces utilisées
 
@@ -16,51 +16,19 @@
 
 //------------------------------------------------------------------ Types
 
-//------------------------------------------------------------------------
-// Rôle de la classe <Xxx>
-//
-//
-//------------------------------------------------------------------------
-
-class Xxx : public Ancetre
+class Measurement 
 {
 //----------------------------------------------------------------- PUBLIC
-
 public:
 //----------------------------------------------------- Méthodes publiques
-    // type Méthode ( liste des paramètres );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
-
-//------------------------------------------------- Surcharge d'opérateurs
-    Xxx & operator = ( const Xxx & unXxx );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
+    Attribute GetAttrubute() const;
+    float GetValue() const;
+    std::string GetTimestamp() const;
 
 //-------------------------------------------- Constructeurs - destructeur
-    Xxx ( const Xxx & unXxx );
-    // Mode d'emploi (constructeur de copie) :
-    //
-    // Contrat :
-    //
-
-    Xxx ( );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
-    virtual ~Xxx ( );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
+    Measurement(const std::string& timestamp, const Atrribute& attriubute, float value);
+    Measurement(const Measurement& other);
+    ~Measurement();
 
 //------------------------------------------------------------------ PRIVE
 
@@ -68,10 +36,12 @@ protected:
 //----------------------------------------------------- Méthodes protégées
 
 //----------------------------------------------------- Attributs protégés
-
+    std::string timestamp;
+    Attribute attribute;
+    float value;
 };
 
 //-------------------------------- Autres définitions dépendantes de <Xxx>
 
-#endif // XXX_H
+#endif // MEASUREMENT_H
 
