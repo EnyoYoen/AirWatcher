@@ -22,54 +22,50 @@ using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-Attribute Measurement::GetAttribute() const
+string Measurement::GetAttribute() const
 {
-    return attribute;
+  return attributeId;
 }
 
-float Measurement::GetValue()const
+float Measurement::GetValue() const
 {
   return value;
 }
 
-string Measurement::getTimestamp() const
+time_t Measurement::getTimestamp() const
 {
   return timestamp;
 }
 
 //-------------------------------------------- Constructeurs - destructeur
-Measurement::Measurement (const string& timestamp, const Attribute&attrubute, float value)
-  : timestamp(timestamp), attribute(attribute), value(value)
+Measurement::Measurement(const time_t &timestamp, const string &attribute, float value)
+    : timestamp(timestamp), attribute(attribute), value(value)
 // Algorithme :
 //
 {
 #ifdef MAP
-    cout << "Appel au constructeur de copie de Measurement" << endl;
+  cout << "Appel au constructeur de copie de Measurement" << endl;
 #endif
 } //----- Fin de Measurement (constructeur de copie)
 
-
-Measurement::Measurement(const Measurement& other)
-   : timestamp(other.timestamp),attribute(other.attribute), value (other.value)
+Measurement::Measurement(const Measurement &other)
+    : timestamp(other.timestamp), attribute(other.attribute), value(other.value)
 //
 {
 #ifdef MAP
-    cout << "Appel au constructeur de Measurement" << endl;
+  cout << "Appel au constructeur de Measurement" << endl;
 #endif
 } //----- Fin de Measurement
-
 
 Measurement::~Measurement()
 // Algorithme :
 //
 {
 #ifdef MAP
-    cout << "Appel au destructeur de Measurement" << endl;
+  cout << "Appel au destructeur de Measurement" << endl;
 #endif
 } //----- Fin de ~Measurement
-
 
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées
-

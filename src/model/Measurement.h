@@ -1,5 +1,5 @@
 /*************************************************************************
-                           Measurement - represents a sensor measurement  
+                           Measurement - represents a sensor measurement
                              -------------------
     début                : 16/05/2025
     copyright            : (C) 2025 par $AUTHOR$
@@ -7,8 +7,15 @@
 *************************************************************************/
 
 //---------- Interface de la classe <Xxx> (fichier Xxx.h) ----------------
-#ifndef MEASUREMENT_H 
+#ifndef MEASUREMENT_H
 #define MEASUREMENT_H
+
+#include <iostream>
+#include <string>
+#include <list>
+#include <ctime>
+
+using namespace std;
 
 //--------------------------------------------------- Interfaces utilisées
 
@@ -16,28 +23,28 @@
 
 //------------------------------------------------------------------ Types
 
-class Measurement 
+class Measurement
 {
-//----------------------------------------------------------------- PUBLIC
+    //----------------------------------------------------------------- PUBLIC
 public:
-//----------------------------------------------------- Méthodes publiques
-    std::string getAttributeAsString() const;
+    //----------------------------------------------------- Méthodes publiques
+    string getAttribute() const;
     float getValue() const;
-    std::string getTimestamp() const;
+    time_t getTimestamp() const;
 
-//-------------------------------------------- Constructeurs - destructeur
-    Measurement(const std::string& timestamp, const Atrribute& attriubute, float value);
-    Measurement(const Measurement& other);
+    //-------------------------------------------- Constructeurs - destructeur
+    Measurement(const time_t &timestamp, const string &attributeid, float value);
+    Measurement(const Measurement &other);
     ~Measurement();
 
-//------------------------------------------------------------------ PRIVE
+    //------------------------------------------------------------------ PRIVE
 
 protected:
-//----------------------------------------------------- Méthodes protégées
+    //----------------------------------------------------- Méthodes protégées
 
-//----------------------------------------------------- Attributs protégés
-    std::string timestamp;
-    Attribute attribute;
+    //----------------------------------------------------- Attributs protégés
+    time_t timestamp;
+    string attributeId;
     float value;
 };
 
