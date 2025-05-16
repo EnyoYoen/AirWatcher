@@ -1,77 +1,58 @@
 /*************************************************************************
-                           Xxx  -  description
+                           User  -  description
                              -------------------
-    début                : $DATE$
-    copyright            : (C) $YEAR$ par $AUTHOR$
-    e-mail               : $EMAIL$
+    début                :  2025
+    copyright            : (C) 2025 par Ewan
+    e-mail               : ---
 *************************************************************************/
 
-//---------- Interface de la classe <Xxx> (fichier Xxx.h) ----------------
-#if ! defined ( XXX_H )
-#define XXX_H
+//---------- Interface de la classe <User> (fichier User.h) ----------------
+#if ! defined ( USER_H )
+#define USER_H
 
 //--------------------------------------------------- Interfaces utilisées
 
+#include <string>
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
 
 //------------------------------------------------------------------------
-// Rôle de la classe <Xxx>
+// Rôle de la classe <User>
 //
 //
 //------------------------------------------------------------------------
 
-class Xxx : public Ancetre
+class User
 {
 //----------------------------------------------------------------- PUBLIC
 
+
 public:
-//----------------------------------------------------- Méthodes publiques
-    // type Méthode ( liste des paramètres );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
+      User(int id, std::string mdp);
+      // Mode d'emploi (constructeur de copie) :
+      //
+      // Contrat :
+      //
 
+      User(const User& unUser);
+      // Mode d'emploi (constructeur de copie) :
+      //
+      // Contrat :
+      //
 
-//------------------------------------------------- Surcharge d'opérateurs
-    Xxx & operator = ( const Xxx & unXxx );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
+      ~User();
+      // Mode d'emploi (constructeur de copie) :
+      //
+      // Contrat :
+      //
 
-
-//-------------------------------------------- Constructeurs - destructeur
-    Xxx ( const Xxx & unXxx );
-    // Mode d'emploi (constructeur de copie) :
-    //
-    // Contrat :
-    //
-
-    Xxx ( );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
-    virtual ~Xxx ( );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
-//------------------------------------------------------------------ PRIVE
-
-protected:
-//----------------------------------------------------- Méthodes protégées
-
-//----------------------------------------------------- Attributs protégés
+  private:
+      int userId;
+      std::string password;
 
 };
 
 //-------------------------------- Autres définitions dépendantes de <Xxx>
 
-#endif // XXX_H
-
+#endif // USER_H
