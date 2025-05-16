@@ -30,11 +30,29 @@ using namespace std;
 
 List<Sensor> findSimilarSensors(long sensorId);
 
-float calculateAirQuality(time_t startTime, time_t endTime, float radius, float latitude, float longitude);
+float calculateAirQuality(time_t startTime, time_t endTime, double radius, double latitude, double longitude);
+{
+    float averageAQI = 0;
+    int count = 0;
+    for (Sensor sensor : sensorsList)
+    {
+        if (sensor.checkDistance(latitude, longitude, radius) <= radius)
+        {
+            // Assuming Sensor has a method to get air quality
+            float airQuality = sensor.getAirQuality(startTime, endTime);
+            if (airQuality > 0)
+            {
+                averageAQI += airQuality;
+                count++;
+            }
+        }
+    }
+    return (count > 0) ? (averageAQI / count) : -1;
+}
 
 Bool checkMalfunction(long sensorId);
 
-float pointAirQuality(float latitude, float longitude, time_t time);
+float pointAirQuality(double latitude, double longitude, time_t time);
 
 float measureCleanerImpact(long cleanerId);
 
