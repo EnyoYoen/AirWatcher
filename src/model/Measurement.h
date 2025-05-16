@@ -21,7 +21,7 @@ class Measurement
 //----------------------------------------------------------------- PUBLIC
 public:
 //----------------------------------------------------- Méthodes publiques
-    std::string GetAttributeAsString() const;
+    std::string getAttributeAsString() const;
     float getValue() const;
     std::string getTimestamp() const;
 
