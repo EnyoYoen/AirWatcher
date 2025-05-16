@@ -1,12 +1,12 @@
 /*************************************************************************
-                           Xxx  -  description
+                           AirWatcher  -  description
                              -------------------
     début                : $DATE$
     copyright            : (C) $YEAR$ par $AUTHOR$
     e-mail               : $EMAIL$
 *************************************************************************/
 
-//---------- Réalisation de la classe <Xxx> (fichier Xxx.cpp) ------------
+//---------- Réalisation de la classe <AirWatcher> (fichier AirWatcher.cpp) ------------
 
 //---------------------------------------------------------------- INCLUDE
 
@@ -15,60 +15,72 @@ using namespace std;
 #include <iostream>
 
 //------------------------------------------------------ Include personnel
-#include "Xxx.h"
+#include "AirWatcher.h"
 
 //------------------------------------------------------------- Constantes
 
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-// type Xxx::Méthode ( liste des paramètres )
+// type AirWatcher::Méthode ( liste des paramètres )
 // Algorithme :
 //
 //{
 //} //----- Fin de Méthode
 
+List<Sensor> findSimilarSensors(long sensorId);
+
+float calculateAirQuality(time_t startTime, time_t endTime, float radius, float latitude, float longitude);
+
+Bool checkMalfunction(long sensorId);
+
+float pointAirQuality(float latitude, float longitude, time_t time);
+
+float measureCleanerImpact(long cleanerId);
+
+Bool checkUnreliableSensor(long sensorId, long userId);
+
+void awardPoints(long userId);
+
+Bool loadDataFromFile(string fileName);
+
+User login(long userId, string password);
 
 //------------------------------------------------- Surcharge d'opérateurs
-Xxx & Xxx::operator = ( const Xxx & unXxx )
+AirWatcher &AirWatcher::operator=(const AirWatcher &unAirWatcher)
 // Algorithme :
 //
 {
 } //----- Fin de operator =
 
-
 //-------------------------------------------- Constructeurs - destructeur
-Xxx::Xxx ( const Xxx & unXxx )
+AirWatcher::AirWatcher(const AirWatcher &unAirWatcher)
 // Algorithme :
 //
 {
 #ifdef MAP
-    cout << "Appel au constructeur de copie de <Xxx>" << endl;
+    cout << "Appel au constructeur de copie de <AirWatcher>" << endl;
 #endif
-} //----- Fin de Xxx (constructeur de copie)
+} //----- Fin de AirWatcher (constructeur de copie)
 
-
-Xxx::Xxx ( )
+AirWatcher::AirWatcher()
 // Algorithme :
 //
 {
 #ifdef MAP
-    cout << "Appel au constructeur de <Xxx>" << endl;
+    cout << "Appel au constructeur de <AirWatcher>" << endl;
 #endif
-} //----- Fin de Xxx
+} //----- Fin de AirWatcher
 
-
-Xxx::~Xxx ( )
+AirWatcher::~AirWatcher()
 // Algorithme :
 //
 {
 #ifdef MAP
-    cout << "Appel au destructeur de <Xxx>" << endl;
+    cout << "Appel au destructeur de <AirWatcher>" << endl;
 #endif
-} //----- Fin de ~Xxx
-
+} //----- Fin de ~AirWatcher
 
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées
-
