@@ -1,0 +1,50 @@
+/*************************************************************************
+                           DataLoader  -  Static data loader
+                             -------------------
+    début                : 16/5/2025
+    copyright            : (C) 2025 par Garoux, Hequet, McCurdy, Lafon de la Laurencie, Peyrot.
+*************************************************************************/
+
+#if ! defined ( DATALOADER_H )
+#define DATALOADER_H
+
+#include "model/Sensor.h"
+#include "model/Measurement.h"
+#include "model/User.h"
+#include "model/Cleaner.h"
+#include "model/Attribute.h"
+
+#include <list>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+class DataLoader
+{
+public:
+    // Load data from CSV files into the respective lists 
+    // The static methods are in the form of int load<Type>(list<Type>& list)
+    // where int is the return code (0 for success, non zero for failure) 
+    static int loadSensors(list<Sensor>& sensorList);
+    static int loadMeasurements(unordered_map<string, vector<Measurement>>& measurements, unordered_map<string, Attribute>& attributes);
+    static int loadUsers(list<User>& userList);
+    static int loadProviders(list<Provider>& providerList);
+
+    DataLoader() = delete; // Prevent instantiation of this class
+    ~DataLoader() = delete;
+
+    enum LoadError
+    {
+        NO_ERROR = 0,
+        FILE_ERROR = 1,
+        PARSE_ERROR = 2,
+        CONVERT_ERROR = 3
+    };
+
+private:
+    static int loadAttributes(unordered_map<string, Attribute>& attributes);
+    static int loadCleaners(unordered_map<string, Cleaner>& cleanerList);
+};
+
+#endif // DATALOADER_H
