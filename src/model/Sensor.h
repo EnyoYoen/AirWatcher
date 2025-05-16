@@ -1,77 +1,34 @@
 /*************************************************************************
-                           Xxx  -  description
+                           Sensor  -  description
                              -------------------
-    début                : $DATE$
-    copyright            : (C) $YEAR$ par $AUTHOR$
-    e-mail               : $EMAIL$
+    début                : 16/5/2025
+    copyright            : (C) 2025 par Garoux, Hequet, McCurdy, Lafon de la Laurencie, Peyrot.
 *************************************************************************/
 
-//---------- Interface de la classe <Xxx> (fichier Xxx.h) ----------------
-#if ! defined ( XXX_H )
-#define XXX_H
+#if ! defined ( SENSOR_H )
+#define SENSOR_H
 
-//--------------------------------------------------- Interfaces utilisées
-
-//------------------------------------------------------------- Constantes
-
-//------------------------------------------------------------------ Types
-
-//------------------------------------------------------------------------
-// Rôle de la classe <Xxx>
-//
-//
-//------------------------------------------------------------------------
-
-class Xxx : public Ancetre
+class Sensor
 {
-//----------------------------------------------------------------- PUBLIC
 
 public:
-//----------------------------------------------------- Méthodes publiques
-    // type Méthode ( liste des paramètres );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
+    Sensor & operator = ( const Sensor & unSensor );
 
 
-//------------------------------------------------- Surcharge d'opérateurs
-    Xxx & operator = ( const Xxx & unXxx );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
+    Sensor ( const Sensor & unSensor );
+    Sensor ( string sensorId, double latitude, double longitude);
+    virtual ~Sensor ( );
 
-
-//-------------------------------------------- Constructeurs - destructeur
-    Xxx ( const Xxx & unXxx );
-    // Mode d'emploi (constructeur de copie) :
-    //
-    // Contrat :
-    //
-
-    Xxx ( );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
-    virtual ~Xxx ( );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
-//------------------------------------------------------------------ PRIVE
+    
+    void banSensor ( );
+    bool checkDistance ( double latitude, double longitude, double radius );
 
 protected:
-//----------------------------------------------------- Méthodes protégées
-
-//----------------------------------------------------- Attributs protégés
-
+    string sensorId;
+    double latitude;
+    double longitude;
+    bool reliable;
 };
 
-//-------------------------------- Autres définitions dépendantes de <Xxx>
-
-#endif // XXX_H
+#endif // SENSOR_H
 

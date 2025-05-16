@@ -1,0 +1,7 @@
+# Remove all binary files from build
+.exe
+.o
+.a
+.so
+.dll
+.vscode/
