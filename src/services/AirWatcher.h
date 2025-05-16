@@ -80,7 +80,7 @@ public:
     // Contrat :
     //
 
-    float calculateAirQuality(time_t startTime, time_t endTime, float radius, float latitude, float longitude);
+    float calculateAirQuality(time_t startTime, time_t endTime, double radius, double latitude, double longitude);
     // Mode d'emploi :
     //
     // Contrat :
@@ -92,7 +92,7 @@ public:
     // Contrat :
     //
 
-    float pointAirQuality(float latitude, float longitude, time_t time);
+    float pointAirQuality(double latitude, double longitude, time_t time);
     // Mode d'emploi :
     //
     // Contrat :
@@ -135,7 +135,7 @@ protected:
 
     //----------------------------------------------------- Attributs protégés
 
-    List<Sensor> sensorList;
+    List<Sensor> sensorsList;
     List<PrivateUser> privateUsersList;
     List<Cleaner> cleanersList;
     List<Provider> providersList;
