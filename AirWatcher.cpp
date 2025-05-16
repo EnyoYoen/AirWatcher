@@ -13,6 +13,7 @@
 //-------------------------------------------------------- Include système
 using namespace std;
 #include <iostream>
+#include <fstream>
 
 //------------------------------------------------------ Include personnel
 #include "AirWatcher.h"
@@ -28,23 +29,32 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
-List<Sensor> findSimilarSensors(long sensorId);
+List<Sensor> findSimilarSensors(string sensorId);
 
 float calculateAirQuality(time_t startTime, time_t endTime, float radius, float latitude, float longitude);
 
-Bool checkMalfunction(long sensorId);
+Bool checkMalfunction(string sensorId);
 
 float pointAirQuality(float latitude, float longitude, time_t time);
 
-float measureCleanerImpact(long cleanerId);
+float measureCleanerImpact(string cleanerId);
 
-Bool checkUnreliableSensor(long sensorId, long userId);
+Bool checkUnreliableSensor(string sensorId, string userId);
 
-void awardPoints(long userId);
+void awardPoints(string userId);
 
 Bool loadDataFromFile(string fileName);
+{
+}
 
-User login(long userId, string password);
+User login(string userId, string password);
+
+time_t parseDateTime(const char *datetimeString, const char *format)
+{
+    struct tm tmStruct;
+    strptime(datetimeString, format, &tmStruct);
+    return mktime(&tmStruct);
+}
 
 //------------------------------------------------- Surcharge d'opérateurs
 AirWatcher &AirWatcher::operator=(const AirWatcher &unAirWatcher)

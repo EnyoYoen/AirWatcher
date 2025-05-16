@@ -74,7 +74,7 @@ public:
     // Contrat :
     //
 
-    List<Sensor> findSimilarSensors(long sensorId);
+    List<Sensor> findSimilarSensors(string sensorId);
     // Mode d'emploi :
     //
     // Contrat :
@@ -86,7 +86,7 @@ public:
     // Contrat :
     //
 
-    Bool checkMalfunction(long sensorId);
+    Bool checkMalfunction(string sensorId);
     // Mode d'emploi :
     //
     // Contrat :
@@ -98,19 +98,19 @@ public:
     // Contrat :
     //
 
-    float measureCleanerImpact(long cleanerId);
+    float measureCleanerImpact(string cleanerId);
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    Bool checkUnreliableSensor(long sensorId, long userId);
+    Bool checkUnreliableSensor(string sensorId, string userId);
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    void awardPoints(long userId);
+    void awardPoints(string userId);
     // Mode d'emploi :
     //
     // Contrat :
@@ -123,6 +123,12 @@ public:
     //
 
     User login(long userId, string password);
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
+    time_t parseDateTime(const char *datetimeString, const char *format);
     // Mode d'emploi :
     //
     // Contrat :
