@@ -22,7 +22,10 @@ using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-
+bool User::Connecter(std::string passwd)
+{
+    return (password == passwd)? true: false;
+}
 
 //------------------------------------------------- Surcharge d'opérateurs
 
@@ -60,6 +63,8 @@ User::~User ( )
     cout << "Appel au destructeur de <User>" << endl;
 #endif
 } //----- Fin de ~User
+
+
 
 
 //------------------------------------------------------------------ PRIVE

@@ -41,14 +41,20 @@ public:
       // Contrat :
       //
 
+      bool Connecter(std::string passwd);
+      // Mode d'emploi (constructeur de copie) :
+      //        Verifie si le mot de passe est correcte
+      // Contrat :
+      //
       ~User();
       // Mode d'emploi (constructeur de copie) :
       //
       // Contrat :
       //
 
-  private:
       int userId;
+  private:
+      
       std::string password;
 
 };
