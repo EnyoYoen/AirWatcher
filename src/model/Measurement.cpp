@@ -39,7 +39,7 @@ time_t Measurement::getTimestamp() const
 
 //-------------------------------------------- Constructeurs - destructeur
 Measurement::Measurement(const time_t &timestamp, const string &attribute, float value)
-    : timestamp(timestamp), attribute(attribute), value(value)
+    : timestamp(timestamp), attributeId(attribute), value(value)
 // Algorithme :
 //
 {
@@ -49,7 +49,7 @@ Measurement::Measurement(const time_t &timestamp, const string &attribute, float
 } //----- Fin de Measurement (constructeur de copie)
 
 Measurement::Measurement(const Measurement &other)
-    : timestamp(other.timestamp), attribute(other.attribute), value(other.value)
+    : timestamp(other.timestamp), attributeId(other.attributeId), value(other.value)
 //
 {
 #ifdef MAP
