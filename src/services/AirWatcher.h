@@ -22,6 +22,10 @@
 #include "Cleaner.h"
 #include "Provider.h"
 #include "User.h"
+#include "List.h"
+#include <stdbool.h>
+#include <ctime>
+#include <unordered_map>
 
 using namespace std;
 
@@ -79,7 +83,7 @@ public:
     // Contrat :
     //
 
-    float calculateAirQuality(time_t startTime, time_t endTime, float radius, float latitude, float longitude);
+    float calculateAirQuality(time_t startTime, time_t endTime, double radius, double latitude, double longitude);
     // Mode d'emploi :
     //
     // Contrat :
@@ -91,7 +95,7 @@ public:
     // Contrat :
     //
 
-    float pointAirQuality(float latitude, float longitude, time_t time);
+    float pointAirQuality(double latitude, double longitude, time_t time);
     // Mode d'emploi :
     //
     // Contrat :
@@ -134,11 +138,11 @@ protected:
 
     //----------------------------------------------------- Attributs protégés
 
-    list<Sensor> sensorList;
-    list<PrivateUser> privateUsersList;
-    list<Cleaner> cleanersList;
-    list<Provider> providersList;
-    list<User> usersList;
+    List<Sensor> sensorsList;
+    List<PrivateUser> privateUsersList;
+    List<Cleaner> cleanersList;
+    List<Provider> providersList;
+    List<User> usersList;
 };
 
 //-------------------------------- Autres définitions dépendantes de <AirWatcher>

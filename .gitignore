@@ -5,3 +5,17 @@
 .so
 .dll
 .vscode
+.vscode/
+
+.vscode/settings.json
+
+src/model/*.o
+
+googletest/build/
+googletest/*.md
+googletest/.github/
+googletest/WORKSPACE
+
+tests
+app
+

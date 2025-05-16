@@ -30,21 +30,39 @@ using namespace std;
 
 list<Sensor> findSimilarSensors(long sensorId);
 
-float calculateAirQuality(time_t startTime, time_t endTime, float radius, float latitude, float longitude);
+float calculateAirQuality(time_t startTime, time_t endTime, double radius, double latitude, double longitude);
+{
+    float averageAQI = 0;
+    int count = 0;
+    for (Sensor sensor : sensorsList)
+    {
+        if (sensor.checkDistance(latitude, longitude, radius))
+        {
+            // Assuming Sensor has a method to get air quality
+            float airQuality = sensor.calculateAirQuality(startTime, endTime, );
+            if (airQuality > 0)
+            {
+                averageAQI += airQuality;
+                count++;
+            }
+        }
+    }
+    return (count > 0) ? (averageAQI / count) : -1;
+}
 
-bool checkMalfunction(long sensorId);
+Bool AirWatcher::checkMalfunction(long sensorId);
 
-float pointAirQuality(float latitude, float longitude, time_t time);
+float AirWatcher::pointAirQuality(double latitude, double longitude, time_t time);
 
-float measureCleanerImpact(long cleanerId);
+float AirWatcher::measureCleanerImpact(long cleanerId);
 
-bool checkUnreliableSensor(long sensorId, long userId);
+Bool AirWatcher::checkUnreliableSensor(long sensorId, long userId);
 
-void awardPoints(long userId);
+void AirWatcher::awardPoints(long userId);
 
-bool loadDataFromFile(string fileName);
+Bool AirWatcher::loadDataFromFile(string fileName);
 
-User login(long userId, string password);
+User AirWatcher::login(long userId, string password);
 
 //------------------------------------------------- Surcharge d'opérateurs
 AirWatcher &AirWatcher::operator=(const AirWatcher &unAirWatcher)

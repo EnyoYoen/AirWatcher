@@ -35,6 +35,11 @@ void Provider::addCleaner( Cleaner & unCleaner )
     this->cleaners.push_back(unCleaner);
 } //----- Fin de addCleaner
 
+std::string Provider::getProviderId()
+{
+    return this->providerId;
+}
+
 
 //------------------------------------------------- Surcharge d'opérateurs
 Provider & Provider::operator = ( const Provider & unProvider )
