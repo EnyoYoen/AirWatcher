@@ -12,8 +12,8 @@ TEST_OBJ = $(TEST_SRC:.cpp=.o)
 TEST_OBJ := $(TEST_OBJ:.cc=.o)
 
 # Exécutables
-APP_EXEC = app
-TEST_EXEC = tests
+APP_EXEC = app_exe
+TEST_EXEC = test_exe
 
 # To add : $(APP_EXEC) lorsqu'on aura un main fonctionnel
 all: $(TEST_EXEC)

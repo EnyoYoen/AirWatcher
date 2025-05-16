@@ -9,12 +9,13 @@
 .vscode/settings.json
 
 src/model/*.o
+src/tests/*.o
 
 googletest/build/
 googletest/*.md
 googletest/.github/
 googletest/WORKSPACE
 
-tests
-app
+test_exe
+app_exe
 
