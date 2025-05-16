@@ -1,28 +1,30 @@
 /*************************************************************************
-                           Xxx  -  description
+                           Provider  -  description
                              -------------------
     début                : $DATE$
     copyright            : (C) $YEAR$ par $AUTHOR$
     e-mail               : $EMAIL$
 *************************************************************************/
 
-//---------- Interface de la classe <Xxx> (fichier Xxx.h) ----------------
-#if ! defined ( XXX_H )
-#define XXX_H
+//---------- Interface de la classe <Provider> (fichier Provider.h) ----------------
+#if ! defined ( Provider_H )
+#define Provider_H
 
 //--------------------------------------------------- Interfaces utilisées
+#include <vector>
+#include "Cleaner.h"
 
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
 
 //------------------------------------------------------------------------
-// Rôle de la classe <Xxx>
+// Rôle de la classe <Provider>
 //
 //
 //------------------------------------------------------------------------
 
-class Xxx : public Ancetre
+class Provider
 {
 //----------------------------------------------------------------- PUBLIC
 
@@ -34,9 +36,15 @@ public:
     // Contrat :
     //
 
+    void addCleaner(Cleaner & unCleaner);
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
 
 //------------------------------------------------- Surcharge d'opérateurs
-    Xxx & operator = ( const Xxx & unXxx );
+    Provider & operator = ( const Provider & unProvider );
     // Mode d'emploi :
     //
     // Contrat :
@@ -44,19 +52,25 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-    Xxx ( const Xxx & unXxx );
+    Provider ( const Provider & unProvider );
     // Mode d'emploi (constructeur de copie) :
     //
     // Contrat :
     //
 
-    Xxx ( );
+    Provider ( );
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    virtual ~Xxx ( );
+    Provider ( std::string & unProviderId );
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
+    virtual ~Provider ( );
     // Mode d'emploi :
     //
     // Contrat :
@@ -68,10 +82,12 @@ protected:
 //----------------------------------------------------- Méthodes protégées
 
 //----------------------------------------------------- Attributs protégés
+    std::string providerId;
+    std::vector<Cleaner> cleaners; 
 
 };
 
-//-------------------------------- Autres définitions dépendantes de <Xxx>
+//-------------------------------- Autres définitions dépendantes de <Provider>
 
-#endif // XXX_H
+#endif // Provider_H
 
