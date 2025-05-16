@@ -37,6 +37,8 @@ public:
     // Contrat :
     //
 
+    std::string getCleanerId(); 
+
 
 //------------------------------------------------- Surcharge d'opérateurs
     Cleaner & operator = ( const Cleaner & unCleaner );
@@ -78,7 +80,7 @@ protected:
 
 //----------------------------------------------------- Attributs protégés
     
-    // string car dans les csv, on a "Cleaner0"...
+    // std::string car dans les csv, on a "Cleaner0"...
     std::string cleanerId;
     double latitude;
     double longitude;
