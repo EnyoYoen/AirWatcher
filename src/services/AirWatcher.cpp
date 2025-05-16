@@ -28,21 +28,21 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
-List<Sensor> findSimilarSensors(long sensorId);
+list<Sensor> findSimilarSensors(long sensorId);
 
 float calculateAirQuality(time_t startTime, time_t endTime, float radius, float latitude, float longitude);
 
-Bool checkMalfunction(long sensorId);
+bool checkMalfunction(long sensorId);
 
 float pointAirQuality(float latitude, float longitude, time_t time);
 
 float measureCleanerImpact(long cleanerId);
 
-Bool checkUnreliableSensor(long sensorId, long userId);
+bool checkUnreliableSensor(long sensorId, long userId);
 
 void awardPoints(long userId);
 
-Bool loadDataFromFile(string fileName);
+bool loadDataFromFile(string fileName);
 
 User login(long userId, string password);
 

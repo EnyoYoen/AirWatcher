@@ -15,14 +15,13 @@
 #include <iostream>
 #include <string>
 #include <list>
+#include <cstdbool>
+#include <ctime>
 #include "Sensor.h"
 #include "PrivateUser.h"
 #include "Cleaner.h"
 #include "Provider.h"
 #include "User.h"
-#include "List.h"
-#include <stdbool.h>
-#include <ctime>
 
 using namespace std;
 
@@ -74,7 +73,7 @@ public:
     // Contrat :
     //
 
-    List<Sensor> findSimilarSensors(long sensorId);
+    list<Sensor> findSimilarSensors(long sensorId);
     // Mode d'emploi :
     //
     // Contrat :
@@ -86,7 +85,7 @@ public:
     // Contrat :
     //
 
-    Bool checkMalfunction(long sensorId);
+    bool checkMalfunction(long sensorId);
     // Mode d'emploi :
     //
     // Contrat :
@@ -104,7 +103,7 @@ public:
     // Contrat :
     //
 
-    Bool checkUnreliableSensor(long sensorId, long userId);
+    bool checkUnreliableSensor(long sensorId, long userId);
     // Mode d'emploi :
     //
     // Contrat :
@@ -116,7 +115,7 @@ public:
     // Contrat :
     //
 
-    Bool loadDataFromFile(string fileName);
+    bool loadDataFromFile(string fileName);
     // Mode d'emploi :
     //
     // Contrat :
@@ -135,11 +134,11 @@ protected:
 
     //----------------------------------------------------- Attributs protégés
 
-    List<Sensor> sensorList;
-    List<PrivateUser> privateUsersList;
-    List<Cleaner> cleanersList;
-    List<Provider> providersList;
-    List<User> usersList;
+    list<Sensor> sensorList;
+    list<PrivateUser> privateUsersList;
+    list<Cleaner> cleanersList;
+    list<Provider> providersList;
+    list<User> usersList;
 };
 
 //-------------------------------- Autres définitions dépendantes de <AirWatcher>
