@@ -22,12 +22,12 @@ using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-string Measurement::GetAttribute() const
+string Measurement::getAttribute() const
 {
   return attributeId;
 }
 
-float Measurement::GetValue() const
+float Measurement::getValue() const
 {
   return value;
 }

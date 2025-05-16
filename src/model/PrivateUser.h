@@ -11,6 +11,9 @@
 #if ! defined ( PRIVATE_USER_H )
 #define PRIVATE_USER_H
 
+#include <string>
+#include <list>
+
 //--------------------------------------------------- Interfaces utilisées
 #include "User.h"
 //------------------------------------------------------------- Constantes
@@ -37,7 +40,7 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-    PrivateUser (int id,  std::string pwd );
+    PrivateUser (string id,  std::string pwd );
     // Mode d'emploi :
     //
     // Contrat :
@@ -74,6 +77,8 @@ public:
     // Contrat :
     //
 
+    void addSensor(string sensorId);
+
 //------------------------------------------------------------------ PRIVE
 
 protected:
@@ -82,6 +87,7 @@ protected:
 //----------------------------------------------------- Attributs protégés
     bool reliable;
     int points;
+    list<string> sensorIds;
 };
 
 //-------------------------------- Autres définitions dépendantes de <Xxx>

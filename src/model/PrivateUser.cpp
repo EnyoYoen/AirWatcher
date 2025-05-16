@@ -58,7 +58,12 @@ int PrivateUser::getPoints()
     return points;
 }
 
-PrivateUser::PrivateUser (int id, string passwd)
+void PrivateUser::addSensor(string sensorId)
+{
+    sensorIds.push_back(sensorId);
+}
+
+PrivateUser::PrivateUser (string id, string passwd)
 // Algorithme :
 : User(id, passwd), reliable(true), points(0)
 {

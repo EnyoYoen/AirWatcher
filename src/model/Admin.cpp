@@ -1,12 +1,12 @@
 /*************************************************************************
-                           Xxx  -  description
+                           Admin  -  description
                              -------------------
     début                : $DATE$
     copyright            : (C) $YEAR$ par $AUTHOR$
     e-mail               : $EMAIL$
 *************************************************************************/
 
-//---------- Réalisation de la classe <Xxx> (fichier Xxx.cpp) ------------
+//---------- Réalisation de la classe <Admin> (fichier Admin.cpp) ------------
 
 //---------------------------------------------------------------- INCLUDE
 
@@ -15,14 +15,14 @@ using namespace std;
 #include <iostream>
 
 //------------------------------------------------------ Include personnel
-#include "Xxx.h"
+#include "Admin.h"
 
 //------------------------------------------------------------- Constantes
 
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-// type Xxx::Méthode ( liste des paramètres )
+// type Admin::Méthode ( liste des paramètres )
 // Algorithme :
 //
 //{
@@ -30,42 +30,43 @@ using namespace std;
 
 
 //------------------------------------------------- Surcharge d'opérateurs
-Xxx & Xxx::operator = ( const Xxx & unXxx )
+Admin & Admin::operator = ( const Admin & unAdmin )
 // Algorithme :
 //
 {
+    return *this;
 } //----- Fin de operator =
 
 
 //-------------------------------------------- Constructeurs - destructeur
-Xxx::Xxx ( const Xxx & unXxx )
+Admin::Admin ( const Admin & unAdmin )
 // Algorithme :
 //
 {
 #ifdef MAP
-    cout << "Appel au constructeur de copie de <Xxx>" << endl;
+    cout << "Appel au constructeur de copie de <Admin>" << endl;
 #endif
-} //----- Fin de Xxx (constructeur de copie)
+} //----- Fin de Admin (constructeur de copie)
 
 
-Xxx::Xxx ( )
+Admin::Admin ( )
 // Algorithme :
 //
 {
 #ifdef MAP
-    cout << "Appel au constructeur de <Xxx>" << endl;
+    cout << "Appel au constructeur de <Admin>" << endl;
 #endif
-} //----- Fin de Xxx
+} //----- Fin de Admin
 
 
-Xxx::~Xxx ( )
+Admin::~Admin ( )
 // Algorithme :
 //
 {
 #ifdef MAP
-    cout << "Appel au destructeur de <Xxx>" << endl;
+    cout << "Appel au destructeur de <Admin>" << endl;
 #endif
-} //----- Fin de ~Xxx
+} //----- Fin de ~Admin
 
 
 //------------------------------------------------------------------ PRIVE

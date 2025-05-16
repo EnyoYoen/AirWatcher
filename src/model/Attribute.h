@@ -28,6 +28,7 @@ class Attribute
 
 public:
 //-------------------------------------------- Constructeurs - destructeur
+    Attribute () = default; // For the unordered_map
     Attribute ( std::string unAttributeId, std::string unUnit, std::string uneDescription);
     // Mode d'emploi :
     //

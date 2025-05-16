@@ -2,7 +2,7 @@ CXX = g++
 CXXFLAGS = -std=c++17 -Iinclude -Igoogletest/googletest/include -Igoogletest/googletest
 LDFLAGS = -pthread
 
-APP_SRC = src/model/Provider.cpp src/model/Cleaner.cpp src/model/User.cpp src/model/PrivateUser.cpp
+APP_SRC = src/main.cpp src/model/cleaner.cpp src/model/Admin.cpp src/model/Attribute.cpp src/model/Cleaner.cpp src/model/Measurement.cpp src/model/PrivateUser.cpp src/model/Provider.cpp src/model/Sensor.cpp src/model/User.cpp src/services/AirWatcher.cpp src/utils/DataLoader.cpp src/utils/GPS.cpp
 APP_OBJ = $(APP_SRC:.cpp=.o)
 
 # Tous les fichiers à compiler
@@ -15,8 +15,7 @@ TEST_OBJ := $(TEST_OBJ:.cc=.o)
 APP_EXEC = app_exe
 TEST_EXEC = test_exe
 
-# To add : $(APP_EXEC) lorsqu'on aura un main fonctionnel
-all: $(TEST_EXEC)
+all: $(APP_EXEC)
 
 $(APP_EXEC): $(APP_OBJ)
 	$(CXX) -o $@ $^
@@ -31,4 +30,9 @@ $(TEST_EXEC): $(TEST_OBJ)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(APP_OBJ) $(TEST_OBJ) $(APP_EXEC) $(TEST_EXEC)
+ifeq ($(OS),Windows_NT)
+	del /q *.exe
+	del /s /q src\*.o
+else
+	rm -f $(APP_OBJ) $(TEST_OBJ) $(APP_EXEC) $(TEST_EXEC);
+endif

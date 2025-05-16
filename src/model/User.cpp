@@ -43,7 +43,7 @@ User::User ( const User & unUser )
 } //----- Fin de Xxx (constructeur de copie)
 
 
-User::User (int id, string  mdp )
+User::User (string id, string  mdp )
 // Algorithme :
 //
 {

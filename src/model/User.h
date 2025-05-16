@@ -13,6 +13,9 @@
 //--------------------------------------------------- Interfaces utilisées
 
 #include <string>
+
+using namespace std;
+
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
@@ -29,7 +32,7 @@ class User
 
 
 public:
-      User(int id, std::string mdp);
+      User(string id, std::string mdp);
       // Mode d'emploi (constructeur de copie) :
       //
       // Contrat :
@@ -52,7 +55,7 @@ public:
       // Contrat :
       //
 
-      int userId;
+      string userId;
   private:
       
       std::string password;

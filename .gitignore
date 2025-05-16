@@ -1,11 +1,10 @@
 # Remove all binary files from build
-.exe
-.o
-.a
-.so
-.dll
-.vscode
-.vscode/
+*.exe
+*.o
+*.a
+*.so
+*.dll
+*.vscode/
 
 .vscode/settings.json
 
