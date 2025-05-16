@@ -1,12 +1,12 @@
 /*************************************************************************
-                           Xxx  -  description
+                           Provider  -  description
                              -------------------
     début                : $DATE$
     copyright            : (C) $YEAR$ par $AUTHOR$
     e-mail               : $EMAIL$
 *************************************************************************/
 
-//---------- Réalisation de la classe <Xxx> (fichier Xxx.cpp) ------------
+//---------- Réalisation de la classe <Provider> (fichier Provider.cpp) ------------
 
 //---------------------------------------------------------------- INCLUDE
 
@@ -15,57 +15,75 @@ using namespace std;
 #include <iostream>
 
 //------------------------------------------------------ Include personnel
-#include "Xxx.h"
+#include "Provider.h"
 
 //------------------------------------------------------------- Constantes
 
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-// type Xxx::Méthode ( liste des paramètres )
+// type Provider::Méthode ( liste des paramètres )
 // Algorithme :
 //
 //{
 //} //----- Fin de Méthode
 
-
-//------------------------------------------------- Surcharge d'opérateurs
-Xxx & Xxx::operator = ( const Xxx & unXxx )
+void Provider::addCleaner( Cleaner & unCleaner )
 // Algorithme :
 //
 {
+    this->cleaners.push_back(unCleaner);
+} //----- Fin de addCleaner
+
+
+//------------------------------------------------- Surcharge d'opérateurs
+Provider & Provider::operator = ( const Provider & unProvider )
+// Algorithme :
+//
+{
+    if (this != &unProvider) {
+        this->providerId = unProvider.providerId;
+        this->cleaners = unProvider.cleaners;
+    }
+
+    return *this;
 } //----- Fin de operator =
 
 
 //-------------------------------------------- Constructeurs - destructeur
-Xxx::Xxx ( const Xxx & unXxx )
+Provider::Provider ( const Provider & unProvider ) : providerId(unProvider.providerId) 
 // Algorithme :
 //
 {
 #ifdef MAP
-    cout << "Appel au constructeur de copie de <Xxx>" << endl;
+    cout << "Appel au constructeur de copie de <Provider>" << endl;
 #endif
-} //----- Fin de Xxx (constructeur de copie)
+} //----- Fin de Provider (constructeur de copie)
 
 
-Xxx::Xxx ( )
+Provider::Provider ( )
 // Algorithme :
 //
 {
 #ifdef MAP
-    cout << "Appel au constructeur de <Xxx>" << endl;
+    cout << "Appel au constructeur de <Provider>" << endl;
 #endif
-} //----- Fin de Xxx
+} //----- Fin de Provider
+
+Provider::Provider ( std::string & unProviderId ) : providerId(unProviderId) 
+{
+
+}
 
 
-Xxx::~Xxx ( )
+Provider::~Provider ( )
 // Algorithme :
 //
 {
 #ifdef MAP
-    cout << "Appel au destructeur de <Xxx>" << endl;
+    cout << "Appel au destructeur de <Provider>" << endl;
 #endif
-} //----- Fin de ~Xxx
+} //----- Fin de ~Provider
 
 
 //------------------------------------------------------------------ PRIVE
