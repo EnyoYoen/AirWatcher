@@ -4,6 +4,7 @@
 .a
 .so
 .dll
+.vscode
 .vscode/
 
 .vscode/settings.json

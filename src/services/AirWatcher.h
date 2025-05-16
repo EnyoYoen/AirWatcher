@@ -15,6 +15,8 @@
 #include <iostream>
 #include <string>
 #include <list>
+#include <cstdbool>
+#include <ctime>
 #include "Sensor.h"
 #include "PrivateUser.h"
 #include "Cleaner.h"
@@ -23,6 +25,7 @@
 #include "List.h"
 #include <stdbool.h>
 #include <ctime>
+#include <unordered_map>
 
 using namespace std;
 
@@ -74,7 +77,7 @@ public:
     // Contrat :
     //
 
-    List<Sensor> findSimilarSensors(long sensorId);
+    list<Sensor> findSimilarSensors(long sensorId);
     // Mode d'emploi :
     //
     // Contrat :
@@ -86,7 +89,7 @@ public:
     // Contrat :
     //
 
-    Bool checkMalfunction(long sensorId);
+    bool checkMalfunction(long sensorId);
     // Mode d'emploi :
     //
     // Contrat :
@@ -104,7 +107,7 @@ public:
     // Contrat :
     //
 
-    Bool checkUnreliableSensor(long sensorId, long userId);
+    bool checkUnreliableSensor(long sensorId, long userId);
     // Mode d'emploi :
     //
     // Contrat :
@@ -116,7 +119,7 @@ public:
     // Contrat :
     //
 
-    Bool loadDataFromFile(string fileName);
+    bool loadDataFromFile(string fileName);
     // Mode d'emploi :
     //
     // Contrat :
