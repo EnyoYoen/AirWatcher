@@ -2,6 +2,13 @@
 
 #include <iostream>
 
+Menu &Menu::operator=(const Menu &unMenu) {
+    if (this != &unMenu) {
+        
+    }
+    return *this;
+}
+
 Menu::Menu(const Menu &unMenu) {
 
 }
@@ -10,11 +17,8 @@ Menu::Menu() : logStream(nullptr) {
 
 }
 
-Menu &Menu::operator=(const Menu &unMenu) {
-    if (this != &unMenu) {
-        
-    }
-    return *this;
+Menu::~Menu() {
+
 }
 
 // Méthodes pour afficher des informations
