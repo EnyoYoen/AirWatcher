@@ -8,10 +8,6 @@ TEST(GettersProvider, ProviderId) {
     EXPECT_EQ(p.getProviderId(), s);
 }
 
-TEST(SommeTest, CasNegatifs) {
-    EXPECT_EQ(-2 + -3, -5);
-}
-
 // Point d'entrée des tests
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
