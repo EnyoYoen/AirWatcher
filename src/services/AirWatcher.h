@@ -22,10 +22,14 @@
 #include "Cleaner.h"
 #include "Provider.h"
 #include "User.h"
-#include "List.h"
 #include <stdbool.h>
 #include <ctime>
 #include <unordered_map>
+#include <vector>
+#include "DataLoader.h"
+#include "Measurement.h"
+#include "Attribute.h"
+#include "utils/DateTime.h"
 
 using namespace std;
 
@@ -119,7 +123,7 @@ public:
     // Contrat :
     //
 
-    bool loadDataFromFile(string fileName);
+    bool loadData();
     // Mode d'emploi :
     //
     // Contrat :
@@ -138,11 +142,13 @@ protected:
 
     //----------------------------------------------------- Attributs protégés
 
-    List<Sensor> sensorsList;
-    List<PrivateUser> privateUsersList;
-    List<Cleaner> cleanersList;
-    List<Provider> providersList;
-    List<User> usersList;
+    list<Sensor> sensorsList;
+    list<PrivateUser> privateUsersList;
+    list<Cleaner> cleanersList;
+    list<Provider> providersList;
+    list<User> usersList;
+    unordered_map<string, vector<Measurement>> measurements;
+    unordered_map<string, Attribute> attributes;
 };
 
 //-------------------------------- Autres définitions dépendantes de <AirWatcher>

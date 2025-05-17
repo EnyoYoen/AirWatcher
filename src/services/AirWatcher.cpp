@@ -60,7 +60,13 @@ Bool AirWatcher::checkUnreliableSensor(long sensorId, long userId);
 
 void AirWatcher::awardPoints(long userId);
 
-Bool AirWatcher::loadDataFromFile(string fileName);
+Bool AirWatcher::loadData()
+{
+    DataLoader::loadSensors(sensorsList);
+    DataLoader::loadMeasurements(measurements, attributes);
+    DataLoader::loadUsers(usersList);
+    DataLoader::loadProviders(providersList);
+}
 
 User AirWatcher::login(long userId, string password);
 
