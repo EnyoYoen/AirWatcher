@@ -2,7 +2,7 @@ CXX = g++
 CXXFLAGS = -std=c++17 -Iinclude -Igoogletest/googletest/include -Igoogletest/googletest
 LDFLAGS = -pthread
 
-APP_SRC = src/main.cpp src/model/cleaner.cpp src/model/Admin.cpp src/model/Attribute.cpp src/model/Cleaner.cpp src/model/Measurement.cpp src/model/PrivateUser.cpp src/model/Provider.cpp src/model/Sensor.cpp src/model/User.cpp src/services/AirWatcher.cpp src/utils/DataLoader.cpp src/utils/GPS.cpp
+APP_SRC = src/main.cpp src/model/Cleaner.cpp src/model/Admin.cpp src/model/Attribute.cpp src/model/Cleaner.cpp src/model/Measurement.cpp src/model/PrivateUser.cpp src/model/Provider.cpp src/model/Sensor.cpp src/model/User.cpp src/services/AirWatcher.cpp src/utils/DataLoader.cpp src/utils/GPS.cpp
 APP_OBJ = $(APP_SRC:.cpp=.o)
 
 # Tous les fichiers à compiler
