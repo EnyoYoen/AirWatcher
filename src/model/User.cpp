@@ -27,6 +27,11 @@ bool User::Connecter(std::string passwd)
     return (password == passwd)? true: false;
 }
 
+string User::getUserId() const
+{
+    return this->userId;
+}
+
 //------------------------------------------------- Surcharge d'opérateurs
 
 

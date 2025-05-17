@@ -80,13 +80,13 @@ public:
     void error(const string& message); 
 
 protected:
-    string chooseSensorSubMenu(const list<Sensor>& sensors);
-    string chooseCleanerSubMenu(const list<Cleaner>& cleaners);
-    string chooseUserSubMenu(const list<User>& users);
-
     void printSensor(const Sensor& sensor);
     void printCleaner(const Cleaner& cleaner);
     void printUser(const User& user);
+
+    string chooseSensorSubMenu(const list<Sensor>& sensors);
+    string chooseCleanerSubMenu(const list<Cleaner>& cleaners);
+    string chooseUserSubMenu(const list<User>& users);
 
     ostream *logStream;
 };

@@ -51,6 +51,21 @@ string Sensor::getSensorId() const
     return this->sensorId;
 }
 
+double Sensor::getLatitude() const
+{
+    return this->latitude;
+}
+
+double Sensor::getLongitude() const
+{
+    return this->longitude;
+}
+
+bool Sensor::isReliable() const
+{
+    return this->reliable;
+}
+
 void Sensor::banSensor()
 {
     this->reliable = false;

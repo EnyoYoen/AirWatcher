@@ -26,6 +26,9 @@ public:
     virtual ~Sensor();
 
     string getSensorId() const;
+    double getLatitude() const;
+    double getLongitude() const;
+    bool isReliable() const;
 
     void banSensor();
     bool checkDistance(double latitude, double longitude, double radius);
