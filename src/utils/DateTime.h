@@ -5,7 +5,7 @@
     copyright            : (C) 2025 par Garoux, Hequet, McCurdy, Lafon de la Laurencie, Peyrot.
 *************************************************************************/
 
-#ifndef DATETIME_H
+#if !defined(DATETIME_H)
 #define DATETIME_H
 
 #include <ctime>

@@ -1,12 +1,12 @@
 /*************************************************************************
-                           Xxx  -  description
+                           User  -  description
                              -------------------
-    début                : $DATE$
-    copyright            : (C) $YEAR$ par $AUTHOR$
-    e-mail               : $EMAIL$
+    début                : 2025
+    copyright            : (C) 2025 par Ewan
+    e-mail               : ---
 *************************************************************************/
 
-//---------- Réalisation de la classe <Xxx> (fichier Xxx.cpp) ------------
+//---------- Réalisation de la classe <User> (fichier User.cpp) ------------
 
 //---------------------------------------------------------------- INCLUDE
 
@@ -15,60 +15,58 @@ using namespace std;
 #include <iostream>
 
 //------------------------------------------------------ Include personnel
-#include "Xxx.h"
+#include "User.h"
 
 //------------------------------------------------------------- Constantes
 
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-// type Xxx::Méthode ( liste des paramètres )
-// Algorithme :
-//
-//{
-//} //----- Fin de Méthode
-
+bool User::Connecter(std::string passwd)
+{
+    return (password == passwd)? true: false;
+}
 
 //------------------------------------------------- Surcharge d'opérateurs
-Xxx & Xxx::operator = ( const Xxx & unXxx )
-// Algorithme :
-//
-{
-} //----- Fin de operator =
 
 
 //-------------------------------------------- Constructeurs - destructeur
-Xxx::Xxx ( const Xxx & unXxx )
+User::User ( const User & unUser )
 // Algorithme :
 //
 {
 #ifdef MAP
-    cout << "Appel au constructeur de copie de <Xxx>" << endl;
+    cout << "Appel au constructeur de copie de <User>" << endl;
 #endif
+    userId = unUser.userId;
+    password = unUser.password;
 } //----- Fin de Xxx (constructeur de copie)
 
 
-Xxx::Xxx ( )
+User::User (string id, string  mdp )
 // Algorithme :
 //
 {
 #ifdef MAP
-    cout << "Appel au constructeur de <Xxx>" << endl;
+    cout << "Appel au constructeur de <User>" << endl;
 #endif
-} //----- Fin de Xxx
+    userId = id;
+    password = mdp;
+} //----- Fin de User
 
 
-Xxx::~Xxx ( )
+User::~User ( )
 // Algorithme :
 //
 {
 #ifdef MAP
-    cout << "Appel au destructeur de <Xxx>" << endl;
+    cout << "Appel au destructeur de <User>" << endl;
 #endif
-} //----- Fin de ~Xxx
+} //----- Fin de ~User
+
+
 
 
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées
-

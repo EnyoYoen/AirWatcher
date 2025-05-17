@@ -1,12 +1,13 @@
+
 /*************************************************************************
-                           Xxx  -  description
+                           PrivateUser  -  description
                              -------------------
-    début                : $DATE$
-    copyright            : (C) $YEAR$ par $AUTHOR$
-    e-mail               : $EMAIL$
+    début                : 16/05/2025
+    copyright            : (C) 2025 par Ewan
+    e-mail               : ---
 *************************************************************************/
 
-//---------- Réalisation de la classe <Xxx> (fichier Xxx.cpp) ------------
+//---------- Réalisation de la classe <PrivateUser> (fichier PrivateUser.cpp) ------------
 
 //---------------------------------------------------------------- INCLUDE
 
@@ -15,14 +16,15 @@ using namespace std;
 #include <iostream>
 
 //------------------------------------------------------ Include personnel
-#include "Xxx.h"
+#include <string>
+#include "PrivateUser.h"
 
 //------------------------------------------------------------- Constantes
 
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-// type Xxx::Méthode ( liste des paramètres )
+// type PrivateUser::Méthode ( liste des paramètres )
 // Algorithme :
 //
 //{
@@ -30,45 +32,57 @@ using namespace std;
 
 
 //------------------------------------------------- Surcharge d'opérateurs
-Xxx & Xxx::operator = ( const Xxx & unXxx )
-// Algorithme :
-//
-{
-} //----- Fin de operator =
 
 
 //-------------------------------------------- Constructeurs - destructeur
-Xxx::Xxx ( const Xxx & unXxx )
+
+bool PrivateUser::isReliable() const
+{
+    return reliable;
+}
+
+
+void PrivateUser::setReliable(bool value)
+{
+    reliable = value;
+}
+
+
+void PrivateUser::givePoints(int pts)
+{
+    points += pts;
+}
+
+int PrivateUser::getPoints()
+{
+    return points;
+}
+
+void PrivateUser::addSensor(string sensorId)
+{
+    sensorIds.push_back(sensorId);
+}
+
+PrivateUser::PrivateUser (string id, string passwd)
+// Algorithme :
+: User(id, passwd), reliable(true), points(0)
+{
+#ifdef MAP
+cout << "Appel au constructeur de <PrivateUser>" << endl;
+#endif
+}
+
+
+PrivateUser::~PrivateUser ( )
 // Algorithme :
 //
 {
 #ifdef MAP
-    cout << "Appel au constructeur de copie de <Xxx>" << endl;
+    cout << "Appel au destructeur de <PrivateUser>" << endl;
 #endif
-} //----- Fin de Xxx (constructeur de copie)
-
-
-Xxx::Xxx ( )
-// Algorithme :
-//
-{
-#ifdef MAP
-    cout << "Appel au constructeur de <Xxx>" << endl;
-#endif
-} //----- Fin de Xxx
-
-
-Xxx::~Xxx ( )
-// Algorithme :
-//
-{
-#ifdef MAP
-    cout << "Appel au destructeur de <Xxx>" << endl;
-#endif
-} //----- Fin de ~Xxx
+} //----- Fin de ~PrivateUser
 
 
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées
-

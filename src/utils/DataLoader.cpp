@@ -3,8 +3,8 @@
 #include <fstream>
 #include <sstream>
 
-#include "Provider.h"
-#include "utils/DateTime.h"
+#include "DateTime.h"
+#include "../model/PrivateUser.h"
 
 int DataLoader::loadSensors(list<Sensor> &sensorList)
 {
@@ -23,7 +23,7 @@ int DataLoader::loadSensors(list<Sensor> &sensorList)
     {
         std::istringstream ss(line);
         std::string sensorId, latitudeStr, longitudeStr;
-        if (std::getline(ss, sensorId, ';') && std::getline(ss, latitudeStr) && std::getline(ss, longitudeStr))
+        if (std::getline(ss, sensorId, ';') && std::getline(ss, latitudeStr, ';') && std::getline(ss, longitudeStr))
         {
             double latitude;
             double longitude;
@@ -97,7 +97,7 @@ int DataLoader::loadMeasurements(unordered_map<string, vector<Measurement>> &mea
                 measurements[sensorId] = vector<Measurement>();
             }
 
-            Measurement measurement(measurementId, attributeId, value);
+            Measurement measurement(timestamp, attributeId, value);
             measurements[sensorId].push_back(measurement);
         }
         else
@@ -105,9 +105,12 @@ int DataLoader::loadMeasurements(unordered_map<string, vector<Measurement>> &mea
             return PARSE_ERROR; // Failed to parse line
         }
     }
+
+    file.close();
+    return NO_ERROR;
 }
 
-int DataLoader::loadProviders(list<Provider> &providerList)
+int DataLoader::loadProviders(list<Provider> &providerList, list<Cleaner> &cleanerList)
 {
     // Implementation for loading providers from CSV file
     // Open the CSV file, read each line, parse the data, and populate the providerList
@@ -167,6 +170,10 @@ int DataLoader::loadProviders(list<Provider> &providerList)
         }
         providerList.push_back(provider);
     }
+    for (auto &pair : cleaners)
+    {
+        cleanerList.push_back(pair.second);
+    }
 
     return NO_ERROR;
 }
@@ -213,91 +220,94 @@ int DataLoader::loadUsers(list<User> &userList)
         User user(userId);
         for (const string &sensorId : sensorIds)
         {
-            user.addSensor(sensorId);
-        }
-        userList.push_back(user);
-    }
-
-    return NO_ERROR;
-}
-
-// Private methods
-
-int DataLoader::loadAttributes(unordered_map<string, Attribute> &attributes)
-{
-    // Implementation for loading attributes from CSV file
-    // Open the CSV file, read each line, parse the data, and populate the attributeList
-    // Return 0 on success, non-zero on failure
-
-    std::ifstream file("5_projet_dataset/attributes.csv");
-    if (!file.is_open())
-    {
-        return 1; // Failed to open file
-    }
-
-    std::string line;
-    while (std::getline(file, line))
-    {
-        std::istringstream ss(line);
-        std::string attributeId, unit, description;
-        if (std::getline(ss, attributeId, ';') && std::getline(ss, unit, ';') && std::getline(ss, description))
-        {
-            Attribute attribute(attributeId, unit, description);
-            attributes[attributeId] = attribute;
-        }
-        else
-        {
-            return 2; // Failed to parse line
-        }
-    }
-    file.close();
-    return 0;
-}
-
-int DataLoader::loadCleaners(unordered_map<string, Cleaner> &cleaners)
-{
-    // Implementation for loading cleaners from CSV file
-    // Open the CSV file, read each line, parse the data, and populate the cleanerList
-    // Return 0 on success, non-zero on failure
-
-    std::ifstream file("5_projet_dataset/cleaners.csv");
-    if (!file.is_open())
-    {
-        return FILE_ERROR; // Failed to open file
-    }
-
-    std::string line;
-    while (std::getline(file, line))
-    {
-        std::istringstream ss(line);
-        std::string cleanerId, latitudeStr, longitudeStr, startTimeStr, stopTimeStr;
-        if (std::getline(ss, cleanerId, ';') && std::getline(ss, latitudeStr, ';') && std::getline(ss, longitudeStr, ';') && std::getline(ss, startTimeStr, ';') && std::getline(ss, stopTimeStr))
-        {
-            double latitude;
-            double longitude;
-            time_t startTime = parseDateTime(startTimeStr.c_str(), "%Y-%m-%d %H:%M:%S");
-            time_t stopTime = parseDateTime(stopTimeStr.c_str(), "%Y-%m-%d %H:%M:%S");
-            if (startTime == -1 || stopTime == -1)
+            PrivateUser user(userId, "");
+            for (const string &sensorId : sensorIds)
             {
-                return CONVERT_ERROR; // Failed to convert start/stop time
+                user.addSensor(sensorId);
             }
-            try
-            {
-                latitude = std::stod(latitudeStr);
-                longitude = std::stod(longitudeStr);
-            }
-            catch (...)
-            {
-                return CONVERT_ERROR; // Failed to convert latitude/longitude
-            }
-            Cleaner cleaner(cleanerId, latitude, longitude, startTime, stopTime);
-            cleaners[cleanerId] = cleaner;
+            userList.push_back(user);
         }
-        else
-        {
-            return PARSE_ERROR; // Failed to parse line
-        }
+
+        return NO_ERROR;
     }
-    file.close();
-    return NO_ERROR;
-}
+
+    // Private methods
+
+    int DataLoader::loadAttributes(unordered_map<string, Attribute> & attributes)
+    {
+        // Implementation for loading attributes from CSV file
+        // Open the CSV file, read each line, parse the data, and populate the attributeList
+        // Return 0 on success, non-zero on failure
+
+        std::ifstream file("5_projet_dataset/attributes.csv");
+        if (!file.is_open())
+        {
+            return 1; // Failed to open file
+        }
+
+        std::string line;
+        while (std::getline(file, line))
+        {
+            std::istringstream ss(line);
+            std::string attributeId, unit, description;
+            if (std::getline(ss, attributeId, ';') && std::getline(ss, unit, ';') && std::getline(ss, description))
+            {
+                Attribute attribute(attributeId, unit, description);
+                attributes[attributeId] = attribute;
+            }
+            else
+            {
+                return 2; // Failed to parse line
+            }
+        }
+        file.close();
+        return 0;
+    }
+
+    int DataLoader::loadCleaners(unordered_map<string, Cleaner> & cleaners)
+    {
+        // Implementation for loading cleaners from CSV file
+        // Open the CSV file, read each line, parse the data, and populate the cleanerList
+        // Return 0 on success, non-zero on failure
+
+        std::ifstream file("5_projet_dataset/cleaners.csv");
+        if (!file.is_open())
+        {
+            return FILE_ERROR; // Failed to open file
+        }
+
+        std::string line;
+        while (std::getline(file, line))
+        {
+            std::istringstream ss(line);
+            std::string cleanerId, latitudeStr, longitudeStr, startTimeStr, stopTimeStr;
+            if (std::getline(ss, cleanerId, ';') && std::getline(ss, latitudeStr, ';') && std::getline(ss, longitudeStr, ';') && std::getline(ss, startTimeStr, ';') && std::getline(ss, stopTimeStr))
+            {
+                double latitude;
+                double longitude;
+                time_t startTime = parseDateTime(startTimeStr.c_str(), "%Y-%m-%d %H:%M:%S");
+                time_t stopTime = parseDateTime(stopTimeStr.c_str(), "%Y-%m-%d %H:%M:%S");
+                if (startTime == -1 || stopTime == -1)
+                {
+                    return CONVERT_ERROR; // Failed to convert start/stop time
+                }
+                try
+                {
+                    latitude = std::stod(latitudeStr);
+                    longitude = std::stod(longitudeStr);
+                }
+                catch (...)
+                {
+                    return CONVERT_ERROR; // Failed to convert latitude/longitude
+                }
+                Cleaner cleaner(cleanerId, latitude, longitude, startTime, stopTime);
+                cleaners[cleanerId] = cleaner;
+            }
+            else
+            {
+                return PARSE_ERROR; // Failed to parse line
+            }
+        }
+        file.close();
+        return NO_ERROR;
+    }

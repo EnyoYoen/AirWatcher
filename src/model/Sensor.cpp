@@ -22,6 +22,8 @@ Sensor &Sensor::operator=(const Sensor &unSensor)
         this->longitude = unSensor.longitude;
         this->reliable = unSensor.reliable;
     }
+
+    return *this;
 }
 
 Sensor::Sensor(const Sensor &unSensor)
@@ -44,6 +46,11 @@ Sensor::~Sensor()
 {
 }
 
+string Sensor::getSensorId() const
+{
+    return this->sensorId;
+}
+
 void Sensor::banSensor()
 {
     this->reliable = false;
@@ -54,7 +61,7 @@ bool Sensor::checkDistance(double latitude, double longitude, double radius)
     return distance(this->latitude, this->longitude, latitude, longitude) <= radius;
 }
 
-float Sensor::calculateAirQuality(time_t startTime, time_t endTime, List<Measurement> measurements)
+float Sensor::calculateAirQuality(time_t startTime, time_t endTime, vector<Measurement> measurements)
 {
     float totalPM10 = 0;
     float totalNO2 = 0;
@@ -68,29 +75,28 @@ float Sensor::calculateAirQuality(time_t startTime, time_t endTime, List<Measure
 
     for (Measurement measurement : measurements)
     {
-        if (measurement.getTime() >= startTime && measurement.getTimestamp() <= endTime)
+        if (measurement.getTimestamp() >= startTime && measurement.getTimestamp() <= endTime)
         {
             string attributeType = measurement.getAttribute();
-            switch (attributeType)
+            if (attributeType == "PM10")
             {
-            case "PM10":
                 totalPM10 += measurement.getValue();
-                break;
-
-            case "NO2":
+                countPM10++;
+            }
+            else if (attributeType == "NO2")
+            {
                 totalNO2 += measurement.getValue();
-                break;
-
-            case "O3":
+                countNO2++;
+            }
+            else if (attributeType == "O3")
+            {
                 totalO3 += measurement.getValue();
-                break;
-
-            case "SO2":
+                countO3++;
+            }
+            else if (attributeType == "SO2")
+            {
                 totalSO2 += measurement.getValue();
-                break;
-
-            default:
-                break;
+                countSO2++;
             }
         }
     }
@@ -100,6 +106,4 @@ float Sensor::calculateAirQuality(time_t startTime, time_t endTime, List<Measure
     float averageSO2 = (countSO2 > 0) ? ((totalSO2 / countSO2) * 50 / 200) : 0;
 
     return max(averagePM10, max(averageNO2, max(averageO3, averageSO2)));
-}
-{
 }

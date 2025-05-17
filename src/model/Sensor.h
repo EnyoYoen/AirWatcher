@@ -10,9 +10,10 @@
 
 #include <ctime>
 #include <string>
-#include <list>
-#include "../utils/GPS.h"
+#include <vector>
+
 #include "Measurement.h"
+#include "../utils/GPS.h"
 
 class Sensor
 {
@@ -24,9 +25,11 @@ public:
     Sensor(string sensorId, double latitude, double longitude);
     virtual ~Sensor();
 
+    string getSensorId() const;
+
     void banSensor();
     bool checkDistance(double latitude, double longitude, double radius);
-    float calculateAirQuality(time_t startTime, time_t endTime, List<Measurement> measurements);
+    float calculateAirQuality(time_t startTime, time_t endTime, vector<Measurement> measurements);
 
 protected:
     string sensorId;

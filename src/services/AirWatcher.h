@@ -17,11 +17,12 @@
 #include <list>
 #include <cstdbool>
 #include <ctime>
-#include "Sensor.h"
-#include "PrivateUser.h"
-#include "Cleaner.h"
-#include "Provider.h"
-#include "User.h"
+#include "../model/Sensor.h"
+#include "../model/PrivateUser.h"
+#include "../model/Cleaner.h"
+#include "../model/Provider.h"
+#include "../model/User.h"
+#include "../model/Attribute.h"
 #include <stdbool.h>
 #include <ctime>
 #include <unordered_map>
@@ -123,12 +124,6 @@ public:
     // Contrat :
     //
 
-    bool loadData();
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
     User login(long userId, string password);
     // Mode d'emploi :
     //
@@ -142,13 +137,13 @@ protected:
 
     //----------------------------------------------------- Attributs protégés
 
-    list<Sensor> sensorsList;
-    list<PrivateUser> privateUsersList;
-    list<Cleaner> cleanersList;
-    list<Provider> providersList;
-    list<User> usersList;
-    unordered_map<string, vector<Measurement>> measurements;
     unordered_map<string, Attribute> attributes;
+    unordered_map<string, vector<Measurement>> measurements;
+    list<Sensor> sensorslist;
+    list<Cleaner> cleanerslist;
+    list<Provider> providerslist;
+    list<PrivateUser> privateUserslist;
+    list<User> userslist;
 };
 
 //-------------------------------- Autres définitions dépendantes de <AirWatcher>

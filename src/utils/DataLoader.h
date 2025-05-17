@@ -8,11 +8,12 @@
 #if ! defined ( DATALOADER_H )
 #define DATALOADER_H
 
-#include "model/Sensor.h"
-#include "model/Measurement.h"
-#include "model/User.h"
-#include "model/Cleaner.h"
-#include "model/Attribute.h"
+#include "../model/Sensor.h"
+#include "../model/Measurement.h"
+#include "../model/User.h"
+#include "../model/Provider.h"
+#include "../model/Cleaner.h"
+#include "../model/Attribute.h"
 
 #include <list>
 #include <vector>
@@ -28,8 +29,8 @@ public:
     // where int is the return code (0 for success, non zero for failure) 
     static int loadSensors(list<Sensor>& sensorList);
     static int loadMeasurements(unordered_map<string, vector<Measurement>>& measurements, unordered_map<string, Attribute>& attributes);
+    static int loadProviders(list<Provider>& providerList, list<Cleaner>& cleanerList);
     static int loadUsers(list<User>& userList);
-    static int loadProviders(list<Provider>& providerList);
 
     DataLoader() = delete; // Prevent instantiation of this class
     ~DataLoader() = delete;
