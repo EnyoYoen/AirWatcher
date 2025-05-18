@@ -33,8 +33,9 @@ $(TEST_EXEC): $(TEST_OBJ)
 
 clean:
 ifeq ($(OS),Windows_NT)
+	del /q log.txt
 	del /q *.exe
 	del /s /q src\*.o
 else
-	rm -f $(APP_OBJ) $(TEST_OBJ) $(APP_EXEC) $(TEST_EXEC);
+	rm -f $(APP_OBJ) $(TEST_OBJ) $(APP_EXEC) $(TEST_EXEC) log.txt;
 endif
