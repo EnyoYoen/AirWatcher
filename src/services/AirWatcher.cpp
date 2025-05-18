@@ -150,6 +150,45 @@ void AirWatcher::loadData()
     menu.debug("Measurements loaded: " + to_string(totalMeasurements));
 }
 
+void AirWatcher::startMenu()
+{
+    MenuChoice choice = menu.mainMenu();
+    while (choice != MenuChoice::EXIT)
+    {
+        switch (choice)
+        {
+        case MenuChoice::LOGIN_MENU:
+            menu.loginMenu();
+            break;
+        case MenuChoice::AIR_QUALITY_MENU:
+            menu.airQualityMenu();
+            break;
+        case MenuChoice::POINT_AIR_QUALITY_MENU:
+            menu.pointAirQualityMenu();
+            break;
+        case MenuChoice::CLEANER_IMPACT_MENU:
+            menu.cleanerImpactMenu(cleanerslist);
+            break;
+        case MenuChoice::FIND_SIMILAR_SENSORS_MENU:
+            menu.findSimilarSensorsMenu(sensorslist);
+            break;
+        case MenuChoice::CHECK_MALFUNCTION_MENU:
+            menu.checkMalfunctionMenu(sensorslist);
+            break;
+        case MenuChoice::CHECK_UNRELIABLE_MENU:
+            menu.checkUnreliableMenu(sensorslist, userslist);
+            break;
+        case MenuChoice::AWARD_POINTS_MENU:
+            menu.awardPointsMenu(userslist);
+            break;
+        default:
+            menu.error("Invalid choice");
+            break;
+        }
+        choice = menu.mainMenu();
+    }
+}
+
 //-------------------------------------------- Constructeurs - destructeur
 AirWatcher::AirWatcher(const AirWatcher &unAirWatcher)
 // Algorithme :
@@ -166,6 +205,8 @@ AirWatcher::AirWatcher(const AirWatcher &unAirWatcher)
     this->attributes = unAirWatcher.attributes;
     this->privateUserslist = unAirWatcher.privateUserslist;
     this->userslist = unAirWatcher.userslist;
+
+    startMenu();
 } //----- Fin de AirWatcher (constructeur de copie)
 
 AirWatcher::AirWatcher()
@@ -180,8 +221,8 @@ AirWatcher::AirWatcher()
     menu.setLogStream(&cout);
     
     loadData();
-    
-    menu.mainMenu(); // To be continued...
+
+    startMenu();
 } //----- Fin de AirWatcher
 
 AirWatcher::~AirWatcher()

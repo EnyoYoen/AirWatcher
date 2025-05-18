@@ -25,17 +25,19 @@ Menu::~Menu() {
 
 // Méthodes (bloquante) pour afficher les menus
 
-Menu::MenuChoice Menu::mainMenu() {
+MenuChoice Menu::mainMenu() {
     int choice;
+    cout << endl;
     cout << "Menu principal : " << endl;
     cout << "1. Connexion" << endl;
     cout << "2. Qualité de l'air" << endl;
-    cout << "3. Impact des cleaners" << endl;
-    cout << "4. Rechercher des capteurs similaires" << endl;
-    cout << "5. Vérifier les capteurs en panne" << endl;
-    cout << "6. Vérifier les capteurs non fiables" << endl;
-    cout << "7. Récompenser un utilisateur" << endl;
-    cout << "8. Quitter" << endl;
+    cout << "3. Qualité de l'air à un point" << endl;
+    cout << "4. Impact des cleaners" << endl;
+    cout << "5. Rechercher des capteurs similaires" << endl;
+    cout << "6. Vérifier les capteurs en panne" << endl;
+    cout << "7. Vérifier les capteurs non fiables" << endl;
+    cout << "8. Récompenser un utilisateur" << endl;
+    cout << "9. Quitter" << endl;
 
     bool invalidInput = false;
     do {
@@ -45,10 +47,10 @@ Menu::MenuChoice Menu::mainMenu() {
         cin >> choice;
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        invalidInput = choice < 1 || choice > 8 || cin.fail();
+        invalidInput = choice < 1 || choice > 9 || cin.fail();
     } while (invalidInput);
 
-    return (MenuChoice)choice;
+    return static_cast<MenuChoice>(choice);
 }
 
 pair<string, string> Menu::loginMenu() {
@@ -180,7 +182,7 @@ void Menu::printSensor(const Sensor& sensor) {
 void Menu::printCleaner(const Cleaner& cleaner) {
     time_t startTime = cleaner.getStartTime();
     time_t stopTime = cleaner.getStopTime();
-    cout << cleaner.getCleanerId() << " | Lat: " << cleaner.getLatitude() << " | Lon: " << cleaner.getLongitude() << " | Start: " << ctime(&startTime) << " | Stop: " << ctime(&stopTime) << endl;
+    cout << cleaner.getCleanerId() << " | Lat: " << cleaner.getLatitude() << " | Lon: " << cleaner.getLongitude() << " | Start: " << formatTime(startTime) << " | Stop: " << formatTime(stopTime) << endl;
 }
 
 void Menu::printUser(const User& user) {

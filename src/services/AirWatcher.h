@@ -129,7 +129,7 @@ public:
 
 protected:
     //----------------------------------------------------- Méthodes protégées
-
+    void startMenu();
     void printError(const string &message, int errorCode);
     void loadData();
 

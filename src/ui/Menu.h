@@ -18,22 +18,23 @@
 
 using namespace std;
 
+enum MenuChoice
+{
+    LOGIN_MENU = 1,
+    AIR_QUALITY_MENU,
+    POINT_AIR_QUALITY_MENU,
+    CLEANER_IMPACT_MENU,
+    FIND_SIMILAR_SENSORS_MENU,
+    CHECK_MALFUNCTION_MENU,
+    CHECK_UNRELIABLE_MENU,
+    AWARD_POINTS_MENU,
+    EXIT
+};
+
 class Menu
 {
 
 public:
-    enum MenuChoice
-    {
-        LOGIN_MENU = 1,
-        AIR_QUALITY_MENU,
-        POINT_AIR_QUALITY_MENU,
-        CLEANER_IMPACT_MENU,
-        FIND_SIMILAR_SENSORS_MENU,
-        CHECK_MALFUNCTION_MENU,
-        CHECK_UNRELIABLE_MENU,
-        AWARD_POINTS_MENU
-    };
-
     Menu &operator=(const Menu &unMenu);
 
     Menu(const Menu &unMenu);
@@ -92,6 +93,7 @@ public:
     void error(const string& message); 
 
 protected:
+    // TODO: Add a method on these classes to print them instead of using this
     void printSensor(const Sensor& sensor);
     void printCleaner(const Cleaner& cleaner);
     void printUser(const User& user);

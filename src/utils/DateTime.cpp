@@ -11,3 +11,10 @@ time_t parseDateTime(const char* datetimeString, const char* format) {
 
     return mktime(&tmStruct); // returns time_t in local time
 }
+
+string formatTime(time_t time) {
+    struct tm *tm = localtime(&time);
+    char buffer[80];
+    strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", tm);
+    return string(buffer);
+}

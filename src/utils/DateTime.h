@@ -16,5 +16,6 @@
 using namespace std;
 
 time_t parseDateTime(const char* datetimeString, const char* format);
+string formatTime(time_t time);
 
 #endif // DATETIME_H
