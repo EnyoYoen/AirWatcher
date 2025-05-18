@@ -93,11 +93,6 @@ public:
     void error(const string& message); 
 
 protected:
-    // TODO: Add a method on these classes to print them instead of using this
-    void printSensor(const Sensor& sensor);
-    void printCleaner(const Cleaner& cleaner);
-    void printUser(const User& user);
-
     string chooseSensorSubMenu(const list<Sensor>& sensors);
     string chooseCleanerSubMenu(const list<Cleaner>& cleaners);
     string chooseUserSubMenu(const list<User>& users);

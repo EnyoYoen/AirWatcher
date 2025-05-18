@@ -44,6 +44,7 @@ public:
       // Contrat :
       //
 
+      string toString() const;
       string getUserId() const;
 
       bool Connecter(string passwd);

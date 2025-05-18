@@ -39,11 +39,8 @@ public:
     // Contrat :
     //
 
-    string getCleanerId() const; 
-    double getLatitude() const;
-    double getLongitude() const;
-    time_t getStartTime() const;
-    time_t getStopTime() const;
+    string toString() const;
+    string getCleanerId() const;
 
 
 //------------------------------------------------- Surcharge d'opérateurs

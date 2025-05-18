@@ -136,21 +136,21 @@ string Menu::awardPointsMenu(const list<User>& users) {
 void Menu::printSimilarSensors(const list<Sensor>& sensors) {
     cout << "Capteurs similaires : " << endl;
     for (const auto& sensor : sensors) {
-        printSensor(sensor);
+        cout << sensor.toString() << endl;
     }
 }
 
 void Menu::printMalfunctionSensors(const list<Sensor>& sensors) {
     cout << "Capteurs en panne : " << endl;
     for (const auto& sensor : sensors) {
-        printSensor(sensor);
+        cout << sensor.toString() << endl;
     }
 }
 
 void Menu::printUnreliableSensors(const list<Sensor>& sensors) {
     cout << "Capteurs non fiables : " << endl;
     for (const auto& sensor : sensors) {
-        printSensor(sensor);
+        cout << sensor.toString() << endl;
     }
 }
 
@@ -175,26 +175,11 @@ void Menu::error(const string& message) {
 
 // Protected
 
-void Menu::printSensor(const Sensor& sensor) {
-    cout << sensor.getSensorId() << " | Lat: " << sensor.getLatitude() << " | Lon: " << sensor.getLongitude() << " | " << (sensor.isReliable() ? "Fiable" : "Non fiable") << endl;
-}
-
-void Menu::printCleaner(const Cleaner& cleaner) {
-    time_t startTime = cleaner.getStartTime();
-    time_t stopTime = cleaner.getStopTime();
-    cout << cleaner.getCleanerId() << " | Lat: " << cleaner.getLatitude() << " | Lon: " << cleaner.getLongitude() << " | Start: " << formatTime(startTime) << " | Stop: " << formatTime(stopTime) << endl;
-}
-
-void Menu::printUser(const User& user) {
-    cout << user.getUserId() << endl;
-}
-
 string Menu::chooseSensorSubMenu(const list<Sensor>& sensors) {
     cout << "Choisissez un capteur : " << endl;
     int i = 1;
     for (const auto& sensor : sensors) {
-        cout << i++ << ". ";
-        printSensor(sensor);
+        cout << i++ << ". " << sensor.toString() << endl;
     }
     
     int choice;
@@ -218,8 +203,7 @@ string Menu::chooseCleanerSubMenu(const list<Cleaner>& cleaners) {
     cout << "Choisissez un cleaner : " << endl;
     int i = 1;
     for (const auto& cleaner : cleaners) {
-        cout << i++ << ". ";
-        printCleaner(cleaner);
+        cout << i++ << ". " << cleaner.toString() << endl;
     }
     
     int choice;
@@ -243,8 +227,7 @@ string Menu::chooseUserSubMenu(const list<User>& users) {
     cout << "Choisissez un utilisateur : " << endl;
     int i = 1;
     for (const auto& user : users) {
-        cout << i++ << ". ";
-        printUser(user);
+        cout << i++ << ". " << user.toString() << endl;
     }
     
     int choice;

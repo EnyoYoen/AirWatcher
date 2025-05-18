@@ -13,9 +13,12 @@
 //-------------------------------------------------------- Include système
 using namespace std;
 #include <iostream>
+#include <sstream>
 
 //------------------------------------------------------ Include personnel
 #include "Cleaner.h"
+
+#include "../utils/DateTime.h"
 
 //------------------------------------------------------------- Constantes
 
@@ -28,29 +31,16 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
+string Cleaner::toString() const
+{
+    stringstream ss;
+    ss  << cleanerId << " | Lat: " << latitude << " | Lon: " << longitude << " | Start: " << formatTime(startTime) << " | Stop: " << formatTime(stopTime);
+    return ss.str();
+} //----- Fin de toString
+
 string Cleaner::getCleanerId() const
 {
     return this->cleanerId;
-}
-
-double Cleaner::getLatitude() const
-{
-    return this->latitude;
-}
-
-double Cleaner::getLongitude() const
-{
-    return this->longitude;
-}
-
-time_t Cleaner::getStartTime() const
-{
-    return this->startTime;
-}
-
-time_t Cleaner::getStopTime() const
-{
-    return this->stopTime;
 }
 
 //------------------------------------------------- Surcharge d'opérateurs

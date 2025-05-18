@@ -46,24 +46,16 @@ Sensor::~Sensor()
 {
 }
 
+string Sensor::toString() const
+{
+    stringstream ss;
+    ss << sensorId << " | Lat: " << latitude << " | Lon: " << longitude << " | " << (reliable ? "Fiable" : "Non fiable");
+    return ss.str();
+}
+
 string Sensor::getSensorId() const
 {
-    return this->sensorId;
-}
-
-double Sensor::getLatitude() const
-{
-    return this->latitude;
-}
-
-double Sensor::getLongitude() const
-{
-    return this->longitude;
-}
-
-bool Sensor::isReliable() const
-{
-    return this->reliable;
+    return sensorId;
 }
 
 void Sensor::banSensor()
