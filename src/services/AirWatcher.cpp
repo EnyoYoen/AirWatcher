@@ -64,6 +64,7 @@ float AirWatcher::measureCleanerImpact(string cleanerId) const
     double latitude;
     double longitude;
     float improvement = 0.0;
+
     for (Cleaner cleaner : cleanerslist)
     {
         if (cleaner.getCleanerId() == cleanerId)
@@ -76,10 +77,13 @@ float AirWatcher::measureCleanerImpact(string cleanerId) const
         }
     }
 
+    int count = 0;
+
     for (Sensor sensor : sensorslist)
     {
         if (sensor.checkDistance(latitude, longitude, 1000)) // Assuming a radius of 1000 meters
         {
+            ++count;
             float beforeAQI = sensor.calculateAirQuality(startTime, startTime + 3600, measurements.at(sensor.getSensorId())); // 1 hour before
             float afterAQI = sensor.calculateAirQuality(stopTime - 3600, stopTime, measurements.at(sensor.getSensorId()));    // 1 hour after
             if (beforeAQI > 0 && afterAQI > 0)
@@ -89,7 +93,7 @@ float AirWatcher::measureCleanerImpact(string cleanerId) const
         }
     }
 
-    return (improvement / sensorslist.size());
+    return (count > 0) ? (improvement / count) : -1; // Average improvement
 }
 
 bool AirWatcher::checkMalfunction(long sensorId)

@@ -25,7 +25,7 @@ using namespace std;
 //----------------------------------------------------- Méthodes publiques
 bool User::Connecter(string passwd)
 {
-    return (password == passwd)? true: false;
+    return (password == passwd) ? true : false;
 }
 
 string User::toString() const
@@ -42,9 +42,8 @@ string User::getUserId() const
 
 //------------------------------------------------- Surcharge d'opérateurs
 
-
 //-------------------------------------------- Constructeurs - destructeur
-User::User ( const User & unUser )
+User::User(const User &unUser)
 // Algorithme :
 //
 {
@@ -55,8 +54,7 @@ User::User ( const User & unUser )
     password = unUser.password;
 } //----- Fin de Xxx (constructeur de copie)
 
-
-User::User (string id, string  mdp )
+User::User(string id, string mdp)
 // Algorithme :
 //
 {
@@ -67,8 +65,7 @@ User::User (string id, string  mdp )
     password = mdp;
 } //----- Fin de User
 
-
-User::~User ( )
+User::~User()
 // Algorithme :
 //
 {
@@ -76,9 +73,6 @@ User::~User ( )
     cout << "Appel au destructeur de <User>" << endl;
 #endif
 } //----- Fin de ~User
-
-
-
 
 //------------------------------------------------------------------ PRIVE
 

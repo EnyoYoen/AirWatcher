@@ -5,7 +5,7 @@
     copyright            : (C) 2025 par Garoux, Hequet, McCurdy, Lafon de la Laurencie, Peyrot.
 *************************************************************************/
 
-#if ! defined ( DATALOADER_H )
+#if !defined(DATALOADER_H)
 #define DATALOADER_H
 
 #include "../model/Sensor.h"
@@ -24,16 +24,13 @@ using namespace std;
 class DataLoader
 {
 public:
-    // Load data from CSV files into the respective lists 
+    // Load data from CSV files into the respective lists
     // The static methods are in the form of int load<Type>(list<Type>& list)
-    // where int is the return code (0 for success, non zero for failure) 
-    static int loadSensors(list<Sensor>& sensorList);
-    static int loadMeasurements(unordered_map<string, vector<Measurement>>& measurements, unordered_map<string, Attribute>& attributes);
-    static int loadProviders(list<Provider>& providerList, list<Cleaner>& cleanerList);
-    static int loadUsers(list<User>& userList);
-
-    DataLoader() = delete; // Prevent instantiation of this class
-    ~DataLoader() = delete;
+    // where int is the return code (0 for success, non zero for failure)
+    static int loadSensors(list<Sensor> &sensorList);
+    static int loadMeasurements(unordered_map<string, vector<Measurement>> &measurements, unordered_map<string, Attribute> &attributes);
+    static int loadProviders(list<Provider> &providerList, list<Cleaner> &cleanerList);
+    static int loadUsers(list<User> &userList);
 
     enum LoadError
     {
@@ -44,8 +41,11 @@ public:
     };
 
 private:
-    static int loadAttributes(unordered_map<string, Attribute>& attributes);
-    static int loadCleaners(unordered_map<string, Cleaner>& cleanerList);
+    DataLoader(); // Prevent instantiation of this class
+    ~DataLoader();
+
+    static int loadAttributes(unordered_map<string, Attribute> &attributes);
+    static int loadCleaners(unordered_map<string, Cleaner> &cleanerList);
 };
 
 #endif // DATALOADER_H
