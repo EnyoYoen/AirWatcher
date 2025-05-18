@@ -33,6 +33,8 @@ using namespace std;
 
 list<Sensor> findSimilarSensors(long sensorId)
 {
+    list<Sensor> placeholder;
+    return placeholder;
 }
 
 float AirWatcher::calculateAirQuality(time_t startTime, time_t endTime, double radius, double latitude, double longitude)
@@ -55,6 +57,41 @@ float AirWatcher::calculateAirQuality(time_t startTime, time_t endTime, double r
     return (count > 0) ? (averageAQI / count) : -1;
 }
 
+float AirWatcher::measureCleanerImpact(string cleanerId) const
+{
+    time_t startTime;
+    time_t stopTime;
+    double latitude;
+    double longitude;
+    float improvement = 0.0;
+    for (Cleaner cleaner : cleanerslist)
+    {
+        if (cleaner.getCleanerId() == cleanerId)
+        {
+            startTime = cleaner.getStartTime();
+            stopTime = cleaner.getStopTime();
+            latitude = cleaner.getLatitude();
+            longitude = cleaner.getLongitude();
+            break;
+        }
+    }
+
+    for (Sensor sensor : sensorslist)
+    {
+        if (sensor.checkDistance(latitude, longitude, 1000)) // Assuming a radius of 1000 meters
+        {
+            float beforeAQI = sensor.calculateAirQuality(startTime, startTime + 3600, measurements.at(sensor.getSensorId())); // 1 hour before
+            float afterAQI = sensor.calculateAirQuality(stopTime - 3600, stopTime, measurements.at(sensor.getSensorId()));    // 1 hour after
+            if (beforeAQI > 0 && afterAQI > 0)
+            {
+                improvement += (beforeAQI - afterAQI) / beforeAQI * 100; // Percentage improvement
+            }
+        }
+    }
+
+    return (improvement / sensorslist.size());
+}
+
 bool AirWatcher::checkMalfunction(long sensorId)
 {
     // TODO
@@ -62,12 +99,6 @@ bool AirWatcher::checkMalfunction(long sensorId)
 }
 
 float AirWatcher::pointAirQuality(double latitude, double longitude, time_t time)
-{
-    // TODO
-    return 0.0;
-}
-
-float AirWatcher::measureCleanerImpact(long cleanerId)
 {
     // TODO
     return 0.0;

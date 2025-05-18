@@ -34,7 +34,7 @@ using namespace std;
 string Cleaner::toString() const
 {
     stringstream ss;
-    ss  << cleanerId << " | Lat: " << latitude << " | Lon: " << longitude << " | Start: " << formatTime(startTime) << " | Stop: " << formatTime(stopTime);
+    ss << cleanerId << " | Lat: " << latitude << " | Lon: " << longitude << " | Start: " << formatTime(startTime) << " | Stop: " << formatTime(stopTime);
     return ss.str();
 } //----- Fin de toString
 
@@ -43,14 +43,35 @@ string Cleaner::getCleanerId() const
     return this->cleanerId;
 }
 
+time_t Cleaner::getStartTime() const
+{
+    return this->startTime;
+}
+
+time_t Cleaner::getStopTime() const
+{
+    return this->stopTime;
+}
+
+double Cleaner::getLatitude() const
+{
+    return this->latitude;
+}
+
+double Cleaner::getLongitude() const
+{
+    return this->longitude;
+} //----- Fin de getLongitude
+
 //------------------------------------------------- Surcharge d'opérateurs
-Cleaner & Cleaner::operator = ( const Cleaner & unCleaner )
+Cleaner &Cleaner::operator=(const Cleaner &unCleaner)
 // Algorithme :
 //
 {
-    if (this != &unCleaner) {
+    if (this != &unCleaner)
+    {
         this->cleanerId = unCleaner.cleanerId;
-        this->latitude = unCleaner.latitude; 
+        this->latitude = unCleaner.latitude;
         this->longitude = unCleaner.longitude;
         this->startTime = unCleaner.startTime;
         this->stopTime = unCleaner.stopTime;
@@ -59,10 +80,8 @@ Cleaner & Cleaner::operator = ( const Cleaner & unCleaner )
     return *this;
 } //----- Fin de operator =
 
-
 //-------------------------------------------- Constructeurs - destructeur
-Cleaner::Cleaner ( const Cleaner & unCleaner ) :
-    cleanerId(unCleaner.cleanerId), latitude(unCleaner.latitude), longitude(unCleaner.longitude), startTime(unCleaner.startTime), stopTime(unCleaner.stopTime)
+Cleaner::Cleaner(const Cleaner &unCleaner) : cleanerId(unCleaner.cleanerId), latitude(unCleaner.latitude), longitude(unCleaner.longitude), startTime(unCleaner.startTime), stopTime(unCleaner.stopTime)
 // Algorithme :
 //
 {
@@ -71,8 +90,7 @@ Cleaner::Cleaner ( const Cleaner & unCleaner ) :
 #endif
 } //----- Fin de Cleaner (constructeur de copie)
 
-
-Cleaner::Cleaner ( )
+Cleaner::Cleaner()
 // Algorithme :
 //
 {
@@ -81,8 +99,7 @@ Cleaner::Cleaner ( )
 #endif
 } //----- Fin de Cleaner
 
-Cleaner::Cleaner (string unCleanerId, double uneLatitude, double uneLongitude,  time_t unStartTime, time_t unStopTime) :
-    cleanerId(unCleanerId), latitude(uneLatitude), longitude(uneLongitude), startTime(unStartTime), stopTime(unStopTime)
+Cleaner::Cleaner(string unCleanerId, double uneLatitude, double uneLongitude, time_t unStartTime, time_t unStopTime) : cleanerId(unCleanerId), latitude(uneLatitude), longitude(uneLongitude), startTime(unStartTime), stopTime(unStopTime)
 // Algorithme :
 //
 {
@@ -91,8 +108,7 @@ Cleaner::Cleaner (string unCleanerId, double uneLatitude, double uneLongitude,  
 #endif
 } //----- Fin de Cleaner
 
-
-Cleaner::~Cleaner ( )
+Cleaner::~Cleaner()
 // Algorithme :
 //
 {
@@ -101,8 +117,6 @@ Cleaner::~Cleaner ( )
 #endif
 } //----- Fin de ~Cleaner
 
-
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées
-

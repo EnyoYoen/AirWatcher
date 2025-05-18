@@ -7,7 +7,7 @@
 *************************************************************************/
 
 //---------- Interface de la classe <Cleaner> (fichier Cleaner.h) ----------------
-#if ! defined ( Cleaner_H )
+#if !defined(Cleaner_H)
 #define Cleaner_H
 
 //--------------------------------------------------- Interfaces utilisées
@@ -29,10 +29,10 @@ using namespace std;
 
 class Cleaner
 {
-//----------------------------------------------------------------- PUBLIC
+    //----------------------------------------------------------------- PUBLIC
 
 public:
-//----------------------------------------------------- Méthodes publiques
+    //----------------------------------------------------- Méthodes publiques
     // type Méthode ( liste des paramètres );
     // Mode d'emploi :
     //
@@ -41,48 +41,50 @@ public:
 
     string toString() const;
     string getCleanerId() const;
+    time_t getStartTime() const;
+    time_t getStopTime() const;
+    double getLatitude() const;
+    double getLongitude() const;
 
-
-//------------------------------------------------- Surcharge d'opérateurs
-    Cleaner & operator = ( const Cleaner & unCleaner );
+    //------------------------------------------------- Surcharge d'opérateurs
+    Cleaner &operator=(const Cleaner &unCleaner);
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-
-//-------------------------------------------- Constructeurs - destructeur
-    Cleaner ( const Cleaner & unCleaner );
+    //-------------------------------------------- Constructeurs - destructeur
+    Cleaner(const Cleaner &unCleaner);
     // Mode d'emploi (constructeur de copie) :
     //
     // Contrat :
     //
 
-    Cleaner ( );
+    Cleaner();
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    Cleaner (string unCleanerId, double uneLatitude, double uneLongitude, time_t unStartTime, time_t unStopTime);
+    Cleaner(string unCleanerId, double uneLatitude, double uneLongitude, time_t unStartTime, time_t unStopTime);
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    virtual ~Cleaner ( );
+    virtual ~Cleaner();
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-//------------------------------------------------------------------ PRIVE
+    //------------------------------------------------------------------ PRIVE
 
 protected:
-//----------------------------------------------------- Méthodes protégées
+    //----------------------------------------------------- Méthodes protégées
 
-//----------------------------------------------------- Attributs protégés
-    
+    //----------------------------------------------------- Attributs protégés
+
     // string car dans les csv, on a "Cleaner0"...
     string cleanerId;
     double latitude;
@@ -91,11 +93,8 @@ protected:
     // timestamp
     time_t startTime;
     time_t stopTime;
-
-
 };
 
 //-------------------------------- Autres définitions dépendantes de <Cleaner>
 
 #endif // Cleaner_H
-

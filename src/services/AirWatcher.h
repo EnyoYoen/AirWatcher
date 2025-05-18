@@ -89,6 +89,12 @@ public:
     // Contrat :
     //
 
+    float measureCleanerImpact(string cleanerId) const;
+    // Mode d'emploi :
+    //
+    // Contrat :
+    //
+
     bool checkMalfunction(long sensorId);
     // Mode d'emploi :
     //
@@ -96,12 +102,6 @@ public:
     //
 
     float pointAirQuality(double latitude, double longitude, time_t time);
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
-    float measureCleanerImpact(long cleanerId);
     // Mode d'emploi :
     //
     // Contrat :
