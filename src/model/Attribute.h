@@ -7,7 +7,7 @@
 *************************************************************************/
 
 //---------- Interface de la classe <Attribute> (fichier Attribute.h) ----------------
-#if ! defined ( ATTRIBUTE_H )
+#if !defined(ATTRIBUTE_H)
 #define ATTRIBUTE_H
 
 //--------------------------------------------------- Interfaces utilisées
@@ -17,24 +17,23 @@
 //------------------------------------------------------------------ Types
 
 //------------------------------------------------------------------------
-// Rôle de la classe <Xxx>
+// Rôle de la classe <Attribute>
 //
 //
 //------------------------------------------------------------------------
 
 class Attribute
 {
-//----------------------------------------------------------------- PUBLIC
+    //----------------------------------------------------------------- PUBLIC
 
 public:
-//-------------------------------------------- Constructeurs - destructeur
-    Attribute () = default; // For the unordered_map
-    Attribute ( std::string unAttributeId, std::string unUnit, std::string uneDescription);
+    //-------------------------------------------- Constructeurs - destructeur
+    Attribute() = default; // For the unordered_map
+    Attribute(std::string unAttributeId, std::string unUnit, std::string uneDescription);
     // Mode d'emploi :
     //
     // Contrat :
     //
-
 
     std::string getAttributeId();
 
@@ -42,26 +41,23 @@ public:
 
     std::string getDescription();
 
-
-    
-    virtual ~Attribute ( );
+    virtual ~Attribute();
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-//------------------------------------------------------------------ PRIVE
+    //------------------------------------------------------------------ PRIVE
 
 protected:
-//----------------------------------------------------- Méthodes protégées
+    //----------------------------------------------------- Méthodes protégées
 
-//----------------------------------------------------- Attributs protégés
-        std::string attributeId;
-        std::string unit;
-        std::string description;
+    //----------------------------------------------------- Attributs protégés
+    std::string attributeId;
+    std::string unit;
+    std::string description;
 };
 
 //-------------------------------- Autres définitions dépendantes de <Attribute>
 
 #endif // ATTRIBUTE_H
-

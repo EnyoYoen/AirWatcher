@@ -15,7 +15,6 @@ using namespace std;
 #include <iostream>
 #include <string>
 
-
 //------------------------------------------------------ Include personnel
 #include "Attribute.h"
 
@@ -25,13 +24,31 @@ using namespace std;
 
 //----------------------------------------------------- Méthodes publiques
 
-
 //------------------------------------------------- Surcharge d'opérateurs
-
-
 
 //-------------------------------------------- Constructeurs - destructeur
 
+Attribute::Attribute(string unAttributeId, string unUnit, string uneDescription)
+// Algorithme :
+//
+{
+#ifdef MAP
+    cout << "Appel au constructeur de <Attribute>" << endl;
+#endif
+
+    attributeId = unAttributeId;
+    unit = unUnit;
+    description = uneDescription;
+} //----- Fin de Attribute
+
+Attribute::~Attribute()
+// Algorithme :
+//
+{
+#ifdef MAP
+    cout << "Appel au destructeur de <Attribute>" << endl;
+#endif
+} //----- Fin de ~Attribute
 
 string Attribute::getAttributeId()
 {
@@ -48,31 +65,6 @@ string Attribute::getDescription()
     return description;
 }
 
-Attribute::Attribute (string unAttributeId, string unUnit, string uneDescription )
-// Algorithme :
-//
-{
-#ifdef MAP
-    cout << "Appel au constructeur de <Attribute>" << endl;
-#endif
-
-    attributeId = unAttributeId;
-    unit = unUnit;
-    description = uneDescription;
-} //----- Fin de Attribute
-
-
-Attribute::~Attribute ( )
-// Algorithme :
-//
-{
-#ifdef MAP
-    cout << "Appel au destructeur de <Attribute>" << endl;
-#endif
-} //----- Fin de ~Attribute
-
-
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées
-

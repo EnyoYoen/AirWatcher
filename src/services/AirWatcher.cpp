@@ -31,7 +31,9 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
-list<Sensor> findSimilarSensors(long sensorId);
+list<Sensor> findSimilarSensors(long sensorId)
+{
+}
 
 float AirWatcher::calculateAirQuality(time_t startTime, time_t endTime, double radius, double latitude, double longitude)
 {
@@ -82,14 +84,6 @@ void AirWatcher::awardPoints(long userId)
     // TODO
 }
 
-Bool AirWatcher::loadData()
-{
-    DataLoader::loadSensors(sensorsList);
-    DataLoader::loadMeasurements(measurements, attributes);
-    DataLoader::loadUsers(usersList);
-    DataLoader::loadProviders(providersList);
-}
-
 User AirWatcher::login(long userId, string password)
 {
     // TODO
@@ -104,12 +98,7 @@ AirWatcher &AirWatcher::operator=(const AirWatcher &unAirWatcher)
     return *this;
 } //----- Fin de operator =
 
-<<<<<<< HEAD
-void printError(string message, int errorCode)
-=======
-
-void AirWatcher::printError(const string& message, int errorCode)
->>>>>>> d64073bfa31e812b918220df24734d67192f1a96
+void AirWatcher::printError(const string &message, int errorCode)
 {
     string finalMessage = message;
     switch (errorCode)
@@ -130,7 +119,7 @@ void AirWatcher::printError(const string& message, int errorCode)
         finalMessage += "Unknown error";
         break;
     }
-    
+
     if (errorCode != DataLoader::LoadError::NO_ERROR)
     {
         menu.error(finalMessage);
@@ -228,10 +217,10 @@ AirWatcher::AirWatcher()
 #ifdef MAP
     cout << "Appel au constructeur de <AirWatcher>" << endl;
 #endif
-    //ofstream *logStream = new ofstream("log.txt");
-    //menu.setLogStream(logStream);
+    // ofstream *logStream = new ofstream("log.txt");
+    // menu.setLogStream(logStream);
     menu.setLogStream(&cout);
-    
+
     loadData();
 
     startMenu();

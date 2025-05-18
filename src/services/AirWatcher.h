@@ -25,18 +25,7 @@
 #include "../model/Provider.h"
 #include "../model/User.h"
 #include "../model/Attribute.h"
-<<<<<<< HEAD
-#include <stdbool.h>
-#include <ctime>
-#include <unordered_map>
-#include <vector>
-#include "DataLoader.h"
-#include "Measurement.h"
-#include "Attribute.h"
-#include "utils/DateTime.h"
-=======
 #include "../ui/Menu.h"
->>>>>>> d64073bfa31e812b918220df24734d67192f1a96
 
 using namespace std;
 
