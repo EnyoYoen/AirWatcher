@@ -22,6 +22,18 @@ class Menu
 {
 
 public:
+    enum MenuChoice
+    {
+        LOGIN_MENU = 1,
+        AIR_QUALITY_MENU,
+        POINT_AIR_QUALITY_MENU,
+        CLEANER_IMPACT_MENU,
+        FIND_SIMILAR_SENSORS_MENU,
+        CHECK_MALFUNCTION_MENU,
+        CHECK_UNRELIABLE_MENU,
+        AWARD_POINTS_MENU
+    };
+
     Menu &operator=(const Menu &unMenu);
 
     Menu(const Menu &unMenu);
@@ -32,7 +44,7 @@ public:
         Méthodes (bloquante) pour afficher les menus
     ***************************************************/
     // Menu principal, qui permet de choisir entre les différents sous-menus et retourne le choix de l'utilisateur
-    int mainMenu();
+    MenuChoice mainMenu();
 
     // Menu de connexion, qui demande le nom d'utilisateur et le mot de passe (et les retourne)
     pair<string, string> loginMenu();

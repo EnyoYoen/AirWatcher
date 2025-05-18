@@ -5,6 +5,7 @@
 *.so
 *.dll
 *.vscode/
+log.txt
 
 .vscode/settings.json
 

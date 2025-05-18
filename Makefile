@@ -3,7 +3,7 @@ CXXFLAGS = -std=c++17 -Iinclude -Igoogletest/googletest/include -Igoogletest/goo
 LDFLAGS = -pthread
 
 # Dependencies for the main app executable
-APP_SRC = src/model/Cleaner.cpp src/model/Admin.cpp src/model/Attribute.cpp src/model/Cleaner.cpp src/model/Measurement.cpp src/model/PrivateUser.cpp src/model/Provider.cpp src/model/Sensor.cpp src/model/User.cpp src/services/AirWatcher.cpp src/utils/DataLoader.cpp src/utils/GPS.cpp src/ui/Menu.cpp
+APP_SRC = src/model/Cleaner.cpp src/model/Admin.cpp src/model/Attribute.cpp src/model/Cleaner.cpp src/model/Measurement.cpp src/model/PrivateUser.cpp src/model/Provider.cpp src/model/Sensor.cpp src/model/User.cpp src/services/AirWatcher.cpp src/utils/DataLoader.cpp src/utils/DateTime.cpp src/utils/GPS.cpp src/ui/Menu.cpp
 APP_MAIN = src/main.cpp
 APP_OBJ = $(APP_SRC:.cpp=.o) $(APP_MAIN:.cpp=.o)
 

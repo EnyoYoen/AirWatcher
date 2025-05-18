@@ -17,15 +17,15 @@
 #include <list>
 #include <cstdbool>
 #include <ctime>
+#include <unordered_map>
+
 #include "../model/Sensor.h"
 #include "../model/PrivateUser.h"
 #include "../model/Cleaner.h"
 #include "../model/Provider.h"
 #include "../model/User.h"
 #include "../model/Attribute.h"
-#include <stdbool.h>
-#include <ctime>
-#include <unordered_map>
+#include "../ui/Menu.h"
 
 using namespace std;
 
@@ -130,7 +130,12 @@ public:
 protected:
     //----------------------------------------------------- Méthodes protégées
 
+    void printError(const string &message, int errorCode);
+    void loadData();
+
     //----------------------------------------------------- Attributs protégés
+
+    Menu menu;
 
     unordered_map<string, Attribute> attributes;
     unordered_map<string, vector<Measurement>> measurements;

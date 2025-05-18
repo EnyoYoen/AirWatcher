@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "../utils/DateTime.h"
+
 Menu &Menu::operator=(const Menu &unMenu) {
     if (this != &unMenu) {
         
@@ -19,6 +21,112 @@ Menu::Menu() : logStream(nullptr) {
 
 Menu::~Menu() {
 
+}
+
+// Méthodes (bloquante) pour afficher les menus
+
+Menu::MenuChoice Menu::mainMenu() {
+    int choice;
+    cout << "Menu principal : " << endl;
+    cout << "1. Connexion" << endl;
+    cout << "2. Qualité de l'air" << endl;
+    cout << "3. Impact des cleaners" << endl;
+    cout << "4. Rechercher des capteurs similaires" << endl;
+    cout << "5. Vérifier les capteurs en panne" << endl;
+    cout << "6. Vérifier les capteurs non fiables" << endl;
+    cout << "7. Récompenser un utilisateur" << endl;
+    cout << "8. Quitter" << endl;
+
+    bool invalidInput = false;
+    do {
+        if (invalidInput) {
+            cout << "Choix invalide, veuillez réessayer." << endl;
+        }
+        cin >> choice;
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        invalidInput = choice < 1 || choice > 8 || cin.fail();
+    } while (invalidInput);
+
+    return (MenuChoice)choice;
+}
+
+pair<string, string> Menu::loginMenu() {
+    string username, password;
+    cout << "Nom d'utilisateur : ";
+    cin >> username;
+    cout << "Mot de passe : ";
+    cin >> password;
+    return make_pair(username, password);
+}
+
+tuple<time_t, time_t, double, double, double> Menu::airQualityMenu() {
+    time_t startTime, endTime;
+    double latitude, longitude, radius;
+
+    cout << "Date de début (format : YYYY-MM-DD hh:mm:ss) : ";
+    string startDate;
+    cin >> startDate;
+    startTime = parseDateTime(startDate.c_str(), "%Y-%m-%d %H:%M:%S");
+
+    cout << "Date de fin (format : YYYY-MM-DD) : ";
+    string endDate;
+    cin >> endDate;
+    endTime = parseDateTime(endDate.c_str(), "%Y-%m-%d %H:%M:%S");
+
+    cout << "Latitude : ";
+    cin >> latitude;
+
+    cout << "Longitude : ";
+    cin >> longitude;
+
+    cout << "Rayon de recherche (en km) : ";
+    cin >> radius;
+
+    return make_tuple(startTime, endTime, latitude, longitude, radius);
+}
+
+tuple<double, double, time_t> Menu::pointAirQualityMenu() {
+    double latitude, longitude;
+    time_t dateTime;
+
+    cout << "Latitude : ";
+    cin >> latitude;
+
+    cout << "Longitude : ";
+    cin >> longitude;
+
+    cout << "Date de mesure (format : YYYY-MM-DD hh:mm:ss) : ";
+    string dateString;
+    cin >> dateString;
+    dateTime = parseDateTime(dateString.c_str(), "%Y-%m-%d %H:%M:%S");
+
+    return make_tuple(latitude, longitude, dateTime);
+}
+
+string Menu::cleanerImpactMenu(const list<Cleaner>& cleaners) {
+    cout << "Impact des cleaners" << endl;
+    return chooseCleanerSubMenu(cleaners);
+}
+
+string Menu::findSimilarSensorsMenu(const list<Sensor>& sensors) {
+    cout << "Recherche de capteurs similaires" << endl;
+    return chooseSensorSubMenu(sensors);
+}
+
+string Menu::checkMalfunctionMenu(const list<Sensor>& sensors) {
+    cout << "Vérification des capteurs en panne" << endl;
+    return chooseSensorSubMenu(sensors);
+}
+
+string Menu::checkUnreliableMenu(const list<Sensor>& sensors, const list<User>& users) {
+    cout << "Vérification des capteurs non fiables" << endl;
+    return chooseSensorSubMenu(sensors);
+}
+
+string Menu::awardPointsMenu(const list<User>& users) {
+    cout << "Récompense de points" << endl;
+    return chooseUserSubMenu(users);
 }
 
 // Méthodes pour afficher des informations
@@ -88,10 +196,16 @@ string Menu::chooseSensorSubMenu(const list<Sensor>& sensors) {
     }
     
     int choice;
+    bool invalidInput = false;
     do {
+        if (invalidInput) {
+            cout << "Choix invalide, veuillez réessayer." << endl;
+        }
         cin >> choice;
-    } while (choice < 1 || choice > sensors.size() || cin.fail());
-    cin.clear();
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        invalidInput = choice < 1 || choice > sensors.size() || cin.fail();
+    } while (invalidInput);
 
     auto it = sensors.begin();
     advance(it, choice - 1);
@@ -107,10 +221,16 @@ string Menu::chooseCleanerSubMenu(const list<Cleaner>& cleaners) {
     }
     
     int choice;
+    bool invalidInput = false;
     do {
+        if (invalidInput) {
+            cout << "Choix invalide, veuillez réessayer." << endl;
+        }
         cin >> choice;
-    } while (choice < 1 || choice > cleaners.size() || cin.fail());
-    cin.clear();
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        invalidInput = choice < 1 || choice > cleaners.size() || cin.fail();
+    } while (invalidInput);
 
     auto it = cleaners.begin();
     advance(it, choice - 1);
@@ -126,10 +246,16 @@ string Menu::chooseUserSubMenu(const list<User>& users) {
     }
     
     int choice;
+    bool invalidInput = false;
     do {
+        if (invalidInput) {
+            cout << "Choix invalide, veuillez réessayer." << endl;
+        }
         cin >> choice;
-    } while (choice < 1 || choice > users.size() || cin.fail());
-    cin.clear();
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        invalidInput = choice < 1 || choice > users.size() || cin.fail();
+    } while (invalidInput);
 
     auto it = users.begin();
     advance(it, choice - 1);

@@ -13,6 +13,7 @@
 //-------------------------------------------------------- Include système
 using namespace std;
 #include <iostream>
+#include <fstream>
 
 //------------------------------------------------------ Include personnel
 #include "AirWatcher.h"
@@ -96,27 +97,57 @@ AirWatcher &AirWatcher::operator=(const AirWatcher &unAirWatcher)
 } //----- Fin de operator =
 
 
-void printError(string message, int errorCode)
+void AirWatcher::printError(const string& message, int errorCode)
 {
-    cout << message;
+    string finalMessage = message;
     switch (errorCode)
     {
     case DataLoader::LoadError::NO_ERROR:
-        cout << "No error" << endl;
+        finalMessage += "No error";
         break;
     case DataLoader::LoadError::FILE_ERROR:
-        cout << "File error" << endl;
+        finalMessage += "File error";
         break;
     case DataLoader::LoadError::PARSE_ERROR:
-        cout << "Parse error" << endl;
+        finalMessage += "Parse error";
         break;
     case DataLoader::LoadError::CONVERT_ERROR:
-        cout << "Convert error" << endl;
+        finalMessage += "Convert error";
         break;
     default:
-        cout << "Unknown error" << endl;
+        finalMessage += "Unknown error";
         break;
     }
+    
+    if (errorCode != DataLoader::LoadError::NO_ERROR)
+    {
+        menu.error(finalMessage);
+    }
+    else
+    {
+        menu.debug(finalMessage);
+    }
+}
+
+void AirWatcher::loadData()
+{
+    printError("Loading sensors : ", DataLoader::loadSensors(sensorslist));
+    printError("Loading users : ", DataLoader::loadUsers(userslist));
+    printError("Loading providers : ", DataLoader::loadProviders(providerslist, cleanerslist));
+    printError("Loading measurements : ", DataLoader::loadMeasurements(measurements, attributes));
+
+    menu.debug("Sensors loaded: " + to_string(sensorslist.size()));
+    menu.debug("Users loaded: " + to_string(userslist.size()));
+    menu.debug("Providers loaded: " + to_string(providerslist.size()));
+    menu.debug("Cleaners loaded: " + to_string(cleanerslist.size()));
+    menu.debug("Attributes loaded: " + to_string(attributes.size()));
+
+    long long totalMeasurements = 0;
+    for (auto &pair : measurements)
+    {
+        totalMeasurements += pair.second.size();
+    }
+    menu.debug("Measurements loaded: " + to_string(totalMeasurements));
 }
 
 //-------------------------------------------- Constructeurs - destructeur
@@ -127,22 +158,14 @@ AirWatcher::AirWatcher(const AirWatcher &unAirWatcher)
 #ifdef MAP
     cout << "Appel au constructeur de copie de <AirWatcher>" << endl;
 #endif
-    printError("Loading sensors : ", DataLoader::loadSensors(sensorslist));
-    printError("Loading users : ", DataLoader::loadUsers(userslist));
-    printError("Loading providers : ", DataLoader::loadProviders(providerslist, cleanerslist));
-    printError("Loading measurements : ", DataLoader::loadMeasurements(measurements, attributes));
-
-    cout << "Sensors loaded: " << sensorslist.size() << endl;
-    cout << "Users loaded: " << userslist.size() << endl;
-    cout << "Providers loaded: " << providerslist.size() << endl;
-    cout << "Cleaners loaded: " << cleanerslist.size() << endl;
-    cout << "Attributes loaded: " << attributes.size() << endl;
-    long long totalMeasurements = 0;
-    for (auto &pair : measurements)
-    {
-        totalMeasurements += pair.second.size();
-    }
-    cout << "Measurements loaded: " << totalMeasurements << endl;
+    this->menu = unAirWatcher.menu;
+    this->sensorslist = unAirWatcher.sensorslist;
+    this->providerslist = unAirWatcher.providerslist;
+    this->cleanerslist = unAirWatcher.cleanerslist;
+    this->measurements = unAirWatcher.measurements;
+    this->attributes = unAirWatcher.attributes;
+    this->privateUserslist = unAirWatcher.privateUserslist;
+    this->userslist = unAirWatcher.userslist;
 } //----- Fin de AirWatcher (constructeur de copie)
 
 AirWatcher::AirWatcher()
@@ -152,23 +175,13 @@ AirWatcher::AirWatcher()
 #ifdef MAP
     cout << "Appel au constructeur de <AirWatcher>" << endl;
 #endif
-
-    printError("Loading sensors : ", DataLoader::loadSensors(sensorslist));
-    printError("Loading users : ", DataLoader::loadUsers(userslist));
-    printError("Loading providers : ", DataLoader::loadProviders(providerslist, cleanerslist));
-    printError("Loading measurements : ", DataLoader::loadMeasurements(measurements, attributes));
-
-    cout << "Sensors loaded: " << sensorslist.size() << endl;
-    cout << "Users loaded: " << userslist.size() << endl;
-    cout << "Providers loaded: " << providerslist.size() << endl;
-    cout << "Cleaners loaded: " << cleanerslist.size() << endl;
-    cout << "Attributes loaded: " << attributes.size() << endl;
-    long long totalMeasurements = 0;
-    for (auto &pair : measurements)
-    {
-        totalMeasurements += pair.second.size();
-    }
-    cout << "Measurements loaded: " << totalMeasurements << endl;
+    //ofstream *logStream = new ofstream("log.txt");
+    //menu.setLogStream(logStream);
+    menu.setLogStream(&cout);
+    
+    loadData();
+    
+    menu.mainMenu(); // To be continued...
 } //----- Fin de AirWatcher
 
 AirWatcher::~AirWatcher()
