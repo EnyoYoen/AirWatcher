@@ -13,6 +13,7 @@
 //-------------------------------------------------------- Include système
 using namespace std;
 #include <iostream>
+#include <sstream>
 
 //------------------------------------------------------ Include personnel
 #include "User.h"
@@ -22,9 +23,21 @@ using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-bool User::Connecter(std::string passwd)
+bool User::Connecter(string passwd)
 {
     return (password == passwd)? true: false;
+}
+
+string User::toString() const
+{
+    stringstream ss;
+    ss << userId;
+    return ss.str();
+}
+
+string User::getUserId() const
+{
+    return this->userId;
 }
 
 //------------------------------------------------- Surcharge d'opérateurs

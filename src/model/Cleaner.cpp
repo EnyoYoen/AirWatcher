@@ -13,9 +13,12 @@
 //-------------------------------------------------------- Include système
 using namespace std;
 #include <iostream>
+#include <sstream>
 
 //------------------------------------------------------ Include personnel
 #include "Cleaner.h"
+
+#include "../utils/DateTime.h"
 
 //------------------------------------------------------------- Constantes
 
@@ -28,7 +31,14 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
-std::string Cleaner::getCleanerId()
+string Cleaner::toString() const
+{
+    stringstream ss;
+    ss  << cleanerId << " | Lat: " << latitude << " | Lon: " << longitude << " | Start: " << formatTime(startTime) << " | Stop: " << formatTime(stopTime);
+    return ss.str();
+} //----- Fin de toString
+
+string Cleaner::getCleanerId() const
 {
     return this->cleanerId;
 }
@@ -71,7 +81,7 @@ Cleaner::Cleaner ( )
 #endif
 } //----- Fin de Cleaner
 
-Cleaner::Cleaner (std::string unCleanerId, double uneLatitude, double uneLongitude,  time_t unStartTime, time_t unStopTime) :
+Cleaner::Cleaner (string unCleanerId, double uneLatitude, double uneLongitude,  time_t unStartTime, time_t unStopTime) :
     cleanerId(unCleanerId), latitude(uneLatitude), longitude(uneLongitude), startTime(unStartTime), stopTime(unStopTime)
 // Algorithme :
 //

@@ -15,6 +15,8 @@
 #include <ctime>
 #include <string>
 
+using namespace std;
+
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
@@ -37,7 +39,8 @@ public:
     // Contrat :
     //
 
-    std::string getCleanerId(); 
+    string toString() const;
+    string getCleanerId() const;
 
 
 //------------------------------------------------- Surcharge d'opérateurs
@@ -61,7 +64,7 @@ public:
     // Contrat :
     //
 
-    Cleaner (std::string unCleanerId, double uneLatitude, double uneLongitude, time_t unStartTime, time_t unStopTime);
+    Cleaner (string unCleanerId, double uneLatitude, double uneLongitude, time_t unStartTime, time_t unStopTime);
     // Mode d'emploi :
     //
     // Contrat :
@@ -80,8 +83,8 @@ protected:
 
 //----------------------------------------------------- Attributs protégés
     
-    // std::string car dans les csv, on a "Cleaner0"...
-    std::string cleanerId;
+    // string car dans les csv, on a "Cleaner0"...
+    string cleanerId;
     double latitude;
     double longitude;
 

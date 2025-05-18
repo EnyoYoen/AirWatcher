@@ -25,6 +25,7 @@ public:
     Sensor(string sensorId, double latitude, double longitude);
     virtual ~Sensor();
 
+    string toString() const;
     string getSensorId() const;
 
     void banSensor();

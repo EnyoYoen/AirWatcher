@@ -17,12 +17,15 @@
 #include <list>
 #include <cstdbool>
 #include <ctime>
+#include <unordered_map>
+
 #include "../model/Sensor.h"
 #include "../model/PrivateUser.h"
 #include "../model/Cleaner.h"
 #include "../model/Provider.h"
 #include "../model/User.h"
 #include "../model/Attribute.h"
+<<<<<<< HEAD
 #include <stdbool.h>
 #include <ctime>
 #include <unordered_map>
@@ -31,6 +34,9 @@
 #include "Measurement.h"
 #include "Attribute.h"
 #include "utils/DateTime.h"
+=======
+#include "../ui/Menu.h"
+>>>>>>> d64073bfa31e812b918220df24734d67192f1a96
 
 using namespace std;
 
@@ -134,8 +140,13 @@ public:
 
 protected:
     //----------------------------------------------------- Méthodes protégées
+    void startMenu();
+    void printError(const string &message, int errorCode);
+    void loadData();
 
     //----------------------------------------------------- Attributs protégés
+
+    Menu menu;
 
     unordered_map<string, Attribute> attributes;
     unordered_map<string, vector<Measurement>> measurements;

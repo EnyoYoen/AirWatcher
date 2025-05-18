@@ -32,7 +32,7 @@ class User
 
 
 public:
-      User(string id, std::string mdp);
+      User(string id, string mdp);
       // Mode d'emploi (constructeur de copie) :
       //
       // Contrat :
@@ -44,7 +44,10 @@ public:
       // Contrat :
       //
 
-      bool Connecter(std::string passwd);
+      string toString() const;
+      string getUserId() const;
+
+      bool Connecter(string passwd);
       // Mode d'emploi (constructeur de copie) :
       //        Verifie si le mot de passe est correcte
       // Contrat :
@@ -54,11 +57,10 @@ public:
       //
       // Contrat :
       //
-
-      string userId;
   private:
       
-      std::string password;
+      string userId;
+      string password;
 
 };
 
