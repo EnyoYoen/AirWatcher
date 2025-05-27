@@ -80,6 +80,11 @@ float Sensor::calculateAirQuality(time_t startTime, time_t endTime, vector<Measu
     int countO3 = 0;
     int countSO2 = 0;
 
+    float constPM10 = 35;
+    float constNO2 = 213;
+    float constO3 = 82;
+    float constSO2 = 200;
+
     for (Measurement measurement : measurements)
     {
         if (measurement.getTimestamp() >= startTime && measurement.getTimestamp() <= endTime)
@@ -107,10 +112,10 @@ float Sensor::calculateAirQuality(time_t startTime, time_t endTime, vector<Measu
             }
         }
     }
-    float averagePM10 = (countPM10 > 0) ? ((totalPM10 / countPM10) * 50 / 35) : 0;
-    float averageNO2 = (countNO2 > 0) ? ((totalNO2 / countNO2) * 50 / 213) : 0;
-    float averageO3 = (countO3 > 0) ? ((totalO3 / countO3) * 50 / 82) : 0;
-    float averageSO2 = (countSO2 > 0) ? ((totalSO2 / countSO2) * 50 / 200) : 0;
+    float averagePM10 = (countPM10 > 0) ? ((totalPM10 / countPM10) * 50.0 / constPM10) : 0;
+    float averageNO2 = (countNO2 > 0) ? ((totalNO2 / countNO2) * 50.0 / constNO2) : 0;
+    float averageO3 = (countO3 > 0) ? ((totalO3 / countO3) * 50.0 / constO3) : 0;
+    float averageSO2 = (countSO2 > 0) ? ((totalSO2 / countSO2) * 50.0 / constSO2) : 0;
 
     return max(averagePM10, max(averageNO2, max(averageO3, averageSO2)));
 }

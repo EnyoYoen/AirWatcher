@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../model/Provider.h"
+#include "../model/Cleaner.h"
 
 TEST(GettersCleaner, getCleanerId) {
     std::string s = "test1";
