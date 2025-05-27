@@ -12,6 +12,7 @@
 #include <ostream>
 #include <list>
 #include <tuple>
+#include <unordered_map>
 
 #include "../model/Sensor.h"
 #include "../model/Cleaner.h"
