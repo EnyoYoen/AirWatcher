@@ -63,12 +63,12 @@ void Sensor::banSensor()
     this->reliable = false;
 }
 
-bool Sensor::checkDistance(double latitude, double longitude, double radius)
+bool Sensor::checkDistance(double latitude, double longitude, double radius) const
 {
     return distance(this->latitude, this->longitude, latitude, longitude) <= radius;
 }
 
-float Sensor::calculateAirQuality(time_t startTime, time_t endTime, vector<Measurement> measurements)
+float Sensor::calculateAirQuality(time_t startTime, time_t endTime, vector<Measurement> measurements) const
 {
     float totalPM10 = 0;
     float totalNO2 = 0;

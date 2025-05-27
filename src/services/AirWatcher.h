@@ -139,6 +139,8 @@ protected:
 
     unordered_map<string, Attribute> attributes;
     unordered_map<string, vector<Measurement>> measurements;
+    unordered_map<string, Sensor> sensors;
+    unordered_map<string, Cleaner> cleaners;
     list<Sensor> sensorslist;
     list<Cleaner> cleanerslist;
     list<Provider> providerslist;

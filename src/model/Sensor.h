@@ -29,8 +29,8 @@ public:
     string getSensorId() const;
 
     void banSensor();
-    bool checkDistance(double latitude, double longitude, double radius);
-    float calculateAirQuality(time_t startTime, time_t endTime, vector<Measurement> measurements);
+    bool checkDistance(double latitude, double longitude, double radius) const;
+    float calculateAirQuality(time_t startTime, time_t endTime, vector<Measurement> measurements) const;
 
 protected:
     string sensorId;

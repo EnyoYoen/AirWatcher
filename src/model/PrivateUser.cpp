@@ -30,9 +30,7 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
-
 //------------------------------------------------- Surcharge d'opérateurs
-
 
 //-------------------------------------------- Constructeurs - destructeur
 
@@ -41,12 +39,10 @@ bool PrivateUser::isReliable() const
     return reliable;
 }
 
-
 void PrivateUser::setReliable(bool value)
 {
     reliable = value;
 }
-
 
 void PrivateUser::givePoints(int pts)
 {
@@ -63,17 +59,21 @@ void PrivateUser::addSensor(string sensorId)
     sensorIds.push_back(sensorId);
 }
 
-PrivateUser::PrivateUser (string id, string passwd)
-// Algorithme :
-: User(id, passwd), reliable(true), points(0)
+bool PrivateUser::connecter(string passwd) const
+{
+    return true;
+}
+
+PrivateUser::PrivateUser(string id)
+    // Algorithme :
+    : User(id), reliable(true), points(0)
 {
 #ifdef MAP
-cout << "Appel au constructeur de <PrivateUser>" << endl;
+    cout << "Appel au constructeur de <PrivateUser>" << endl;
 #endif
 }
 
-
-PrivateUser::~PrivateUser ( )
+PrivateUser::~PrivateUser()
 // Algorithme :
 //
 {
@@ -81,7 +81,6 @@ PrivateUser::~PrivateUser ( )
     cout << "Appel au destructeur de <PrivateUser>" << endl;
 #endif
 } //----- Fin de ~PrivateUser
-
 
 //------------------------------------------------------------------ PRIVE
 

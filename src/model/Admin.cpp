@@ -28,18 +28,18 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
-
 //------------------------------------------------- Surcharge d'opérateurs
-Admin & Admin::operator = ( const Admin & unAdmin )
+Admin &Admin::operator=(const Admin &unAdmin)
 // Algorithme :
 //
 {
+    User::operator=(unAdmin);
+    this->password = unAdmin.password;
     return *this;
 } //----- Fin de operator =
 
-
 //-------------------------------------------- Constructeurs - destructeur
-Admin::Admin ( const Admin & unAdmin )
+Admin::Admin(const Admin &unAdmin) : User(unAdmin), password(unAdmin.password)
 // Algorithme :
 //
 {
@@ -48,8 +48,7 @@ Admin::Admin ( const Admin & unAdmin )
 #endif
 } //----- Fin de Admin (constructeur de copie)
 
-
-Admin::Admin ( )
+Admin::Admin() : User("admin"), password("admin123")
 // Algorithme :
 //
 {
@@ -58,8 +57,7 @@ Admin::Admin ( )
 #endif
 } //----- Fin de Admin
 
-
-Admin::~Admin ( )
+Admin::~Admin()
 // Algorithme :
 //
 {
@@ -68,8 +66,11 @@ Admin::~Admin ( )
 #endif
 } //----- Fin de ~Admin
 
+bool Admin::connecter(string passwd) const
+{
+    return (passwd == password);
+}
 
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées
-
