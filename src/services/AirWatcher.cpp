@@ -43,12 +43,13 @@ float AirWatcher::calculateAirQuality(time_t startTime, time_t endTime, double r
 
     float averageAQI = 0;
     int count = 0;
-    for (auto &pair : sensorslist)
+
+    for (auto &it : sensorslist)
     {
-        Sensor &sensor = pair.second;
+        Sensor sensor = it.second;
         if (sensor.checkDistance(latitude, longitude, radius))
         {
-            float airQuality = sensor.second.calculateAirQuality(startTime, endTime, measurements[sensor.second.getSensorId()]);
+            float airQuality = sensor.calculateAirQuality(startTime, endTime, measurements[sensor.getSensorId()]);
             if (airQuality > 0)
             {
                 averageAQI += airQuality;
@@ -74,30 +75,30 @@ float AirWatcher::measureCleanerImpact(string cleanerId) const
     float improvement = 0.0;
 
     // Recherche du Cleaner correspondant
-    for (const auto &pair : cleanerslist)
+    Cleaner cleaner = cleanerslist.at(cleanerId);
+    if (cleaner.getCleanerId().empty())
     {
-        const Cleaner &cleaner = pair.second;
-        if (cleaner.getCleanerId() == cleanerId)
-        {
-            startTime = cleaner.getStartTime();
-            stopTime = cleaner.getStopTime();
-            latitude = cleaner.getLatitude();
-            longitude = cleaner.getLongitude();
-            break;
-        }
+        return -1; // Cleaner not found
+    }
+    else
+    {
+        startTime = cleaner.getStartTime();
+        stopTime = cleaner.getStopTime();
+        latitude = cleaner.getLatitude();
+        longitude = cleaner.getLongitude();
     }
 
     int count = 0;
 
     // Analyse des mesures pour calculer l'impact
-    for (const auto &pair : sensorslist)
+    for (auto &it : sensorslist)
     {
-        const Sensor &sensor = pair.second;
+        Sensor sensor = it.second;
         if (sensor.checkDistance(latitude, longitude, 10))
         {
             ++count;
-            float beforeAQI = sensor.second.calculateAirQuality(startTime - 3600, startTime, measurements.at(sensor.second.getSensorId())); // 1 hour before
-            float afterAQI = sensor.second.calculateAirQuality(stopTime, stopTime + 3600, measurements.at(sensor.second.getSensorId()));    // 1 hour after
+            float beforeAQI = sensor.calculateAirQuality(startTime - 3600, startTime, measurements.at(sensor.getSensorId())); // 1 hour before
+            float afterAQI = sensor.calculateAirQuality(stopTime, stopTime + 3600, measurements.at(sensor.getSensorId()));    // 1 hour after
             if (beforeAQI > 0 && afterAQI > 0)
             {
                 improvement += (beforeAQI - afterAQI) / beforeAQI * 100; // Percentage improvement
@@ -114,7 +115,7 @@ float AirWatcher::measureCleanerImpact(string cleanerId) const
 
 bool AirWatcher::checkMalfunction(string sensorId)
 {
-    Sensor sensor = sensors.at(sensorId);
+    Sensor sensor = sensorslist.at(sensorId);
 
     // TODO
     return false;
@@ -139,13 +140,14 @@ void AirWatcher::awardPoints(string userId)
 
 User AirWatcher::login(string userId, string password)
 {
-    for (const auto &pair : userslist)
+    User user = userslist.at(userId);
+    if (user.getUserId().empty())
     {
-        const User &user = pair.second;
-        if (user.getUserId() == userId && user.connecter(password))
-        {
-            return user; // Return the user if login is successful
-        }
+        return User(""); // Return an invalid user if not found
+    }
+    if (user.connecter(password))
+    {
+        return user; // Return the user if login is successful
     }
 
     menu.error("Login failed: Invalid user ID or password.");
@@ -215,7 +217,7 @@ void AirWatcher::loadData()
 
 void AirWatcher::startMenu()
 {
-    MenuChoice choice = menu.mainMenu(MenuRights::NOT_LOGGED_IN);
+    MenuChoice choice = menu.mainMenu();
     while (choice != MenuChoice::EXIT)
     {
         switch (choice)
@@ -248,7 +250,7 @@ void AirWatcher::startMenu()
             menu.error("Invalid choice");
             break;
         }
-        choice = menu.mainMenu(MenuRights::NOT_LOGGED_IN);
+        choice = menu.mainMenu();
     }
 }
 
