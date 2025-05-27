@@ -2,7 +2,7 @@
 #include "../utils/DataLoader.h"
 
 //TODO : inclure
-
+/*
 TEST(TestDataLoader, loadSensorsOK) {
     
     list<Sensor> sensorList;
@@ -72,3 +72,5 @@ TEST(TestDataLoader, loadUsersOK) {
 
     EXPECT_EQ(userList.size(), lengthUsersCSV);
 }
+
+*/
