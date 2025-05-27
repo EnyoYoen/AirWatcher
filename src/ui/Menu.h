@@ -12,6 +12,7 @@
 #include <ostream>
 #include <list>
 #include <tuple>
+#include <unordered_map>
 
 #include "../model/Sensor.h"
 #include "../model/Cleaner.h"
@@ -66,26 +67,26 @@ public:
 
     // Menu d'impact des cleaners, qui demande quel cleaner on veut mesurer l'impact
     // et retourne l'id du cleaner
-    string cleanerImpactMenu(const list<Cleaner> &cleaners);
+    string cleanerImpactMenu(const unordered_map<string, Cleaner> &cleaners);
 
     // Menu de recherche de capteurs similaires, qui demande quel capteur on veut
     // et retourne l'id du capteur
-    string findSimilarSensorsMenu(const list<Sensor> &sensors);
+    string findSimilarSensorsMenu(const unordered_map<string, Sensor> &sensors);
 
     // Menu de recherche de capteurs en panne, qui demande quel capteur on veut
     // et retourne l'id du capteur
-    string checkMalfunctionMenu(const list<Sensor> &sensors);
+    string checkMalfunctionMenu(const unordered_map<string, Sensor> &sensors);
 
     // Menu de recherche de capteurs non fiables, qui demande quel capteur on veut
     // et retourne l'id du capteur
-    string checkUnreliableMenu(const list<Sensor> &sensors, const list<User> &users);
+    string checkUnreliableMenu(const unordered_map<string, Sensor> &sensors, const unordered_map<string, User> &users);
 
     /**********************************************
         Méthodes pour afficher des informations
     ***********************************************/
-    void printSimilarSensors(const list<Sensor> &sensors);
-    void printMalfunctionSensors(const list<Sensor> &sensors);
-    void printUnreliableSensors(const list<Sensor> &sensors);
+    void printSimilarSensors(const unordered_map<string, Sensor> &sensors);
+    void printMalfunctionSensors(const unordered_map<string, Sensor> &sensors);
+    void printUnreliableSensors(const unordered_map<string, Sensor> &sensors);
 
     /************************************************
             Méthodes pour log des messages
@@ -96,9 +97,9 @@ public:
     void error(const string &message);
 
 protected:
-    string chooseSensorSubMenu(const list<Sensor> &sensors);
-    string chooseCleanerSubMenu(const list<Cleaner> &cleaners);
-    string chooseUserSubMenu(const list<User> &users);
+    string chooseSensorSubMenu(const unordered_map<string, Sensor> &sensors);
+    string chooseCleanerSubMenu(const unordered_map<string, Cleaner> &cleaners);
+    string chooseUserSubMenu(const unordered_map<string, User> &users);
 
     ostream *logStream;
 };

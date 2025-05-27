@@ -41,8 +41,9 @@ float AirWatcher::calculateAirQuality(time_t startTime, time_t endTime, double r
 {
     float averageAQI = 0;
     int count = 0;
-    for (Sensor sensor : sensorslist)
+    for (auto &pair : sensorslist)
     {
+        Sensor &sensor = pair.second;
         if (sensor.checkDistance(latitude, longitude, radius))
         {
             // Assuming Sensor has a method to get air quality
@@ -66,8 +67,9 @@ float AirWatcher::measureCleanerImpact(string cleanerId) const
     float improvement = 0.0;
 
     // Recherche du Cleaner correspondant
-    for (Cleaner cleaner : cleanerslist)
+    for (const auto &pair : cleanerslist)
     {
+        const Cleaner &cleaner = pair.second;
         if (cleaner.getCleanerId() == cleanerId)
         {
             startTime = cleaner.getStartTime();
@@ -81,8 +83,9 @@ float AirWatcher::measureCleanerImpact(string cleanerId) const
     int count = 0;
 
     // Analyse des mesures pour calculer l'impact
-    for (Sensor sensor : sensorslist)
+    for (const auto &pair : sensorslist)
     {
+        const Sensor &sensor = pair.second;
         if (sensor.checkDistance(latitude, longitude, 10))
         {
             ++count;
@@ -123,13 +126,15 @@ void AirWatcher::awardPoints(string userId)
 
 User AirWatcher::login(string userId, string password)
 {
-    for (const User &user : userslist)
+    for (const auto &pair : userslist)
     {
+        const User &user = pair.second;
         if (user.getUserId() == userId && user.connecter(password))
         {
             return user; // Return the user if login is successful
         }
     }
+
     menu.error("Login failed: Invalid user ID or password.");
     return User(""); // Return an invalid user if login fails
 }
@@ -197,7 +202,7 @@ void AirWatcher::loadData()
 
 void AirWatcher::startMenu()
 {
-    MenuChoice choice = menu.mainMenu();
+    MenuChoice choice = menu.mainMenu(MenuRights::NOT_LOGGED_IN);
     while (choice != MenuChoice::EXIT)
     {
         switch (choice)
@@ -227,7 +232,7 @@ void AirWatcher::startMenu()
             menu.error("Invalid choice");
             break;
         }
-        choice = menu.mainMenu();
+        choice = menu.mainMenu(MenuRights::NOT_LOGGED_IN);
     }
 }
 
