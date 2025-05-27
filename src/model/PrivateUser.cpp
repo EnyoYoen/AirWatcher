@@ -44,9 +44,9 @@ void PrivateUser::setReliable(bool value)
     reliable = value;
 }
 
-void PrivateUser::givePoints(int pts)
+void PrivateUser::addPoints()
 {
-    points += pts;
+    ++points;
 }
 
 int PrivateUser::getPoints()

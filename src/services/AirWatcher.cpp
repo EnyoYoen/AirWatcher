@@ -131,12 +131,6 @@ float AirWatcher::pointAirQuality(double latitude, double longitude, time_t time
     return 0.0;
 }
 
-bool AirWatcher::checkUnreliableSensor(string sensorId, string userId)
-{
-    // TODO
-    return false;
-}
-
 void AirWatcher::awardPoints(string sensorId)
 {
     auto it = sensorIdToUserId.find(sensorId);
@@ -145,7 +139,7 @@ void AirWatcher::awardPoints(string sensorId)
         return; // Sensor ID not found
     }
     User &user = users[it->second];
-    user.addPoints();
+    ((PrivateUser &)user).addPoints();
 }
 
 optional<User> AirWatcher::login(string userId, string password)

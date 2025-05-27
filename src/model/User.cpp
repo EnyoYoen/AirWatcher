@@ -36,11 +36,6 @@ string User::getUserId() const
     return this->userId;
 }
 
-void User::addPoints()
-{
-    ++points;
-}
-
 bool User::connecter(string passwd) const
 {
     return true;

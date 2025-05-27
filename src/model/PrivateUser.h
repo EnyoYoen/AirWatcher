@@ -69,11 +69,7 @@ public:
     // Accéder à 'points'
     // Contrat :
     //
-    void givePoints(int pts);
-    // Mode d'emploi :
-    // Ajouter ou enlever des points
-    // Contrat :
-    //
+    void addPoints();
 
     list<string> getSensorIds() const;
 
@@ -87,7 +83,7 @@ protected:
 
     //----------------------------------------------------- Attributs protégés
     bool reliable;
-    int points;
+    int points = 0;
     list<string> sensorIds;
 };
 

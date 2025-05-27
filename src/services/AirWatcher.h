@@ -108,12 +108,6 @@ public:
     // Contrat :
     //
 
-    bool checkUnreliableSensor(string sensorId, string userId);
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
     void awardPoints(string sensorId);
     // Mode d'emploi :
     //
