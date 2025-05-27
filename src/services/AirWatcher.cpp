@@ -46,18 +46,15 @@ float AirWatcher::calculateAirQuality(time_t startTime, time_t endTime, double r
 
     for (auto &sensor : sensors)
     {
-        if (sensor.checkDistance(latitude, longitude, radius))
+        if (sensor.second.checkDistance(latitude, longitude, radius))
         {
-            float airQuality = sensor.calculateAirQuality(startTime, endTime, measurements[sensor.getSensorId()]);
+            float airQuality = sensor.second.calculateAirQuality(startTime, endTime, measurements[sensor.second.getSensorId()]);
             if (airQuality > 0)
             {
                 averageAQI += airQuality;
                 count++;
             }
         }
-    }
-    for (Sensor sensor : sensorslist)
-    {
     }
 
     clock_t endClock = clock();
@@ -93,13 +90,13 @@ float AirWatcher::measureCleanerImpact(string cleanerId) const
     int count = 0;
 
     // Analyse des mesures pour calculer l'impact
-    for (Sensor sensor : sensorslist)
+    for (auto &sensor : sensors)
     {
-        if (sensor.checkDistance(latitude, longitude, 10))
+        if (sensor.second.checkDistance(latitude, longitude, 10))
         {
             ++count;
-            float beforeAQI = sensor.calculateAirQuality(startTime - 3600, startTime, measurements.at(sensor.getSensorId())); // 1 hour before
-            float afterAQI = sensor.calculateAirQuality(stopTime, stopTime + 3600, measurements.at(sensor.getSensorId()));    // 1 hour after
+            float beforeAQI = sensor.second.calculateAirQuality(startTime - 3600, startTime, measurements.at(sensor.second.getSensorId())); // 1 hour before
+            float afterAQI = sensor.second.calculateAirQuality(stopTime, stopTime + 3600, measurements.at(sensor.second.getSensorId()));    // 1 hour after
             if (beforeAQI > 0 && afterAQI > 0)
             {
                 improvement += (beforeAQI - afterAQI) / beforeAQI * 100; // Percentage improvement
@@ -240,6 +237,9 @@ void AirWatcher::startMenu()
             break;
         case MenuChoice::CHECK_UNRELIABLE_MENU:
             menu.checkUnreliableMenu(sensorslist, userslist);
+            break;
+        case MenuChoice::AWARD_POINTS_MENU:
+            menu.awardPointsMenu(userslist);
             break;
         default:
             menu.error("Invalid choice");
