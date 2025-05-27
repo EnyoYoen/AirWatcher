@@ -113,13 +113,13 @@ public:
     // Contrat :
     //
 
-    void awardPoints(long userId);
+    void awardPoints(string userId);
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    User login(long userId, string password);
+    User login(string userId, string password);
     // Mode d'emploi :
     //
     // Contrat :
