@@ -48,7 +48,7 @@ public:
     string toString() const;
     string getUserId() const;
 
-    void User::addPoints();
+    void addPoints();
     virtual bool connecter(string passwd) const;
 
     // Mode d'emploi (constructeur de copie) :
