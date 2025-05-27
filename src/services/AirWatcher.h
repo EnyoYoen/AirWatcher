@@ -144,6 +144,7 @@ protected:
     unordered_map<string, Provider> providers;
     unordered_map<string, PrivateUser> privateUsers;
     unordered_map<string, User> users;
+    unordered_map<string, string> sensorIdToUserId;
 };
 
 //-------------------------------- Autres définitions dépendantes de <AirWatcher>
