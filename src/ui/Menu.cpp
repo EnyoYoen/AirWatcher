@@ -34,12 +34,13 @@ MenuChoice Menu::mainMenu(MenuRights rights)
         "Qualité de l'air à un point",
         "Impact des cleaners",
         "Rechercher des capteurs similaires",
+        "Vérifier un capteur en panne",
         "Vérifier les capteurs en panne",
-        "Vérifier les capteurs non fiables",
+        "Bannir un utilisateur",
         "Quitter"};
 
     int maxOptions = MenuRights::NOT_LOGGED_IN == rights ? 2 : MenuRights::PRIVATE_USER == rights ? 4
-                                                                                                  : 8;
+                                                                                                  : 9;
 
     int choice;
     cout << endl;
@@ -134,45 +135,61 @@ string Menu::findSimilarSensorsMenu(const unordered_map<string, Sensor> &sensors
     return chooseSensorSubMenu(sensors);
 }
 
-string Menu::checkMalfunctionMenu(const unordered_map<string, Sensor> &sensors)
+string Menu::checkOneMalfunctionMenu(const unordered_map<string, Sensor> &sensors)
 {
     cout << "Vérification des capteurs en panne" << endl;
     return chooseSensorSubMenu(sensors);
 }
 
-string Menu::checkUnreliableMenu(const unordered_map<string, Sensor> &sensors, const unordered_map<string, User> &users)
+string Menu::banUserMenu(const unordered_map<string, PrivateUser> &users)
 {
-    cout << "Vérification des capteurs non fiables" << endl;
-    return chooseSensorSubMenu(sensors);
+    cout << "Bannir un utilisateur" << endl;
+    return chooseUserSubMenu(users);
 }
 
 // Méthodes pour afficher des informations
 
-void Menu::printSimilarSensors(const unordered_map<string, Sensor> &sensors)
+void Menu::printSimilarSensors(const list<Sensor> &sensors)
 {
     cout << "Capteurs similaires : " << endl;
     for (const auto &sensor : sensors)
     {
-        cout << sensor.second.toString() << endl;
+        cout << sensor.toString() << endl;
     }
 }
 
-void Menu::printMalfunctionSensors(const unordered_map<string, Sensor> &sensors)
+void Menu::printOneMalfunctionSensor(const Sensor &sensor, bool isMalfunctioning)
+{
+    cout << "Capteur " << sensor.getSensorId() << " : " << (isMalfunctioning ? "en panne" : "fonctionnel") << endl;
+    cout << sensor.toString() << endl;
+}
+
+void Menu::printMalfunctionSensors(const list<Sensor> &sensors)
 {
     cout << "Capteurs en panne : " << endl;
     for (const auto &sensor : sensors)
     {
-        cout << sensor.second.toString() << endl;
+        cout << sensor.toString() << endl;
     }
 }
 
-void Menu::printUnreliableSensors(const unordered_map<string, Sensor> &sensors)
+void Menu::printUnreliableSensors(const list<Sensor> &sensors)
 {
     cout << "Capteurs non fiables : " << endl;
     for (const auto &sensor : sensors)
     {
-        cout << sensor.second.toString() << endl;
+        cout << sensor.toString() << endl;
     }
+}
+
+void Menu::printBannedUser(const User &user, bool isBanned)
+{
+    cout << "Utilisateur " << user.getUserId() << " : " << (isBanned ? "banni" : "non banni") << endl;
+}
+
+void Menu::printCleanerImpact(const Cleaner &cleaner, float impact)
+{
+    cout << "Impact du cleaner " << cleaner.getCleanerId() << " : " << impact << endl;
 }
 
 // Méthodes de log
@@ -256,7 +273,7 @@ string Menu::chooseCleanerSubMenu(const unordered_map<string, Cleaner> &cleaners
     return it->second.getCleanerId();
 }
 
-string Menu::chooseUserSubMenu(const unordered_map<string, User> &users)
+string Menu::chooseUserSubMenu(const unordered_map<string, PrivateUser> &users)
 {
     cout << "Choisissez un utilisateur : " << endl;
     int i = 1;

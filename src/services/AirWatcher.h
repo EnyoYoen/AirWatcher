@@ -78,6 +78,9 @@ public:
     // Contrat :
     //
 
+    //------------------------------------------------------------------ PRIVE
+protected:
+    //----------------------------------------------------- Méthodes protégées
     list<Sensor> findSimilarSensors(string sensorId);
     // Mode d'emploi :
     //
@@ -120,15 +123,15 @@ public:
     // Contrat :
     //
 
-    //------------------------------------------------------------------ PRIVE
+    list<Sensor> checkMalfunctionSensors();
 
-protected:
-    //----------------------------------------------------- Méthodes protégées
+    bool banUser(string userId);
+
+    //----------------------------------------------------- Attributs protégés
+
     void startMenu();
     void printError(const string &message, int errorCode);
     void loadData();
-
-    //----------------------------------------------------- Attributs protégés
 
     Menu menu;
 

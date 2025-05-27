@@ -35,8 +35,12 @@ using namespace std;
 
 list<Sensor> AirWatcher::findSimilarSensors(string sensorId)
 {
-    list<Sensor> placeholder;
-    return placeholder;
+    Sensor sensor = sensors[sensorId];
+    list<Sensor> similarSensors;
+    for (const auto &pair : sensors)
+    {
+    }
+    return similarSensors;
 }
 
 float AirWatcher::calculateAirQuality(time_t startTime, time_t endTime, double radius, double latitude, double longitude)
@@ -121,56 +125,23 @@ float AirWatcher::measureCleanerImpact(string cleanerId)
 
 bool AirWatcher::checkMalfunction(string sensorId)
 {
-    const float threshold = 3.0;
+    const float threshold = 5.0;
 
-    auto it = sensors.find(sensorId);
-    if (it == sensors.end())
-    {
-        menu.error("Sensor not found: " + sensorId);
-        return false;
-    }
-
-    Sensor sensor = it->second;
     auto mit = measurements.find(sensorId);
     if (mit == measurements.end())
     {
+        menu.error("No measurements found for sensor: " + sensorId);
         return false;
     }
     vector<Measurement> &sensorMeasurements = mit->second;
-    sort(sensorMeasurements.begin(), sensorMeasurements.end(),
-         [](const Measurement &a, const Measurement &b)
-         {
-             return a.getTimestamp() < b.getTimestamp();
-         });
 
-    unsigned long long totalMeasurements = sensorMeasurements.size();
-    unsigned long long inconsistentMeasurements = 0;
-
-    unordered_map<string, float> attributeValues;
-    for (const Measurement &measurement : sensorMeasurements)
-    {
-        const string &attributeId = measurement.getAttribute();
-        float value = measurement.getValue();
-        if (attributeValues.find(attributeId) == attributeValues.end())
-        {
-            attributeValues[attributeId] = value;
-        }
-        else
-        {
-            if (abs(value - attributeValues[attributeId]) > threshold)
-            {
-                inconsistentMeasurements++;
-            }
-            attributeValues[attributeId] = value;
-        }
-    }
-
-    /*unordered_map<string, vector<float>> attributeAllValues;
+    unordered_map<string, vector<float>> attributeAllValues;
     for (const Measurement &measurement : sensorMeasurements)
     {
         attributeAllValues[measurement.getAttribute()].push_back(measurement.getValue());
     }
 
+    unordered_map<string, float> attributeVariances;
     for (const auto &pair : attributeAllValues)
     {
         const vector<float> &values = pair.second;
@@ -183,11 +154,14 @@ bool AirWatcher::checkMalfunction(string sensorId)
                 variance += (v - mean) * (v - mean);
             }
             variance /= (values.size() - 1);
-            menu.debug("Variance for " + pair.first + " on sensor " + sensorId + " : " + to_string(variance));
+            if (variance > threshold)
+            {
+                return true;
+            }
         }
-    }*/
+    }
 
-    return (inconsistentMeasurements > totalMeasurements * 0.05);
+    return false;
 }
 
 float AirWatcher::pointAirQuality(double latitude, double longitude, time_t time)
@@ -302,6 +276,9 @@ void AirWatcher::startMenu()
 {
     pair<string, string> credentials;
     optional<User> user;
+    string sensorId;
+    string userId;
+    string cleanerId;
 
     MenuRights rights = MenuRights::NOT_LOGGED_IN;
     MenuChoice choice = menu.mainMenu(rights);
@@ -333,19 +310,23 @@ void AirWatcher::startMenu()
             menu.pointAirQualityMenu();
             break;
         case MenuChoice::CLEANER_IMPACT_MENU:
-            menu.cleanerImpactMenu(cleaners);
+            cleanerId = menu.cleanerImpactMenu(cleaners);
+            menu.printCleanerImpact(cleaners[cleanerId], measureCleanerImpact(cleanerId));
             break;
         case MenuChoice::FIND_SIMILAR_SENSORS_MENU:
-            menu.findSimilarSensorsMenu(sensors);
+            sensorId = menu.findSimilarSensorsMenu(sensors);
+            menu.printSimilarSensors(findSimilarSensors(sensorId));
+            break;
+        case MenuChoice::CHECK_ONE_MALFUNCTION_MENU:
+            sensorId = menu.checkOneMalfunctionMenu(sensors);
+            menu.printOneMalfunctionSensor(sensors[sensorId], checkMalfunction(sensorId));
             break;
         case MenuChoice::CHECK_MALFUNCTION_MENU:
-            if (checkMalfunction(menu.checkMalfunctionMenu(sensors)))
-            {
-                menu.debug("Sensor is malfunctioning.");
-            }
+            menu.printMalfunctionSensors(checkMalfunctionSensors());
             break;
-        case MenuChoice::CHECK_UNRELIABLE_MENU:
-            menu.checkUnreliableMenu(sensors, users);
+        case MenuChoice::BAN_USER_MENU:
+            userId = menu.banUserMenu(privateUsers);
+            menu.printBannedUser(users[userId], banUser(userId));
             break;
         default:
             menu.error("Invalid choice");
@@ -353,6 +334,38 @@ void AirWatcher::startMenu()
         }
         choice = menu.mainMenu(rights);
     }
+}
+
+list<Sensor> AirWatcher::checkMalfunctionSensors()
+{
+    list<Sensor> malfunctioningSensors;
+    for (const auto &pair : sensors)
+    {
+        const Sensor &sensor = pair.second;
+        if (checkMalfunction(sensor.getSensorId()))
+        {
+            malfunctioningSensors.push_back(sensor);
+        }
+    }
+    return malfunctioningSensors;
+}
+
+bool AirWatcher::banUser(string userId)
+{
+    auto it = privateUsers.find(userId);
+    if (it == privateUsers.end())
+    {
+        return false;
+    }
+
+    PrivateUser &privateUser = it->second;
+    privateUser.setReliable(false);
+    for (const string &sensorId : privateUser.getSensorIds())
+    {
+        sensors[sensorId].banSensor();
+    }
+    menu.debug("User " + userId + " has been banned.");
+    return true;
 }
 
 //-------------------------------------------- Constructeurs - destructeur
