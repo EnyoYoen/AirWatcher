@@ -1,27 +1,31 @@
 #include <gtest/gtest.h>
 #include "../model/PrivateUser.h"
 
-TEST(TestPrivateUser, ConnexionOK) {
+TEST(TestPrivateUser, ConnexionOK)
+{
     PrivateUser p1("tata", "password123");
 
-    EXPECT_TRUE(p1.Connecter("password123"));
+    EXPECT_TRUE(p1.connecter("password123"));
 }
 
-TEST(TestPrivateUser, ConnexionKO) {
+TEST(TestPrivateUser, ConnexionKO)
+{
     PrivateUser p1("tata", "password123");
 
-    EXPECT_FALSE(p1.Connecter("password12"));
+    EXPECT_FALSE(p1.connecter("password12"));
 }
 
-TEST(TestPrivateUser, ConstructeurCopie) {
+TEST(TestPrivateUser, ConstructeurCopie)
+{
     PrivateUser p1("tata", "password123");
 
-    PrivateUser p2 = p1; 
+    PrivateUser p2 = p1;
 
-    EXPECT_TRUE(p2.Connecter("password123"));
+    EXPECT_TRUE(p2.connecter("password123"));
 }
 
-TEST(TestPrivateUser, Reliable) {
+TEST(TestPrivateUser, Reliable)
+{
     PrivateUser p1("tata", "password123");
 
     EXPECT_TRUE(p1.isReliable());
@@ -35,7 +39,8 @@ TEST(TestPrivateUser, Reliable) {
     EXPECT_TRUE(p1.isReliable());
 }
 
-TEST(TestPrivateUser, Points) {
+TEST(TestPrivateUser, Points)
+{
     PrivateUser p1("tata", "password123");
 
     EXPECT_EQ(p1.getPoints(), 0);

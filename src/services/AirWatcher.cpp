@@ -31,7 +31,7 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
-list<Sensor> findSimilarSensors(long sensorId)
+list<Sensor> AirWatcher::findSimilarSensors(string sensorId)
 {
     list<Sensor> placeholder;
     return placeholder;
@@ -65,6 +65,7 @@ float AirWatcher::measureCleanerImpact(string cleanerId) const
     double longitude;
     float improvement = 0.0;
 
+    // Recherche du Cleaner correspondant
     for (Cleaner cleaner : cleanerslist)
     {
         if (cleaner.getCleanerId() == cleanerId)
@@ -79,13 +80,14 @@ float AirWatcher::measureCleanerImpact(string cleanerId) const
 
     int count = 0;
 
+    // Analyse des mesures pour calculer l'impact
     for (Sensor sensor : sensorslist)
     {
-        if (sensor.checkDistance(latitude, longitude, 1000)) // Assuming a radius of 1000 meters
+        if (sensor.checkDistance(latitude, longitude, 10))
         {
             ++count;
-            float beforeAQI = sensor.calculateAirQuality(startTime, startTime + 3600, measurements.at(sensor.getSensorId())); // 1 hour before
-            float afterAQI = sensor.calculateAirQuality(stopTime - 3600, stopTime, measurements.at(sensor.getSensorId()));    // 1 hour after
+            float beforeAQI = sensor.calculateAirQuality(startTime - 3600, startTime, measurements.at(sensor.getSensorId())); // 1 hour before
+            float afterAQI = sensor.calculateAirQuality(stopTime, stopTime + 3600, measurements.at(sensor.getSensorId()));    // 1 hour after
             if (beforeAQI > 0 && afterAQI > 0)
             {
                 improvement += (beforeAQI - afterAQI) / beforeAQI * 100; // Percentage improvement
@@ -96,7 +98,7 @@ float AirWatcher::measureCleanerImpact(string cleanerId) const
     return (count > 0) ? (improvement / count) : -1; // Average improvement
 }
 
-bool AirWatcher::checkMalfunction(long sensorId)
+bool AirWatcher::checkMalfunction(string sensorId)
 {
     // TODO
     return false;
@@ -108,7 +110,7 @@ float AirWatcher::pointAirQuality(double latitude, double longitude, time_t time
     return 0.0;
 }
 
-bool AirWatcher::checkUnreliableSensor(long sensorId, long userId)
+bool AirWatcher::checkUnreliableSensor(string sensorId, string userId)
 {
     // TODO
     return false;

@@ -23,7 +23,7 @@ using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-bool User::Connecter(string passwd)
+bool User::connecter(string passwd) const
 {
     return (password == passwd) ? true : false;
 }
