@@ -80,10 +80,10 @@ float Sensor::calculateAirQuality(time_t startTime, time_t endTime, vector<Measu
     int countO3 = 0;
     int countSO2 = 0;
 
-    int constPM10 = 35;
-    int constNO2 = 213;
-    int constO3 = 82;
-    int constSO2 = 200;
+    float constPM10 = 35;
+    float constNO2 = 213;
+    float constO3 = 82;
+    float constSO2 = 200;
 
     for (Measurement measurement : measurements)
     {
