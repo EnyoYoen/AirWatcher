@@ -6,3 +6,7 @@ TEST(TestSensor, CheckDistanceSamePoint) {
 
     EXPECT_TRUE(s.checkDistance(1.4, 4.1, 0));
 }
+
+TEST(TryFalse, failed) {
+    EXPECT_TRUE(false);
+}
