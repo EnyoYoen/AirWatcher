@@ -5,14 +5,14 @@ TEST(TestPrivateUser, ConnexionOK)
 {
     PrivateUser p1("tata");
 
-// TODO    EXPECT_TRUE(p1.connecter("password123"));
+    // TODO    EXPECT_TRUE(p1.connecter("password123"));
 }
 
 TEST(TestPrivateUser, ConnexionKO)
 {
     PrivateUser p1("tata");
 
-//    EXPECT_FALSE(p1.connecter("password12"));
+    //    EXPECT_FALSE(p1.connecter("password12"));
 }
 
 TEST(TestPrivateUser, ConstructeurCopie)
@@ -21,7 +21,7 @@ TEST(TestPrivateUser, ConstructeurCopie)
 
     PrivateUser p2 = p1;
 
-//    EXPECT_TRUE(p2.connecter("password123"));
+    //    EXPECT_TRUE(p2.connecter("password123"));
 }
 
 TEST(TestPrivateUser, Reliable)
@@ -45,11 +45,11 @@ TEST(TestPrivateUser, Points)
 
     EXPECT_EQ(p1.getPoints(), 0);
 
-    p1.givePoints(2);
+    p1.addPoints();
+
+    EXPECT_EQ(p1.getPoints(), 1);
+
+    p1.addPoints();
 
     EXPECT_EQ(p1.getPoints(), 2);
-
-    p1.givePoints(-12);
-
-    EXPECT_EQ(p1.getPoints(), -10);
 }
