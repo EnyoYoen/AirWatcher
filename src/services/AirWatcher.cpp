@@ -243,9 +243,6 @@ void AirWatcher::startMenu()
         case MenuChoice::CHECK_UNRELIABLE_MENU:
             menu.checkUnreliableMenu(sensorslist, userslist);
             break;
-        case MenuChoice::AWARD_POINTS_MENU:
-            menu.awardPointsMenu(userslist);
-            break;
         default:
             menu.error("Invalid choice");
             break;
