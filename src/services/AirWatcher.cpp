@@ -39,13 +39,15 @@ list<Sensor> AirWatcher::findSimilarSensors(string sensorId)
 
 float AirWatcher::calculateAirQuality(time_t startTime, time_t endTime, double radius, double latitude, double longitude)
 {
+    clock_t startClock = clock();
+
     float averageAQI = 0;
     int count = 0;
-    for (Sensor sensor : sensorslist)
+
+    for (auto &sensor : sensors)
     {
         if (sensor.checkDistance(latitude, longitude, radius))
         {
-            // Assuming Sensor has a method to get air quality
             float airQuality = sensor.calculateAirQuality(startTime, endTime, measurements[sensor.getSensorId()]);
             if (airQuality > 0)
             {
@@ -54,11 +56,20 @@ float AirWatcher::calculateAirQuality(time_t startTime, time_t endTime, double r
             }
         }
     }
+    for (Sensor sensor : sensorslist)
+    {
+    }
+
+    clock_t endClock = clock();
+    double elapsedTime = double(endClock - startClock) / CLOCKS_PER_SEC;
+    printf("Cleaner impact calculation took %.2f seconds.\n", elapsedTime);
+
     return (count > 0) ? (averageAQI / count) : -1;
 }
 
 float AirWatcher::measureCleanerImpact(string cleanerId) const
 {
+    clock_t startClock = clock();
     time_t startTime;
     time_t stopTime;
     double latitude;
@@ -66,16 +77,17 @@ float AirWatcher::measureCleanerImpact(string cleanerId) const
     float improvement = 0.0;
 
     // Recherche du Cleaner correspondant
-    for (Cleaner cleaner : cleanerslist)
+    Cleaner cleaner = cleaners.at(cleanerId);
+    if (cleaner.getCleanerId().empty())
     {
-        if (cleaner.getCleanerId() == cleanerId)
-        {
-            startTime = cleaner.getStartTime();
-            stopTime = cleaner.getStopTime();
-            latitude = cleaner.getLatitude();
-            longitude = cleaner.getLongitude();
-            break;
-        }
+        return -1; // Cleaner not found
+    }
+    else
+    {
+        startTime = cleaner.getStartTime();
+        stopTime = cleaner.getStopTime();
+        latitude = cleaner.getLatitude();
+        longitude = cleaner.getLongitude();
     }
 
     int count = 0;
@@ -95,11 +107,17 @@ float AirWatcher::measureCleanerImpact(string cleanerId) const
         }
     }
 
+    clock_t endClock = clock();
+    double elapsedTime = double(endClock - startClock) / CLOCKS_PER_SEC;
+    printf("Cleaner impact calculation took %.2f seconds.\n", elapsedTime);
+
     return (count > 0) ? (improvement / count) : -1; // Average improvement
 }
 
 bool AirWatcher::checkMalfunction(string sensorId)
 {
+    Sensor sensor = sensors.at(sensorId);
+
     // TODO
     return false;
 }
