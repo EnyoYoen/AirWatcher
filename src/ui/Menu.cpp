@@ -4,28 +4,30 @@
 
 #include "../utils/DateTime.h"
 
-Menu &Menu::operator=(const Menu &unMenu) {
-    if (this != &unMenu) {
-        
+Menu &Menu::operator=(const Menu &unMenu)
+{
+    if (this != &unMenu)
+    {
     }
     return *this;
 }
 
-Menu::Menu(const Menu &unMenu) {
-
+Menu::Menu(const Menu &unMenu)
+{
 }
 
-Menu::Menu() : logStream(nullptr) {
-
+Menu::Menu() : logStream(nullptr)
+{
 }
 
-Menu::~Menu() {
-
+Menu::~Menu()
+{
 }
 
 // Méthodes (bloquante) pour afficher les menus
 
-MenuChoice Menu::mainMenu() {
+MenuChoice Menu::mainMenu()
+{
     int choice;
     cout << endl;
     cout << "Menu principal : " << endl;
@@ -40,8 +42,10 @@ MenuChoice Menu::mainMenu() {
     cout << "9. Quitter" << endl;
 
     bool invalidInput = false;
-    do {
-        if (invalidInput) {
+    do
+    {
+        if (invalidInput)
+        {
             cout << "Choix invalide, veuillez réessayer." << endl;
         }
         cin >> choice;
@@ -53,7 +57,8 @@ MenuChoice Menu::mainMenu() {
     return static_cast<MenuChoice>(choice);
 }
 
-pair<string, string> Menu::loginMenu() {
+pair<string, string> Menu::loginMenu()
+{
     string username, password;
     cout << "Nom d'utilisateur : ";
     cin >> username;
@@ -62,7 +67,8 @@ pair<string, string> Menu::loginMenu() {
     return make_pair(username, password);
 }
 
-tuple<time_t, time_t, double, double, double> Menu::airQualityMenu() {
+tuple<time_t, time_t, double, double, double> Menu::airQualityMenu()
+{
     time_t startTime, endTime;
     double latitude, longitude, radius;
 
@@ -88,7 +94,8 @@ tuple<time_t, time_t, double, double, double> Menu::airQualityMenu() {
     return make_tuple(startTime, endTime, latitude, longitude, radius);
 }
 
-tuple<double, double, time_t> Menu::pointAirQualityMenu() {
+tuple<double, double, time_t> Menu::pointAirQualityMenu()
+{
     double latitude, longitude;
     time_t dateTime;
 
@@ -106,86 +113,105 @@ tuple<double, double, time_t> Menu::pointAirQualityMenu() {
     return make_tuple(latitude, longitude, dateTime);
 }
 
-string Menu::cleanerImpactMenu(const list<Cleaner>& cleaners) {
+string Menu::cleanerImpactMenu(const list<Cleaner> &cleaners)
+{
     cout << "Impact des cleaners" << endl;
     return chooseCleanerSubMenu(cleaners);
 }
 
-string Menu::findSimilarSensorsMenu(const list<Sensor>& sensors) {
+string Menu::findSimilarSensorsMenu(const list<Sensor> &sensors)
+{
     cout << "Recherche de capteurs similaires" << endl;
     return chooseSensorSubMenu(sensors);
 }
 
-string Menu::checkMalfunctionMenu(const list<Sensor>& sensors) {
+string Menu::checkMalfunctionMenu(const list<Sensor> &sensors)
+{
     cout << "Vérification des capteurs en panne" << endl;
     return chooseSensorSubMenu(sensors);
 }
 
-string Menu::checkUnreliableMenu(const list<Sensor>& sensors, const list<User>& users) {
+string Menu::checkUnreliableMenu(const list<Sensor> &sensors, const list<User> &users)
+{
     cout << "Vérification des capteurs non fiables" << endl;
     return chooseSensorSubMenu(sensors);
 }
 
-string Menu::awardPointsMenu(const list<User>& users) {
+string Menu::awardPointsMenu(const list<User> &users)
+{
     cout << "Récompense de points" << endl;
     return chooseUserSubMenu(users);
 }
 
 // Méthodes pour afficher des informations
 
-void Menu::printSimilarSensors(const list<Sensor>& sensors) {
+void Menu::printSimilarSensors(const list<Sensor> &sensors)
+{
     cout << "Capteurs similaires : " << endl;
-    for (const auto& sensor : sensors) {
+    for (const auto &sensor : sensors)
+    {
         cout << sensor.toString() << endl;
     }
 }
 
-void Menu::printMalfunctionSensors(const list<Sensor>& sensors) {
+void Menu::printMalfunctionSensors(const list<Sensor> &sensors)
+{
     cout << "Capteurs en panne : " << endl;
-    for (const auto& sensor : sensors) {
+    for (const auto &sensor : sensors)
+    {
         cout << sensor.toString() << endl;
     }
 }
 
-void Menu::printUnreliableSensors(const list<Sensor>& sensors) {
+void Menu::printUnreliableSensors(const list<Sensor> &sensors)
+{
     cout << "Capteurs non fiables : " << endl;
-    for (const auto& sensor : sensors) {
+    for (const auto &sensor : sensors)
+    {
         cout << sensor.toString() << endl;
     }
 }
 
 // Méthodes de log
 
-void Menu::setLogStream(ostream *stream) {
+void Menu::setLogStream(ostream *stream)
+{
     logStream = stream;
 }
 
-void Menu::debug(const string& message) {
-    if (logStream) {
+void Menu::debug(const string &message)
+{
+    if (logStream)
+    {
         *logStream << "[DEBUG] " << message << endl;
     }
 }
 
-void Menu::error(const string& message) {
-    if (logStream) {
+void Menu::error(const string &message)
+{
+    if (logStream)
+    {
         *logStream << "[ERROR] " << message << endl;
     }
 }
 
-
 // Protected
 
-string Menu::chooseSensorSubMenu(const list<Sensor>& sensors) {
+string Menu::chooseSensorSubMenu(const list<Sensor> &sensors)
+{
     cout << "Choisissez un capteur : " << endl;
     int i = 1;
-    for (const auto& sensor : sensors) {
+    for (const auto &sensor : sensors)
+    {
         cout << i++ << ". " << sensor.toString() << endl;
     }
-    
+
     int choice;
     bool invalidInput = false;
-    do {
-        if (invalidInput) {
+    do
+    {
+        if (invalidInput)
+        {
             cout << "Choix invalide, veuillez réessayer." << endl;
         }
         cin >> choice;
@@ -199,17 +225,21 @@ string Menu::chooseSensorSubMenu(const list<Sensor>& sensors) {
     return it->getSensorId();
 }
 
-string Menu::chooseCleanerSubMenu(const list<Cleaner>& cleaners) {
+string Menu::chooseCleanerSubMenu(const list<Cleaner> &cleaners)
+{
     cout << "Choisissez un cleaner : " << endl;
     int i = 1;
-    for (const auto& cleaner : cleaners) {
+    for (const auto &cleaner : cleaners)
+    {
         cout << i++ << ". " << cleaner.toString() << endl;
     }
-    
+
     int choice;
     bool invalidInput = false;
-    do {
-        if (invalidInput) {
+    do
+    {
+        if (invalidInput)
+        {
             cout << "Choix invalide, veuillez réessayer." << endl;
         }
         cin >> choice;
@@ -223,17 +253,21 @@ string Menu::chooseCleanerSubMenu(const list<Cleaner>& cleaners) {
     return it->getCleanerId();
 }
 
-string Menu::chooseUserSubMenu(const list<User>& users) {
+string Menu::chooseUserSubMenu(const list<User> &users)
+{
     cout << "Choisissez un utilisateur : " << endl;
     int i = 1;
-    for (const auto& user : users) {
+    for (const auto &user : users)
+    {
         cout << i++ << ". " << user.toString() << endl;
     }
-    
+
     int choice;
     bool invalidInput = false;
-    do {
-        if (invalidInput) {
+    do
+    {
+        if (invalidInput)
+        {
             cout << "Choix invalide, veuillez réessayer." << endl;
         }
         cin >> choice;
