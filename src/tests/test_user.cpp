@@ -1,18 +1,11 @@
 #include <gtest/gtest.h>
 #include "../model/User.h"
 
-TEST(TestUser, ConnexionOK)
+TEST(TestUser, getUserId)
 {
     User u1("toto");
 
-//    EXPECT_TRUE(u1.connecter("password123"));
-}
-
-TEST(TestUser, ConnexionKO)
-{
-    User u1("toto");
-
-//    EXPECT_FALSE(u1.connecter("password12"));
+    EXPECT_EQ(u1.getUserId(), "toto");
 }
 
 TEST(TestUser, ConstructeurCopie)
@@ -21,5 +14,5 @@ TEST(TestUser, ConstructeurCopie)
 
     User u2 = u1;
 
-//    EXPECT_TRUE(u2.connecter("password123"));
+    EXPECT_EQ(u2.getUserId(), "toto");
 }
