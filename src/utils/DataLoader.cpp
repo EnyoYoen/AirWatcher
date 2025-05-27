@@ -6,13 +6,13 @@
 #include "DateTime.h"
 #include "../model/Admin.h"
 
-int DataLoader::loadSensors(unordered_map<string, Sensor> &sensorList)
+int DataLoader::loadSensors(unordered_map<string, Sensor> &sensorList, string filename)
 {
     // Implementation for loading sensors from CSV file
     // Open the CSV file, read each line, parse the data, and populate the sensorList
     // Return 0 on success, non-zero on failure
 
-    ifstream file("5_projet_dataset/sensors.csv");
+    ifstream file(filename);
     if (!file.is_open())
     {
         return FILE_ERROR; // Failed to open file
@@ -48,7 +48,7 @@ int DataLoader::loadSensors(unordered_map<string, Sensor> &sensorList)
     return NO_ERROR;
 }
 
-int DataLoader::loadMeasurements(unordered_map<string, vector<Measurement>> &measurements, unordered_map<string, Attribute> &attributes)
+int DataLoader::loadMeasurements(unordered_map<string, vector<Measurement>> &measurements, unordered_map<string, Attribute> &attributes, string filename)
 {
     // Implementation for loading measurements from CSV file
     // Open the CSV file, read each line, parse the data, and populate the measurementList
@@ -60,7 +60,7 @@ int DataLoader::loadMeasurements(unordered_map<string, vector<Measurement>> &mea
         return result; // Failed to load attributes
     }
 
-    ifstream file("5_projet_dataset/measurements.csv");
+    ifstream file(filename);
     if (!file.is_open())
     {
         return FILE_ERROR; // Failed to open file
@@ -110,7 +110,7 @@ int DataLoader::loadMeasurements(unordered_map<string, vector<Measurement>> &mea
     return NO_ERROR;
 }
 
-int DataLoader::loadProviders(unordered_map<string, Provider> &providerList, unordered_map<string, Cleaner> &cleanerList)
+int DataLoader::loadProviders(unordered_map<string, Provider> &providerList, unordered_map<string, Cleaner> &cleanerList, string filename)
 {
     // Implementation for loading providers from CSV file
     // Open the CSV file, read each line, parse the data, and populate the providerList
@@ -124,7 +124,7 @@ int DataLoader::loadProviders(unordered_map<string, Provider> &providerList, uno
         return result; // Failed to load cleaners
     }
 
-    ifstream file("5_projet_dataset/providers.csv");
+    ifstream file(filename);
     if (!file.is_open())
     {
         return FILE_ERROR; // Failed to open file
@@ -178,7 +178,7 @@ int DataLoader::loadProviders(unordered_map<string, Provider> &providerList, uno
     return NO_ERROR;
 }
 
-int DataLoader::loadUsers(unordered_map<string, User> &userList, unordered_map<string, PrivateUser> &privateUserList)
+int DataLoader::loadUsers(unordered_map<string, User> &userList, unordered_map<string, PrivateUser> &privateUserList, string filename)
 {
     // Implementation for loading users from CSV file
     // Open the CSV file, read each line, parse the data, and populate the userList
@@ -186,7 +186,7 @@ int DataLoader::loadUsers(unordered_map<string, User> &userList, unordered_map<s
 
     unordered_map<string, list<string>> usersSensors;
 
-    ifstream file("5_projet_dataset/users.csv");
+    ifstream file(filename);
     if (!file.is_open())
     {
         return FILE_ERROR; // Failed to open file

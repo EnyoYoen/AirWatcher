@@ -25,13 +25,19 @@ using namespace std;
 class DataLoader
 {
 public:
+    
+    inline static const string sensorsPath = "5_projet_dataset/sensors.csv";
+    inline static const string measurementsPath = "5_projet_dataset/measurements.csv";
+    inline static const string providersPath = "5_projet_dataset/providers.csv";
+    inline static const string usersPath = "5_projet_dataset/users.csv";
+    
     // Load data from CSV files into the respective lists
     // The static methods are in the form of int load<Type>(list<Type>& list)
     // where int is the return code (0 for success, non zero for failure)
-    static int loadSensors(unordered_map<string, Sensor> &sensorList);
-    static int loadMeasurements(unordered_map<string, vector<Measurement>> &measurements, unordered_map<string, Attribute> &attributes);
-    static int loadProviders(unordered_map<string, Provider> &providerList, unordered_map<string, Cleaner> &cleanerList);
-    static int loadUsers(unordered_map<string, User> &userList, unordered_map<string, PrivateUser> &privateUserList);
+    static int loadSensors(unordered_map<string, Sensor> &sensorList, string filename = sensorsPath);
+    static int loadMeasurements(unordered_map<string, vector<Measurement>> &measurements, unordered_map<string, Attribute> &attributes, string filename = measurementsPath);
+    static int loadProviders(unordered_map<string, Provider> &providerList, unordered_map<string, Cleaner> &cleanerList, string filename = providersPath);
+    static int loadUsers(unordered_map<string, User> &userList, unordered_map<string, PrivateUser> &privateUserList, string filename = usersPath);
 
     enum LoadError
     {
