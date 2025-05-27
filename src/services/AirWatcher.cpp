@@ -203,11 +203,23 @@ void AirWatcher::loadData()
     printError("Loading providers : ", DataLoader::loadProviders(providers, cleaners));
     printError("Loading measurements : ", DataLoader::loadMeasurements(measurements, attributes));
 
+    for (const auto &pair : privateUsers)
+    {
+        const PrivateUser &privateUser = pair.second;
+        const string &userId = pair.first;
+        for (const string &sensorId : privateUser.getSensorIds())
+        {
+            sensorToUserId[sensorId] = userId;
+        }
+    }
+
     menu.debug("Sensors loaded: " + to_string(sensors.size()));
+    menu.debug("Private users loaded: " + to_string(privateUsers.size()));
     menu.debug("Users loaded: " + to_string(users.size()));
     menu.debug("Providers loaded: " + to_string(providers.size()));
     menu.debug("Cleaners loaded: " + to_string(cleaners.size()));
     menu.debug("Attributes loaded: " + to_string(attributes.size()));
+    menu.debug("Sensor to user ID mapping loaded: " + to_string(sensorToUserId.size()));
 
     long long totalMeasurements = 0;
     for (auto &pair : measurements)

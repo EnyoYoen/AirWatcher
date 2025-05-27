@@ -75,6 +75,8 @@ public:
     // Contrat :
     //
 
+    list<string> getSensorIds() const;
+
     void addSensor(string sensorId);
     bool connecter(string passwd) const override;
 

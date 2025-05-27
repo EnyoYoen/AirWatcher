@@ -54,6 +54,11 @@ int PrivateUser::getPoints()
     return points;
 }
 
+list<string> PrivateUser::getSensorIds() const
+{
+    return sensorIds;
+}
+
 void PrivateUser::addSensor(string sensorId)
 {
     sensorIds.push_back(sensorId);
