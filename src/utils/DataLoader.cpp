@@ -48,19 +48,19 @@ int DataLoader::loadSensors(unordered_map<string, Sensor> &sensorList, string fi
     return NO_ERROR;
 }
 
-int DataLoader::loadMeasurements(unordered_map<string, vector<Measurement>> &measurements, unordered_map<string, Attribute> &attributes, string filename)
+int DataLoader::loadMeasurements(unordered_map<string, vector<Measurement>> &measurements, unordered_map<string, Attribute> &attributes, string filenameMeasurements, string filenameAttributes)
 {
     // Implementation for loading measurements from CSV file
     // Open the CSV file, read each line, parse the data, and populate the measurementList
     // Return 0 on success, non-zero on failure
 
-    int result = loadAttributes(attributes);
+    int result = loadAttributes(attributes, filenameAttributes);
     if (result != NO_ERROR)
     {
         return result; // Failed to load attributes
     }
 
-    ifstream file(filename);
+    ifstream file(filenameMeasurements);
     if (!file.is_open())
     {
         return FILE_ERROR; // Failed to open file
@@ -110,7 +110,7 @@ int DataLoader::loadMeasurements(unordered_map<string, vector<Measurement>> &mea
     return NO_ERROR;
 }
 
-int DataLoader::loadProviders(unordered_map<string, Provider> &providerList, unordered_map<string, Cleaner> &cleanerList, string filename)
+int DataLoader::loadProviders(unordered_map<string, Provider> &providerList, unordered_map<string, Cleaner> &cleanerList, string filenameProviders, string filenameCleaners)
 {
     // Implementation for loading providers from CSV file
     // Open the CSV file, read each line, parse the data, and populate the providerList
@@ -118,13 +118,13 @@ int DataLoader::loadProviders(unordered_map<string, Provider> &providerList, uno
 
     unordered_map<string, list<string>> providersCleaners;
     unordered_map<string, Cleaner> cleaners;
-    int result = loadCleaners(cleaners);
+    int result = loadCleaners(cleaners, filenameCleaners);
     if (result != NO_ERROR)
     {
         return result; // Failed to load cleaners
     }
 
-    ifstream file(filename);
+    ifstream file(filenameProviders);
     if (!file.is_open())
     {
         return FILE_ERROR; // Failed to open file
@@ -238,13 +238,13 @@ int DataLoader::loadUsers(unordered_map<string, User> &userList, unordered_map<s
 
 // Private methods
 
-int DataLoader::loadAttributes(unordered_map<string, Attribute> &attributes)
+int DataLoader::loadAttributes(unordered_map<string, Attribute> &attributes, string filename)
 {
     // Implementation for loading attributes from CSV file
     // Open the CSV file, read each line, parse the data, and populate the attributeList
     // Return 0 on success, non-zero on failure
 
-    ifstream file("5_projet_dataset/attributes.csv");
+    ifstream file(filename);
     if (!file.is_open())
     {
         return 1; // Failed to open file
@@ -269,13 +269,13 @@ int DataLoader::loadAttributes(unordered_map<string, Attribute> &attributes)
     return 0;
 }
 
-int DataLoader::loadCleaners(unordered_map<string, Cleaner> &cleaners)
+int DataLoader::loadCleaners(unordered_map<string, Cleaner> &cleaners, string filename)
 {
     // Implementation for loading cleaners from CSV file
     // Open the CSV file, read each line, parse the data, and populate the cleanerList
     // Return 0 on success, non-zero on failure
 
-    ifstream file("5_projet_dataset/cleaners.csv");
+    ifstream file(filename);
     if (!file.is_open())
     {
         return FILE_ERROR; // Failed to open file

@@ -3,7 +3,14 @@
 **INSA Lyon 3IF UML-GL**
 
 **Authors:** Garoux, Hequet, McCurdy, Lafon de la Laurencie, Peyrot.  
-  
+
+---
+
+# 🧪 Running project
+```bash
+# Go to project root and run :
+make && ./app_exe
+```
 
 ---
 
