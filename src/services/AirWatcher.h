@@ -139,13 +139,11 @@ protected:
 
     unordered_map<string, Attribute> attributes;
     unordered_map<string, vector<Measurement>> measurements;
-    unordered_map<string, Sensor> sensors;
-    unordered_map<string, Cleaner> cleaners;
-    list<Sensor> sensorslist;
-    list<Cleaner> cleanerslist;
-    list<Provider> providerslist;
-    list<PrivateUser> privateUserslist;
-    list<User> userslist;
+    unordered_map<string, Sensor> sensorslist;
+    unordered_map<string, Cleaner> cleanerslist;
+    unordered_map<string, Provider> providerslist;
+    unordered_map<string, PrivateUser> privateUserslist;
+    unordered_map<string, User> userslist;
 };
 
 //-------------------------------- Autres définitions dépendantes de <AirWatcher>

@@ -26,7 +26,7 @@ Menu::~Menu()
 
 // Méthodes (bloquante) pour afficher les menus
 
-MenuChoice Menu::mainMenu()
+MenuChoice Menu::mainMenu(MenuRights rights)
 {
     int choice;
     cout << endl;
@@ -38,8 +38,7 @@ MenuChoice Menu::mainMenu()
     cout << "5. Rechercher des capteurs similaires" << endl;
     cout << "6. Vérifier les capteurs en panne" << endl;
     cout << "7. Vérifier les capteurs non fiables" << endl;
-    cout << "8. Récompenser un utilisateur" << endl;
-    cout << "9. Quitter" << endl;
+    cout << "8. Quitter" << endl;
 
     bool invalidInput = false;
     do
@@ -113,62 +112,56 @@ tuple<double, double, time_t> Menu::pointAirQualityMenu()
     return make_tuple(latitude, longitude, dateTime);
 }
 
-string Menu::cleanerImpactMenu(const list<Cleaner> &cleaners)
+string Menu::cleanerImpactMenu(const unordered_map<string, Cleaner> &cleaners)
 {
     cout << "Impact des cleaners" << endl;
     return chooseCleanerSubMenu(cleaners);
 }
 
-string Menu::findSimilarSensorsMenu(const list<Sensor> &sensors)
+string Menu::findSimilarSensorsMenu(const unordered_map<string, Sensor> &sensors)
 {
     cout << "Recherche de capteurs similaires" << endl;
     return chooseSensorSubMenu(sensors);
 }
 
-string Menu::checkMalfunctionMenu(const list<Sensor> &sensors)
+string Menu::checkMalfunctionMenu(const unordered_map<string, Sensor> &sensors)
 {
     cout << "Vérification des capteurs en panne" << endl;
     return chooseSensorSubMenu(sensors);
 }
 
-string Menu::checkUnreliableMenu(const list<Sensor> &sensors, const list<User> &users)
+string Menu::checkUnreliableMenu(const unordered_map<string, Sensor> &sensors, const unordered_map<string, User> &users)
 {
     cout << "Vérification des capteurs non fiables" << endl;
     return chooseSensorSubMenu(sensors);
 }
 
-string Menu::awardPointsMenu(const list<User> &users)
-{
-    cout << "Récompense de points" << endl;
-    return chooseUserSubMenu(users);
-}
-
 // Méthodes pour afficher des informations
 
-void Menu::printSimilarSensors(const list<Sensor> &sensors)
+void Menu::printSimilarSensors(const unordered_map<string, Sensor> &sensors)
 {
     cout << "Capteurs similaires : " << endl;
     for (const auto &sensor : sensors)
     {
-        cout << sensor.toString() << endl;
+        cout << sensor.second.toString() << endl;
     }
 }
 
-void Menu::printMalfunctionSensors(const list<Sensor> &sensors)
+void Menu::printMalfunctionSensors(const unordered_map<string, Sensor> &sensors)
 {
     cout << "Capteurs en panne : " << endl;
     for (const auto &sensor : sensors)
     {
-        cout << sensor.toString() << endl;
+        cout << sensor.second.toString() << endl;
     }
 }
 
-void Menu::printUnreliableSensors(const list<Sensor> &sensors)
+void Menu::printUnreliableSensors(const unordered_map<string, Sensor> &sensors)
 {
     cout << "Capteurs non fiables : " << endl;
     for (const auto &sensor : sensors)
     {
-        cout << sensor.toString() << endl;
+        cout << sensor.second.toString() << endl;
     }
 }
 
@@ -197,13 +190,13 @@ void Menu::error(const string &message)
 
 // Protected
 
-string Menu::chooseSensorSubMenu(const list<Sensor> &sensors)
+string Menu::chooseSensorSubMenu(const unordered_map<string, Sensor> &sensors)
 {
     cout << "Choisissez un capteur : " << endl;
     int i = 1;
     for (const auto &sensor : sensors)
     {
-        cout << i++ << ". " << sensor.toString() << endl;
+        cout << i++ << ". " << sensor.second.toString() << endl;
     }
 
     int choice;
@@ -222,16 +215,16 @@ string Menu::chooseSensorSubMenu(const list<Sensor> &sensors)
 
     auto it = sensors.begin();
     advance(it, choice - 1);
-    return it->getSensorId();
+    return it->second.getSensorId();
 }
 
-string Menu::chooseCleanerSubMenu(const list<Cleaner> &cleaners)
+string Menu::chooseCleanerSubMenu(const unordered_map<string, Cleaner> &cleaners)
 {
     cout << "Choisissez un cleaner : " << endl;
     int i = 1;
     for (const auto &cleaner : cleaners)
     {
-        cout << i++ << ". " << cleaner.toString() << endl;
+        cout << i++ << ". " << cleaner.second.toString() << endl;
     }
 
     int choice;
@@ -250,16 +243,16 @@ string Menu::chooseCleanerSubMenu(const list<Cleaner> &cleaners)
 
     auto it = cleaners.begin();
     advance(it, choice - 1);
-    return it->getCleanerId();
+    return it->second.getCleanerId();
 }
 
-string Menu::chooseUserSubMenu(const list<User> &users)
+string Menu::chooseUserSubMenu(const unordered_map<string, User> &users)
 {
     cout << "Choisissez un utilisateur : " << endl;
     int i = 1;
     for (const auto &user : users)
     {
-        cout << i++ << ". " << user.toString() << endl;
+        cout << i++ << ". " << user.second.toString() << endl;
     }
 
     int choice;
@@ -278,5 +271,5 @@ string Menu::chooseUserSubMenu(const list<User> &users)
 
     auto it = users.begin();
     advance(it, choice - 1);
-    return it->getUserId();
+    return it->second.getUserId();
 }

@@ -43,10 +43,10 @@ float AirWatcher::calculateAirQuality(time_t startTime, time_t endTime, double r
 
     float averageAQI = 0;
     int count = 0;
-
-    for (auto &sensor : sensors)
+    for (auto &pair : sensorslist)
     {
-        if (sensor.second.checkDistance(latitude, longitude, radius))
+        Sensor &sensor = pair.second;
+        if (sensor.checkDistance(latitude, longitude, radius))
         {
             float airQuality = sensor.second.calculateAirQuality(startTime, endTime, measurements[sensor.second.getSensorId()]);
             if (airQuality > 0)
@@ -74,25 +74,26 @@ float AirWatcher::measureCleanerImpact(string cleanerId) const
     float improvement = 0.0;
 
     // Recherche du Cleaner correspondant
-    Cleaner cleaner = cleaners.at(cleanerId);
-    if (cleaner.getCleanerId().empty())
+    for (const auto &pair : cleanerslist)
     {
-        return -1; // Cleaner not found
-    }
-    else
-    {
-        startTime = cleaner.getStartTime();
-        stopTime = cleaner.getStopTime();
-        latitude = cleaner.getLatitude();
-        longitude = cleaner.getLongitude();
+        const Cleaner &cleaner = pair.second;
+        if (cleaner.getCleanerId() == cleanerId)
+        {
+            startTime = cleaner.getStartTime();
+            stopTime = cleaner.getStopTime();
+            latitude = cleaner.getLatitude();
+            longitude = cleaner.getLongitude();
+            break;
+        }
     }
 
     int count = 0;
 
     // Analyse des mesures pour calculer l'impact
-    for (auto &sensor : sensors)
+    for (const auto &pair : sensorslist)
     {
-        if (sensor.second.checkDistance(latitude, longitude, 10))
+        const Sensor &sensor = pair.second;
+        if (sensor.checkDistance(latitude, longitude, 10))
         {
             ++count;
             float beforeAQI = sensor.second.calculateAirQuality(startTime - 3600, startTime, measurements.at(sensor.second.getSensorId())); // 1 hour before
@@ -138,13 +139,15 @@ void AirWatcher::awardPoints(string userId)
 
 User AirWatcher::login(string userId, string password)
 {
-    for (const User &user : userslist)
+    for (const auto &pair : userslist)
     {
+        const User &user = pair.second;
         if (user.getUserId() == userId && user.connecter(password))
         {
             return user; // Return the user if login is successful
         }
     }
+
     menu.error("Login failed: Invalid user ID or password.");
     return User(""); // Return an invalid user if login fails
 }
@@ -212,7 +215,7 @@ void AirWatcher::loadData()
 
 void AirWatcher::startMenu()
 {
-    MenuChoice choice = menu.mainMenu();
+    MenuChoice choice = menu.mainMenu(MenuRights::NOT_LOGGED_IN);
     while (choice != MenuChoice::EXIT)
     {
         switch (choice)
@@ -245,7 +248,7 @@ void AirWatcher::startMenu()
             menu.error("Invalid choice");
             break;
         }
-        choice = menu.mainMenu();
+        choice = menu.mainMenu(MenuRights::NOT_LOGGED_IN);
     }
 }
 
