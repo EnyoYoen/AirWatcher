@@ -143,6 +143,7 @@ User AirWatcher::login(string userId, string password)
     User user = users.at(userId);
     if (user.getUserId().empty())
     {
+
         return User(""); // Return an invalid user if user ID is not found
     }
     if (user.connecter(password))
