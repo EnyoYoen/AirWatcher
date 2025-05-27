@@ -45,7 +45,7 @@ float AirWatcher::calculateAirQuality(time_t startTime, time_t endTime, double r
     int count = 0;
     for (auto &pair : sensors)
     {
-        Sensor sensor = it.second;
+        const Sensor &sensor = pair.second;
         if (sensor.checkDistance(latitude, longitude, radius))
         {
             float airQuality = sensor.calculateAirQuality(startTime, endTime, measurements[sensor.getSensorId()]);
@@ -74,17 +74,17 @@ float AirWatcher::measureCleanerImpact(string cleanerId) const
     float improvement = 0.0;
 
     // Recherche du Cleaner correspondant
-    for (const auto &pair : cleaners)
+    auto it = cleaners.find(cleanerId);
+    if (it == cleaners.end())
     {
         return -1; // Cleaner not found
     }
-    else
-    {
-        startTime = cleaner.getStartTime();
-        stopTime = cleaner.getStopTime();
-        latitude = cleaner.getLatitude();
-        longitude = cleaner.getLongitude();
-    }
+
+    const Cleaner &cleaner = it->second;
+    startTime = cleaner.getStartTime();
+    stopTime = cleaner.getStopTime();
+    latitude = cleaner.getLatitude();
+    longitude = cleaner.getLongitude();
 
     int count = 0;
 
@@ -114,7 +114,7 @@ float AirWatcher::measureCleanerImpact(string cleanerId) const
 
 bool AirWatcher::checkMalfunction(string sensorId)
 {
-    Sensor sensor = sensorslist.at(sensorId);
+    Sensor sensor = sensors.at(sensorId);
 
     // TODO
     return false;
@@ -141,11 +141,11 @@ User AirWatcher::login(string userId, string password)
 {
     for (const auto &pair : users)
     {
-        return User(""); // Return an invalid user if not found
-    }
-    if (user.connecter(password))
-    {
-        return user; // Return the user if login is successful
+        const User &user = pair.second;
+        if (user.connecter(password))
+        {
+            return user; // Return the user if login is successful
+        }
     }
 
     menu.error("Login failed: Invalid user ID or password.");
@@ -215,7 +215,7 @@ void AirWatcher::loadData()
 
 void AirWatcher::startMenu()
 {
-    MenuChoice choice = menu.mainMenu();
+    MenuChoice choice = menu.mainMenu(MenuRights::NOT_LOGGED_IN);
     while (choice != MenuChoice::EXIT)
     {
         switch (choice)
@@ -245,7 +245,7 @@ void AirWatcher::startMenu()
             menu.error("Invalid choice");
             break;
         }
-        choice = menu.mainMenu();
+        choice = menu.mainMenu(MenuRights::NOT_LOGGED_IN);
     }
 }
 
