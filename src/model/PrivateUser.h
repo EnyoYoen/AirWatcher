@@ -1,4 +1,3 @@
-
 /*************************************************************************
                            PrivateUser  -  description
                              -------------------
@@ -8,7 +7,7 @@
 *************************************************************************/
 
 //---------- Interface de la classe <PrivateUser> (fichier PrivateUser.h) ----------------
-#if ! defined ( PRIVATE_USER_H )
+#if !defined(PRIVATE_USER_H)
 #define PRIVATE_USER_H
 
 #include <string>
@@ -28,25 +27,24 @@
 
 class PrivateUser : public User
 {
-//----------------------------------------------------------------- PUBLIC
+    //----------------------------------------------------------------- PUBLIC
 
 public:
-//----------------------------------------------------- Méthodes publiques
+    //----------------------------------------------------- Méthodes publiques
     // type Méthode ( liste des paramètres );
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-
-//-------------------------------------------- Constructeurs - destructeur
-    PrivateUser (string id,  std::string pwd );
+    //-------------------------------------------- Constructeurs - destructeur
+    PrivateUser(string id);
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    virtual ~PrivateUser ( );
+    virtual ~PrivateUser();
     // Mode d'emploi :
     //
     // Contrat :
@@ -58,13 +56,11 @@ public:
     // Contrat :
     //
 
-
     void setReliable(bool value);
     // Mode d'emploi :
     // Accéder à 'reliable'
     // Contrat :
     //
-
 
     int getPoints();
     // Mode d'emploi :
@@ -78,13 +74,14 @@ public:
     //
 
     void addSensor(string sensorId);
+    bool connecter(string passwd) const override;
 
-//------------------------------------------------------------------ PRIVE
+    //------------------------------------------------------------------ PRIVE
 
 protected:
-//----------------------------------------------------- Méthodes protégées
+    //----------------------------------------------------- Méthodes protégées
 
-//----------------------------------------------------- Attributs protégés
+    //----------------------------------------------------- Attributs protégés
     bool reliable;
     int points;
     list<string> sensorIds;

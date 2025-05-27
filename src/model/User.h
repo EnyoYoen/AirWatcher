@@ -7,7 +7,7 @@
 *************************************************************************/
 
 //---------- Interface de la classe <User> (fichier User.h) ----------------
-#if ! defined ( USER_H )
+#if !defined(USER_H)
 #define USER_H
 
 //--------------------------------------------------- Interfaces utilisées
@@ -28,40 +28,37 @@ using namespace std;
 
 class User
 {
-//----------------------------------------------------------------- PUBLIC
-
+    //----------------------------------------------------------------- PUBLIC
 
 public:
-      User(string id, string mdp);
-      // Mode d'emploi (constructeur de copie) :
-      //
-      // Contrat :
-      //
+    User(string id);
+    // Mode d'emploi (constructeur de copie) :
+    //
+    // Contrat :
+    //
 
-      User(const User& unUser);
-      // Mode d'emploi (constructeur de copie) :
-      //
-      // Contrat :
-      //
+    User(const User &unUser);
+    // Mode d'emploi (constructeur de copie) :
+    //
+    // Contrat :
+    //
 
-      string toString() const;
-      string getUserId() const;
+    string toString() const;
+    string getUserId() const;
 
-      bool connecter(string passwd) const;
-      // Mode d'emploi (constructeur de copie) :
-      //        Verifie si le mot de passe est correcte
-      // Contrat :
-      //
-      ~User();
-      // Mode d'emploi (constructeur de copie) :
-      //
-      // Contrat :
-      //
-  private:
-      
-      string userId;
-      string password;
+    virtual bool connecter(string passwd) const;
 
+    // Mode d'emploi (constructeur de copie) :
+    //        Verifie si le mot de passe est correcte
+    // Contrat :
+    //
+    ~User();
+    // Mode d'emploi (constructeur de copie) :
+    //
+    // Contrat :
+    //
+private:
+    string userId;
 };
 
 //-------------------------------- Autres définitions dépendantes de <Xxx>

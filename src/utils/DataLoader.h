@@ -11,6 +11,7 @@
 #include "../model/Sensor.h"
 #include "../model/Measurement.h"
 #include "../model/User.h"
+#include "../model/PrivateUser.h"
 #include "../model/Provider.h"
 #include "../model/Cleaner.h"
 #include "../model/Attribute.h"
@@ -30,7 +31,7 @@ public:
     static int loadSensors(list<Sensor> &sensorList);
     static int loadMeasurements(unordered_map<string, vector<Measurement>> &measurements, unordered_map<string, Attribute> &attributes);
     static int loadProviders(list<Provider> &providerList, list<Cleaner> &cleanerList);
-    static int loadUsers(list<User> &userList);
+    static int loadUsers(list<User> &userList, list<PrivateUser> &privateUserList);
 
     enum LoadError
     {

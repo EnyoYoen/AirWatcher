@@ -6,8 +6,10 @@
     e-mail               : $EMAIL$
 *************************************************************************/
 
+#include "User.h"
+
 //---------- Interface de la classe <Admin> (fichier Admin.h) ----------------
-#if ! defined ( ADMIN_H )
+#if !defined(ADMIN_H)
 #define ADMIN_H
 
 //--------------------------------------------------- Interfaces utilisées
@@ -22,55 +24,54 @@
 //
 //------------------------------------------------------------------------
 
-class Admin
+class Admin : public User
 {
-//----------------------------------------------------------------- PUBLIC
+    //----------------------------------------------------------------- PUBLIC
 
 public:
-//----------------------------------------------------- Méthodes publiques
+    //----------------------------------------------------- Méthodes publiques
     // type Méthode ( liste des paramètres );
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-
-//------------------------------------------------- Surcharge d'opérateurs
-    Admin & operator = ( const Admin & unAdmin );
+    //------------------------------------------------- Surcharge d'opérateurs
+    Admin &operator=(const Admin &unAdmin);
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-
-//-------------------------------------------- Constructeurs - destructeur
-    Admin ( const Admin & unAdmin );
+    //-------------------------------------------- Constructeurs - destructeur
+    Admin(const Admin &unAdmin);
     // Mode d'emploi (constructeur de copie) :
     //
     // Contrat :
     //
 
-    Admin ( );
+    Admin();
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    virtual ~Admin ( );
+    virtual ~Admin();
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-//------------------------------------------------------------------ PRIVE
+    virtual bool connecter(string passwd) const override;
 
-//----------------------------------------------------- Méthodes protégées
+    //------------------------------------------------------------------ PRIVE
+protected:
+    string password;
+    //----------------------------------------------------- Méthodes protégées
 
-//----------------------------------------------------- Attributs protégés
-
+    //----------------------------------------------------- Attributs protégés
 };
 
 //-------------------------------- Autres définitions dépendantes de <Admin>
 
 #endif // ADMIN_H
-

@@ -129,7 +129,7 @@ User AirWatcher::login(string userId, string password)
         }
     }
     menu.error("Login failed: Invalid user ID or password.");
-    return User("", ""); // Return an invalid user if login fails
+    return User(""); // Return an invalid user if login fails
 }
 
 //------------------------------------------------- Surcharge d'opérateurs
@@ -175,7 +175,7 @@ void AirWatcher::printError(const string &message, int errorCode)
 void AirWatcher::loadData()
 {
     printError("Loading sensors : ", DataLoader::loadSensors(sensorslist));
-    printError("Loading users : ", DataLoader::loadUsers(userslist));
+    printError("Loading users : ", DataLoader::loadUsers(userslist, privateUserslist));
     printError("Loading providers : ", DataLoader::loadProviders(providerslist, cleanerslist));
     printError("Loading measurements : ", DataLoader::loadMeasurements(measurements, attributes));
 
@@ -220,9 +220,6 @@ void AirWatcher::startMenu()
             break;
         case MenuChoice::CHECK_UNRELIABLE_MENU:
             menu.checkUnreliableMenu(sensorslist, userslist);
-            break;
-        case MenuChoice::AWARD_POINTS_MENU:
-            menu.awardPointsMenu(userslist);
             break;
         default:
             menu.error("Invalid choice");

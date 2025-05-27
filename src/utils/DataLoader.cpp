@@ -4,7 +4,7 @@
 #include <sstream>
 
 #include "DateTime.h"
-#include "../model/PrivateUser.h"
+#include "../model/Admin.h"
 
 int DataLoader::loadSensors(list<Sensor> &sensorList)
 {
@@ -178,7 +178,7 @@ int DataLoader::loadProviders(list<Provider> &providerList, list<Cleaner> &clean
     return NO_ERROR;
 }
 
-int DataLoader::loadUsers(list<User> &userList)
+int DataLoader::loadUsers(list<User> &userList, list<PrivateUser> &privateUserList)
 {
     // Implementation for loading users from CSV file
     // Open the CSV file, read each line, parse the data, and populate the userList
@@ -217,17 +217,21 @@ int DataLoader::loadUsers(list<User> &userList)
         const string &userId = pair.first;
         const list<string> &sensorIds = pair.second;
 
-        User user(userId, "");
         for (const string &sensorId : sensorIds)
         {
-            PrivateUser user(userId, "");
+            PrivateUser user(userId);
             for (const string &sensorId : sensorIds)
             {
                 user.addSensor(sensorId);
             }
             userList.push_back(user);
+            privateUserList.push_back(user);
         }
     }
+
+    // Add Admin user
+    Admin admin;
+    userList.push_back(admin);
 
     return NO_ERROR;
 }
