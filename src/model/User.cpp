@@ -23,10 +23,6 @@ using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-bool User::connecter(string passwd) const
-{
-    return (password == passwd) ? true : false;
-}
 
 string User::toString() const
 {
@@ -51,10 +47,9 @@ User::User(const User &unUser)
     cout << "Appel au constructeur de copie de <User>" << endl;
 #endif
     userId = unUser.userId;
-    password = unUser.password;
 } //----- Fin de Xxx (constructeur de copie)
 
-User::User(string id, string mdp)
+User::User(string id)
 // Algorithme :
 //
 {
@@ -62,7 +57,6 @@ User::User(string id, string mdp)
     cout << "Appel au constructeur de <User>" << endl;
 #endif
     userId = id;
-    password = mdp;
 } //----- Fin de User
 
 User::~User()
