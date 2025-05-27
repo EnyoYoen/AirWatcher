@@ -218,7 +218,7 @@ void AirWatcher::loadData()
 
 void AirWatcher::startMenu()
 {
-    MenuChoice choice = menu.mainMenu();
+    MenuChoice choice = menu.mainMenu(MenuRights::NOT_LOGGED_IN);
     while (choice != MenuChoice::EXIT)
     {
         switch (choice)
@@ -248,7 +248,7 @@ void AirWatcher::startMenu()
             menu.error("Invalid choice");
             break;
         }
-        choice = menu.mainMenu();
+        choice = menu.mainMenu(MenuRights::NOT_LOGGED_IN);
     }
 }
 
