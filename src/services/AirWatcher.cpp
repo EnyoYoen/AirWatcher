@@ -219,7 +219,7 @@ void AirWatcher::loadData()
         const string &userId = pair.first;
         for (const string &sensorId : privateUser.getSensorIds())
         {
-            sensorToUserId[sensorId] = userId;
+            sensorIdToUserId[sensorId] = userId;
         }
     }
 
@@ -229,7 +229,7 @@ void AirWatcher::loadData()
     menu.debug("Providers loaded: " + to_string(providers.size()));
     menu.debug("Cleaners loaded: " + to_string(cleaners.size()));
     menu.debug("Attributes loaded: " + to_string(attributes.size()));
-    menu.debug("Sensor to user ID mapping loaded: " + to_string(sensorToUserId.size()));
+    menu.debug("Sensor to user ID mapping loaded: " + to_string(sensorIdToUserId.size()));
 
     long long totalMeasurements = 0;
     for (auto &pair : measurements)
