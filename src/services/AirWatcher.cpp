@@ -138,13 +138,14 @@ void AirWatcher::awardPoints(string userId)
     // TODO
 }
 
-User AirWatcher::login(string userId, string password)
+optional<User> AirWatcher::login(string userId, string password)
 {
     User user = users.at(userId);
     if (user.getUserId().empty())
     {
 
-        return User(""); // Return an invalid user if user ID is not found
+        menu.error("Login failed: User ID not found.");
+        return optional<User>(); // Return an empty optional if user ID is not found
     }
     if (user.connecter(password))
     {
@@ -152,7 +153,7 @@ User AirWatcher::login(string userId, string password)
     }
 
     menu.error("Login failed: Invalid user ID or password.");
-    return User(""); // Return an invalid user if login fails
+    return optional<User>(); // Return an empty optional if login fails
 }
 
 //------------------------------------------------- Surcharge d'opérateurs
@@ -218,13 +219,31 @@ void AirWatcher::loadData()
 
 void AirWatcher::startMenu()
 {
-    MenuChoice choice = menu.mainMenu(MenuRights::NOT_LOGGED_IN);
+    pair<string, string> credentials;
+    optional<User> user;
+
+    MenuRights rights = MenuRights::NOT_LOGGED_IN;
+    MenuChoice choice = menu.mainMenu(rights);
+
     while (choice != MenuChoice::EXIT)
     {
         switch (choice)
         {
         case MenuChoice::LOGIN_MENU:
-            menu.loginMenu();
+            credentials = menu.loginMenu();
+            user = login(credentials.first, credentials.second);
+            if (user.has_value())
+            {
+                menu.debug("Login successful for user: " + user->getUserId());
+                if (dynamic_cast<PrivateUser *>(&*user))
+                {
+                    rights = MenuRights::PRIVATE_USER;
+                }
+                else
+                {
+                    rights = MenuRights::ADMIN;
+                }
+            }
             break;
         case MenuChoice::AIR_QUALITY_MENU:
             menu.airQualityMenu();
@@ -248,7 +267,7 @@ void AirWatcher::startMenu()
             menu.error("Invalid choice");
             break;
         }
-        choice = menu.mainMenu(MenuRights::NOT_LOGGED_IN);
+        choice = menu.mainMenu(rights);
     }
 }
 
