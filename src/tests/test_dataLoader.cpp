@@ -1,11 +1,11 @@
 #include <gtest/gtest.h>
 #include "../utils/DataLoader.h"
 
-//TODO : inclure
-/*
+// Tests avec les fichiers fournis
 TEST(TestDataLoader, loadSensorsOK) {
+
+    unordered_map<string, Sensor> sensorList;
     
-    list<Sensor> sensorList;
     int res = DataLoader::loadSensors(sensorList);
 
     // CSV won't be updated, the size is fixed
@@ -43,8 +43,9 @@ TEST(TestDataLoader, loadMeasurementsOK) {
 
 TEST(TestDataLoader, loadProvidersOK) {
 
-    list<Provider> providerList;
-    list<Cleaner> cleanerList;
+    unordered_map<string, Provider> providerList;
+    unordered_map<string, Cleaner> cleanerList;
+
     int res = DataLoader::loadProviders(providerList, cleanerList);
 
     EXPECT_EQ(res, DataLoader::NO_ERROR);
@@ -61,16 +62,17 @@ TEST(TestDataLoader, loadProvidersOK) {
 }
 
 TEST(TestDataLoader, loadUsersOK) {
+
+    unordered_map<string, User> userList; 
+    unordered_map<string, PrivateUser> privateUserList;
     
-    list<User> userList;
-    int res = DataLoader::loadUsers(userList);
+    int res = DataLoader::loadUsers(userList, privateUserList);
 
     EXPECT_EQ(res, DataLoader::NO_ERROR);
 
     // CSV won't be updated, the size is fixed
-    const int lengthUsersCSV = 2;
+    // 2 users + 1 admin
+    const int lengthUsersCSV = 3;
 
     EXPECT_EQ(userList.size(), lengthUsersCSV);
 }
-
-*/
