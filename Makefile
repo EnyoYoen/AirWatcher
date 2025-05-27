@@ -8,7 +8,7 @@ APP_MAIN = src/main.cpp
 APP_OBJ = $(APP_SRC:.cpp=.o) $(APP_MAIN:.cpp=.o)
 
 # Dependencies for the test exe
-TESTS = src/tests/test_provider.cpp src/tests/test_cleaner.cpp src/tests/test_user.cpp  src/tests/test_privateUser.cpp src/tests/test_dataLoader.cpp src/tests/test_sensor.cpp
+TESTS = src/tests/test_provider.cpp src/tests/test_cleaner.cpp src/tests/test_user.cpp  src/tests/test_privateUser.cpp src/tests/test_dataLoader.cpp src/tests/test_sensor.cpp src/tests/test_airWatcher.cpp
 TEST_SRC = $(TESTS) $(APP_SRC) googletest/googletest/src/gtest-all.cc
 TEST_OBJ = $(TEST_SRC:.cpp=.o)
 TEST_OBJ := $(TEST_OBJ:.cc=.o)
