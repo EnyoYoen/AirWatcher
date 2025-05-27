@@ -90,7 +90,7 @@ public:
     // Contrat :
     //
 
-    float measureCleanerImpact(string cleanerId) const;
+    float measureCleanerImpact(string cleanerId);
     // Mode d'emploi :
     //
     // Contrat :
@@ -114,7 +114,7 @@ public:
     // Contrat :
     //
 
-    void awardPoints(string userId);
+    void awardPoints(string sensorId);
     // Mode d'emploi :
     //
     // Contrat :

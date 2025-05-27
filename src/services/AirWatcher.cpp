@@ -48,6 +48,7 @@ float AirWatcher::calculateAirQuality(time_t startTime, time_t endTime, double r
         Sensor sensor = pair.second;
         if (sensor.checkDistance(latitude, longitude, radius))
         {
+            awardPoints(sensor.getSensorId()); // Award points for the sensor
             float airQuality = sensor.calculateAirQuality(startTime, endTime, measurements[sensor.getSensorId()]);
             if (airQuality > 0)
             {
@@ -64,7 +65,7 @@ float AirWatcher::calculateAirQuality(time_t startTime, time_t endTime, double r
     return (count > 0) ? (averageAQI / count) : -1;
 }
 
-float AirWatcher::measureCleanerImpact(string cleanerId) const
+float AirWatcher::measureCleanerImpact(string cleanerId)
 {
     clock_t startClock = clock();
     time_t startTime;
@@ -98,6 +99,7 @@ float AirWatcher::measureCleanerImpact(string cleanerId) const
         const string &sensorId = pair.first;
         if (sensor.checkDistance(latitude, longitude, 10))
         {
+            awardPoints(sensorId); // Award points for the sensor
             ++count;
             float beforeAQI = sensor.calculateAirQuality(startTime - 3600, startTime, measurements.at(sensorId)); // 1 hour before
             float afterAQI = sensor.calculateAirQuality(stopTime, stopTime + 3600, measurements.at(sensorId));    // 1 hour after
@@ -135,15 +137,15 @@ bool AirWatcher::checkUnreliableSensor(string sensorId, string userId)
     return false;
 }
 
-void AirWatcher::awardPoints(string userId)
+void AirWatcher::awardPoints(string sensorId)
 {
-    User user = users.at(userId);
-    if (user.getUserId().empty())
+    auto it = sensorIdToUserId.find(sensorId);
+    if (it == sensorIdToUserId.end())
     {
-        return;
+        return; // Sensor ID not found
     }
+    User &user = users[it->second];
     user.addPoints();
-    // TODO
 }
 
 optional<User> AirWatcher::login(string userId, string password)
@@ -151,7 +153,6 @@ optional<User> AirWatcher::login(string userId, string password)
     auto it = users.find(userId);
     if (it == users.end())
     {
-
         menu.error("Login failed: User ID not found.");
         return optional<User>(); // Return an empty optional if user ID is not found
     }
