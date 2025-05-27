@@ -14,6 +14,8 @@
 using namespace std;
 #include <iostream>
 #include <fstream>
+#include <algorithm>
+#include <numeric>
 
 //------------------------------------------------------ Include personnel
 #include "AirWatcher.h"
@@ -60,7 +62,7 @@ float AirWatcher::calculateAirQuality(time_t startTime, time_t endTime, double r
 
     clock_t endClock = clock();
     double elapsedTime = double(endClock - startClock) / CLOCKS_PER_SEC;
-    printf("Cleaner impact calculation took %.2f seconds.\n", elapsedTime);
+    menu.debug("Cleaner impact calculation took " + to_string(elapsedTime) + " seconds.\n");
 
     return (count > 0) ? (averageAQI / count) : -1;
 }
@@ -112,17 +114,80 @@ float AirWatcher::measureCleanerImpact(string cleanerId)
 
     clock_t endClock = clock();
     double elapsedTime = double(endClock - startClock) / CLOCKS_PER_SEC;
-    printf("Cleaner impact calculation took %.2f seconds.\n", elapsedTime);
+    menu.debug("Cleaner impact calculation took " + to_string(elapsedTime) + " seconds.\n");
 
     return (count > 0) ? (improvement / count) : -1; // Average improvement
 }
 
 bool AirWatcher::checkMalfunction(string sensorId)
 {
-    // Sensor sensor = sensors.at(sensorId);
+    const float threshold = 3.0;
 
-    // TODO
-    return false;
+    auto it = sensors.find(sensorId);
+    if (it == sensors.end())
+    {
+        menu.error("Sensor not found: " + sensorId);
+        return false;
+    }
+
+    Sensor sensor = it->second;
+    auto mit = measurements.find(sensorId);
+    if (mit == measurements.end())
+    {
+        return false;
+    }
+    vector<Measurement> &sensorMeasurements = mit->second;
+    sort(sensorMeasurements.begin(), sensorMeasurements.end(),
+         [](const Measurement &a, const Measurement &b)
+         {
+             return a.getTimestamp() < b.getTimestamp();
+         });
+
+    unsigned long long totalMeasurements = sensorMeasurements.size();
+    unsigned long long inconsistentMeasurements = 0;
+
+    unordered_map<string, float> attributeValues;
+    for (const Measurement &measurement : sensorMeasurements)
+    {
+        const string &attributeId = measurement.getAttribute();
+        float value = measurement.getValue();
+        if (attributeValues.find(attributeId) == attributeValues.end())
+        {
+            attributeValues[attributeId] = value;
+        }
+        else
+        {
+            if (abs(value - attributeValues[attributeId]) > threshold)
+            {
+                inconsistentMeasurements++;
+            }
+            attributeValues[attributeId] = value;
+        }
+    }
+
+    /*unordered_map<string, vector<float>> attributeAllValues;
+    for (const Measurement &measurement : sensorMeasurements)
+    {
+        attributeAllValues[measurement.getAttribute()].push_back(measurement.getValue());
+    }
+
+    for (const auto &pair : attributeAllValues)
+    {
+        const vector<float> &values = pair.second;
+        if (values.size() > 1)
+        {
+            float mean = accumulate(values.begin(), values.end(), 0.0f) / values.size();
+            float variance = 0.0f;
+            for (float v : values)
+            {
+                variance += (v - mean) * (v - mean);
+            }
+            variance /= (values.size() - 1);
+            menu.debug("Variance for " + pair.first + " on sensor " + sensorId + " : " + to_string(variance));
+        }
+    }*/
+
+    return (inconsistentMeasurements > totalMeasurements * 0.05);
 }
 
 float AirWatcher::pointAirQuality(double latitude, double longitude, time_t time)
@@ -274,7 +339,10 @@ void AirWatcher::startMenu()
             menu.findSimilarSensorsMenu(sensors);
             break;
         case MenuChoice::CHECK_MALFUNCTION_MENU:
-            menu.checkMalfunctionMenu(sensors);
+            if (checkMalfunction(menu.checkMalfunctionMenu(sensors)))
+            {
+                menu.debug("Sensor is malfunctioning.");
+            }
             break;
         case MenuChoice::CHECK_UNRELIABLE_MENU:
             menu.checkUnreliableMenu(sensors, users);

@@ -182,7 +182,7 @@ void Menu::setLogStream(ostream *stream)
     logStream = stream;
 }
 
-void Menu::debug(const string &message)
+void Menu::debug(const string &message) const
 {
     if (logStream)
     {
@@ -190,7 +190,7 @@ void Menu::debug(const string &message)
     }
 }
 
-void Menu::error(const string &message)
+void Menu::error(const string &message) const
 {
     if (logStream)
     {

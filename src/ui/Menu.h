@@ -93,8 +93,8 @@ public:
         (dans un stream spécifié par setLogStream)
     ************************************************/
     void setLogStream(ostream *stream);
-    void debug(const string &message);
-    void error(const string &message);
+    void debug(const string &message) const;
+    void error(const string &message) const;
 
 protected:
     string chooseSensorSubMenu(const unordered_map<string, Sensor> &sensors);
