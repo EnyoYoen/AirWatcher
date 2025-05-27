@@ -64,6 +64,10 @@ bool PrivateUser::connecter(string passwd) const
     return true;
 }
 
+PrivateUser::PrivateUser()
+{
+}
+
 PrivateUser::PrivateUser(string id)
     // Algorithme :
     : User(id), reliable(true), points(0)

@@ -22,6 +22,7 @@ public:
     Sensor &operator=(const Sensor &unSensor);
 
     Sensor(const Sensor &unSensor);
+    Sensor();
     Sensor(string sensorId, double latitude, double longitude);
     virtual ~Sensor();
 

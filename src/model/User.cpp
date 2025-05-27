@@ -36,6 +36,11 @@ string User::getUserId() const
     return this->userId;
 }
 
+bool User::connecter(string passwd) const
+{
+    return true;
+}
+
 //------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur
@@ -48,6 +53,10 @@ User::User(const User &unUser)
 #endif
     userId = unUser.userId;
 } //----- Fin de Xxx (constructeur de copie)
+
+User::User()
+{
+}
 
 User::User(string id)
 // Algorithme :
