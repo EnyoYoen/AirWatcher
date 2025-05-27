@@ -123,8 +123,15 @@ void AirWatcher::awardPoints(string userId)
 
 User AirWatcher::login(string userId, string password)
 {
-    // TODO
-    return User("todo", "todo");
+    for (const User &user : userslist)
+    {
+        if (user.getUserId() == userId && user.connecter(password))
+        {
+            return user; // Return the user if login is successful
+        }
+    }
+    menu.error("Login failed: Invalid user ID or password.");
+    return User("", ""); // Return an invalid user if login fails
 }
 
 //------------------------------------------------- Surcharge d'opérateurs

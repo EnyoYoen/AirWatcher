@@ -47,7 +47,7 @@ public:
       string toString() const;
       string getUserId() const;
 
-      bool Connecter(string passwd);
+      bool connecter(string passwd) const;
       // Mode d'emploi (constructeur de copie) :
       //        Verifie si le mot de passe est correcte
       // Contrat :
