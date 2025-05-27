@@ -43,12 +43,12 @@ float AirWatcher::calculateAirQuality(time_t startTime, time_t endTime, double r
 
     float averageAQI = 0;
     int count = 0;
-
-    for (auto &sensor : sensors)
+    for (auto &pair : sensors)
     {
-        if (sensor.second.checkDistance(latitude, longitude, radius))
+        const Sensor &sensor = pair.second;
+        if (sensor.checkDistance(latitude, longitude, radius))
         {
-            float airQuality = sensor.second.calculateAirQuality(startTime, endTime, measurements[sensor.second.getSensorId()]);
+            float airQuality = sensor.calculateAirQuality(startTime, endTime, measurements[sensor.getSensorId()]);
             if (airQuality > 0)
             {
                 averageAQI += airQuality;
@@ -74,29 +74,30 @@ float AirWatcher::measureCleanerImpact(string cleanerId) const
     float improvement = 0.0;
 
     // Recherche du Cleaner correspondant
-    Cleaner cleaner = cleaners.at(cleanerId);
-    if (cleaner.getCleanerId().empty())
+    auto it = cleaners.find(cleanerId);
+    if (it == cleaners.end())
     {
         return -1; // Cleaner not found
     }
-    else
-    {
-        startTime = cleaner.getStartTime();
-        stopTime = cleaner.getStopTime();
-        latitude = cleaner.getLatitude();
-        longitude = cleaner.getLongitude();
-    }
+
+    const Cleaner &cleaner = it->second;
+    startTime = cleaner.getStartTime();
+    stopTime = cleaner.getStopTime();
+    latitude = cleaner.getLatitude();
+    longitude = cleaner.getLongitude();
 
     int count = 0;
 
     // Analyse des mesures pour calculer l'impact
-    for (auto &sensor : sensors)
+    for (const auto &pair : sensors)
     {
-        if (sensor.second.checkDistance(latitude, longitude, 10))
+        const Sensor &sensor = pair.second;
+        const string &sensorId = pair.first;
+        if (sensor.checkDistance(latitude, longitude, 10))
         {
             ++count;
-            float beforeAQI = sensor.second.calculateAirQuality(startTime - 3600, startTime, measurements.at(sensor.second.getSensorId())); // 1 hour before
-            float afterAQI = sensor.second.calculateAirQuality(stopTime, stopTime + 3600, measurements.at(sensor.second.getSensorId()));    // 1 hour after
+            float beforeAQI = sensor.calculateAirQuality(startTime - 3600, startTime, measurements.at(sensorId)); // 1 hour before
+            float afterAQI = sensor.calculateAirQuality(stopTime, stopTime + 3600, measurements.at(sensorId));    // 1 hour after
             if (beforeAQI > 0 && afterAQI > 0)
             {
                 improvement += (beforeAQI - afterAQI) / beforeAQI * 100; // Percentage improvement
@@ -138,13 +139,15 @@ void AirWatcher::awardPoints(string userId)
 
 User AirWatcher::login(string userId, string password)
 {
-    for (const User &user : userslist)
+    for (const auto &pair : users)
     {
-        if (user.getUserId() == userId && user.connecter(password))
+        const User &user = pair.second;
+        if (user.connecter(password))
         {
             return user; // Return the user if login is successful
         }
     }
+
     menu.error("Login failed: Invalid user ID or password.");
     return User(""); // Return an invalid user if login fails
 }
@@ -191,15 +194,15 @@ void AirWatcher::printError(const string &message, int errorCode)
 
 void AirWatcher::loadData()
 {
-    printError("Loading sensors : ", DataLoader::loadSensors(sensorslist));
-    printError("Loading users : ", DataLoader::loadUsers(userslist, privateUserslist));
-    printError("Loading providers : ", DataLoader::loadProviders(providerslist, cleanerslist));
+    printError("Loading sensors : ", DataLoader::loadSensors(sensors));
+    printError("Loading users : ", DataLoader::loadUsers(users, privateUsers));
+    printError("Loading providers : ", DataLoader::loadProviders(providers, cleaners));
     printError("Loading measurements : ", DataLoader::loadMeasurements(measurements, attributes));
 
-    menu.debug("Sensors loaded: " + to_string(sensorslist.size()));
-    menu.debug("Users loaded: " + to_string(userslist.size()));
-    menu.debug("Providers loaded: " + to_string(providerslist.size()));
-    menu.debug("Cleaners loaded: " + to_string(cleanerslist.size()));
+    menu.debug("Sensors loaded: " + to_string(sensors.size()));
+    menu.debug("Users loaded: " + to_string(users.size()));
+    menu.debug("Providers loaded: " + to_string(providers.size()));
+    menu.debug("Cleaners loaded: " + to_string(cleaners.size()));
     menu.debug("Attributes loaded: " + to_string(attributes.size()));
 
     long long totalMeasurements = 0;
@@ -212,7 +215,7 @@ void AirWatcher::loadData()
 
 void AirWatcher::startMenu()
 {
-    MenuChoice choice = menu.mainMenu();
+    MenuChoice choice = menu.mainMenu(MenuRights::NOT_LOGGED_IN);
     while (choice != MenuChoice::EXIT)
     {
         switch (choice)
@@ -227,25 +230,22 @@ void AirWatcher::startMenu()
             menu.pointAirQualityMenu();
             break;
         case MenuChoice::CLEANER_IMPACT_MENU:
-            menu.cleanerImpactMenu(cleanerslist);
+            menu.cleanerImpactMenu(cleaners);
             break;
         case MenuChoice::FIND_SIMILAR_SENSORS_MENU:
-            menu.findSimilarSensorsMenu(sensorslist);
+            menu.findSimilarSensorsMenu(sensors);
             break;
         case MenuChoice::CHECK_MALFUNCTION_MENU:
-            menu.checkMalfunctionMenu(sensorslist);
+            menu.checkMalfunctionMenu(sensors);
             break;
         case MenuChoice::CHECK_UNRELIABLE_MENU:
-            menu.checkUnreliableMenu(sensorslist, userslist);
-            break;
-        case MenuChoice::AWARD_POINTS_MENU:
-            menu.awardPointsMenu(userslist);
+            menu.checkUnreliableMenu(sensors, users);
             break;
         default:
             menu.error("Invalid choice");
             break;
         }
-        choice = menu.mainMenu();
+        choice = menu.mainMenu(MenuRights::NOT_LOGGED_IN);
     }
 }
 
@@ -258,13 +258,13 @@ AirWatcher::AirWatcher(const AirWatcher &unAirWatcher)
     cout << "Appel au constructeur de copie de <AirWatcher>" << endl;
 #endif
     this->menu = unAirWatcher.menu;
-    this->sensorslist = unAirWatcher.sensorslist;
-    this->providerslist = unAirWatcher.providerslist;
-    this->cleanerslist = unAirWatcher.cleanerslist;
+    this->sensors = unAirWatcher.sensors;
+    this->providers = unAirWatcher.providers;
+    this->cleaners = unAirWatcher.cleaners;
     this->measurements = unAirWatcher.measurements;
     this->attributes = unAirWatcher.attributes;
-    this->privateUserslist = unAirWatcher.privateUserslist;
-    this->userslist = unAirWatcher.userslist;
+    this->privateUsers = unAirWatcher.privateUsers;
+    this->users = unAirWatcher.users;
 
     startMenu();
 } //----- Fin de AirWatcher (constructeur de copie)

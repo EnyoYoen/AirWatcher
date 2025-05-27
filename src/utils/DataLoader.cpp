@@ -6,7 +6,7 @@
 #include "DateTime.h"
 #include "../model/Admin.h"
 
-int DataLoader::loadSensors(list<Sensor> &sensorList, string filename)
+int DataLoader::loadSensors(unordered_map<string, Sensor> &sensorList, string filename)
 {
     // Implementation for loading sensors from CSV file
     // Open the CSV file, read each line, parse the data, and populate the sensorList
@@ -37,7 +37,7 @@ int DataLoader::loadSensors(list<Sensor> &sensorList, string filename)
                 return CONVERT_ERROR; // Failed to convert latitude/longitude to double
             }
             Sensor sensor(sensorId, latitude, longitude);
-            sensorList.push_back(sensor);
+            sensorList[sensorId] = sensor;
         }
         else
         {
@@ -110,7 +110,7 @@ int DataLoader::loadMeasurements(unordered_map<string, vector<Measurement>> &mea
     return NO_ERROR;
 }
 
-int DataLoader::loadProviders(list<Provider> &providerList, list<Cleaner> &cleanerList, string filename)
+int DataLoader::loadProviders(unordered_map<string, Provider> &providerList, unordered_map<string, Cleaner> &cleanerList, string filename)
 {
     // Implementation for loading providers from CSV file
     // Open the CSV file, read each line, parse the data, and populate the providerList
@@ -168,17 +168,17 @@ int DataLoader::loadProviders(list<Provider> &providerList, list<Cleaner> &clean
                 // Cleaner not found
             }
         }
-        providerList.push_back(provider);
+        providerList[providerId] = provider;
     }
     for (auto &pair : cleaners)
     {
-        cleanerList.push_back(pair.second);
+        cleanerList[pair.first] = pair.second;
     }
 
     return NO_ERROR;
 }
 
-int DataLoader::loadUsers(list<User> &userList, list<PrivateUser> &privateUserList, string filename)
+int DataLoader::loadUsers(unordered_map<string, User> &userList, unordered_map<string, PrivateUser> &privateUserList, string filename)
 {
     // Implementation for loading users from CSV file
     // Open the CSV file, read each line, parse the data, and populate the userList
@@ -224,14 +224,14 @@ int DataLoader::loadUsers(list<User> &userList, list<PrivateUser> &privateUserLi
             {
                 user.addSensor(sensorId);
             }
-            userList.push_back(user);
-            privateUserList.push_back(user);
+            userList[user.getUserId()] = user;
+            privateUserList[user.getUserId()] = user;
         }
     }
 
     // Add Admin user
     Admin admin;
-    userList.push_back(admin);
+    userList[admin.getUserId()] = admin;
 
     return NO_ERROR;
 }

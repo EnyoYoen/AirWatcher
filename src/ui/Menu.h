@@ -12,6 +12,7 @@
 #include <ostream>
 #include <list>
 #include <tuple>
+#include <unordered_map>
 
 #include "../model/Sensor.h"
 #include "../model/Cleaner.h"
@@ -28,8 +29,14 @@ enum MenuChoice
     FIND_SIMILAR_SENSORS_MENU,
     CHECK_MALFUNCTION_MENU,
     CHECK_UNRELIABLE_MENU,
-    AWARD_POINTS_MENU,
     EXIT
+};
+
+enum MenuRights
+{
+    NOT_LOGGED_IN = 0,
+    PRIVATE_USER,
+    ADMIN
 };
 
 class Menu
@@ -46,7 +53,7 @@ public:
         Méthodes (bloquante) pour afficher les menus
     ***************************************************/
     // Menu principal, qui permet de choisir entre les différents sous-menus et retourne le choix de l'utilisateur
-    MenuChoice mainMenu();
+    MenuChoice mainMenu(MenuRights rights);
 
     // Menu de connexion, qui demande le nom d'utilisateur et le mot de passe (et les retourne)
     pair<string, string> loginMenu();
@@ -60,30 +67,26 @@ public:
 
     // Menu d'impact des cleaners, qui demande quel cleaner on veut mesurer l'impact
     // et retourne l'id du cleaner
-    string cleanerImpactMenu(const list<Cleaner> &cleaners);
+    string cleanerImpactMenu(const unordered_map<string, Cleaner> &cleaners);
 
     // Menu de recherche de capteurs similaires, qui demande quel capteur on veut
     // et retourne l'id du capteur
-    string findSimilarSensorsMenu(const list<Sensor> &sensors);
+    string findSimilarSensorsMenu(const unordered_map<string, Sensor> &sensors);
 
     // Menu de recherche de capteurs en panne, qui demande quel capteur on veut
     // et retourne l'id du capteur
-    string checkMalfunctionMenu(const list<Sensor> &sensors);
+    string checkMalfunctionMenu(const unordered_map<string, Sensor> &sensors);
 
     // Menu de recherche de capteurs non fiables, qui demande quel capteur on veut
     // et retourne l'id du capteur
-    string checkUnreliableMenu(const list<Sensor> &sensors, const list<User> &users);
-
-    // Menu de recompense de points, qui demande quel utilisateur on veut récompenser
-    // et retourne l'id de l'utilisateur
-    string awardPointsMenu(const list<User> &users);
+    string checkUnreliableMenu(const unordered_map<string, Sensor> &sensors, const unordered_map<string, User> &users);
 
     /**********************************************
         Méthodes pour afficher des informations
     ***********************************************/
-    void printSimilarSensors(const list<Sensor> &sensors);
-    void printMalfunctionSensors(const list<Sensor> &sensors);
-    void printUnreliableSensors(const list<Sensor> &sensors);
+    void printSimilarSensors(const unordered_map<string, Sensor> &sensors);
+    void printMalfunctionSensors(const unordered_map<string, Sensor> &sensors);
+    void printUnreliableSensors(const unordered_map<string, Sensor> &sensors);
 
     /************************************************
             Méthodes pour log des messages
@@ -94,9 +97,9 @@ public:
     void error(const string &message);
 
 protected:
-    string chooseSensorSubMenu(const list<Sensor> &sensors);
-    string chooseCleanerSubMenu(const list<Cleaner> &cleaners);
-    string chooseUserSubMenu(const list<User> &users);
+    string chooseSensorSubMenu(const unordered_map<string, Sensor> &sensors);
+    string chooseCleanerSubMenu(const unordered_map<string, Cleaner> &cleaners);
+    string chooseUserSubMenu(const unordered_map<string, User> &users);
 
     ostream *logStream;
 };
