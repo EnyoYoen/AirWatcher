@@ -48,6 +48,7 @@ public:
     string toString() const;
     string getUserId() const;
 
+    void User::addPoints();
     virtual bool connecter(string passwd) const;
 
     // Mode d'emploi (constructeur de copie) :
@@ -61,6 +62,7 @@ public:
     //
 private:
     string userId;
+    int points = 0; // Points awarded to the user
 };
 
 //-------------------------------- Autres définitions dépendantes de <Xxx>

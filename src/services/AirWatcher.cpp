@@ -74,13 +74,15 @@ float AirWatcher::measureCleanerImpact(string cleanerId) const
     float improvement = 0.0;
 
     // Recherche du Cleaner correspondant
-    Cleaner cleaner = cleaners.at(cleanerId);
-    if (cleaner.getCleanerId().empty())
+    auto it = cleaners.find(cleanerId);
+    if (it == cleaners.end())
     {
         return -1; // Cleaner not found
     }
+    // Get the key (cleanerId)
     else
     {
+        Cleaner cleaner = it->second;
         startTime = cleaner.getStartTime();
         stopTime = cleaner.getStopTime();
         latitude = cleaner.getLatitude();
@@ -115,7 +117,7 @@ float AirWatcher::measureCleanerImpact(string cleanerId) const
 
 bool AirWatcher::checkMalfunction(string sensorId)
 {
-    Sensor sensor = sensors.at(sensorId);
+    // Sensor sensor = sensors.at(sensorId);
 
     // TODO
     return false;
@@ -135,18 +137,25 @@ bool AirWatcher::checkUnreliableSensor(string sensorId, string userId)
 
 void AirWatcher::awardPoints(string userId)
 {
+    User user = users.at(userId);
+    if (user.getUserId().empty())
+    {
+        return;
+    }
+    user.addPoints();
     // TODO
 }
 
 optional<User> AirWatcher::login(string userId, string password)
 {
-    User user = users.at(userId);
-    if (user.getUserId().empty())
+    auto it = users.find(userId);
+    if (it == users.end())
     {
 
         menu.error("Login failed: User ID not found.");
         return optional<User>(); // Return an empty optional if user ID is not found
     }
+    User user = it->second;
     if (user.connecter(password))
     {
         return user; // Return the user if login is successful
