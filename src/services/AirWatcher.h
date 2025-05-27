@@ -18,6 +18,7 @@
 #include <cstdbool>
 #include <ctime>
 #include <unordered_map>
+#include <optional>
 
 #include "../model/Sensor.h"
 #include "../model/PrivateUser.h"
@@ -119,7 +120,7 @@ public:
     // Contrat :
     //
 
-    User login(string userId, string password);
+    optional<User> login(string userId, string password);
     // Mode d'emploi :
     //
     // Contrat :

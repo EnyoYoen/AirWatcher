@@ -28,17 +28,27 @@ Menu::~Menu()
 
 MenuChoice Menu::mainMenu(MenuRights rights)
 {
+    const vector<string> menuOptions = {
+        "Connexion",
+        "Qualité de l'air",
+        "Qualité de l'air à un point",
+        "Impact des cleaners",
+        "Rechercher des capteurs similaires",
+        "Vérifier les capteurs en panne",
+        "Vérifier les capteurs non fiables",
+        "Quitter"};
+
+    int maxOptions = MenuRights::NOT_LOGGED_IN == rights ? 2 : MenuRights::PRIVATE_USER == rights ? 4
+                                                                                                  : 8;
+
     int choice;
     cout << endl;
     cout << "Menu principal : " << endl;
-    cout << "1. Connexion" << endl;
-    cout << "2. Qualité de l'air" << endl;
-    cout << "3. Qualité de l'air à un point" << endl;
-    cout << "4. Impact des cleaners" << endl;
-    cout << "5. Rechercher des capteurs similaires" << endl;
-    cout << "6. Vérifier les capteurs en panne" << endl;
-    cout << "7. Vérifier les capteurs non fiables" << endl;
-    cout << "8. Quitter" << endl;
+    for (size_t i = 0; i < maxOptions - 1; ++i)
+    {
+        cout << i + 1 << ". " << menuOptions[i] << endl;
+    }
+    cout << maxOptions << ". " << menuOptions.back() << endl;
 
     bool invalidInput = false;
     do
@@ -50,10 +60,10 @@ MenuChoice Menu::mainMenu(MenuRights rights)
         cin >> choice;
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        invalidInput = choice < 1 || choice > 9 || cin.fail();
+        invalidInput = choice < 1 || choice > maxOptions || cin.fail();
     } while (invalidInput);
 
-    return static_cast<MenuChoice>(choice);
+    return static_cast<MenuChoice>(choice == maxOptions ? MenuChoice::EXIT : choice);
 }
 
 pair<string, string> Menu::loginMenu()
