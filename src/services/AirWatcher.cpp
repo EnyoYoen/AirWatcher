@@ -45,7 +45,7 @@ float AirWatcher::calculateAirQuality(time_t startTime, time_t endTime, double r
     int count = 0;
     for (auto &pair : sensors)
     {
-        Sensor sensor = it.second;
+        Sensor sensor = pair.second;
         if (sensor.checkDistance(latitude, longitude, radius))
         {
             float airQuality = sensor.calculateAirQuality(startTime, endTime, measurements[sensor.getSensorId()]);
@@ -74,7 +74,8 @@ float AirWatcher::measureCleanerImpact(string cleanerId) const
     float improvement = 0.0;
 
     // Recherche du Cleaner correspondant
-    for (const auto &pair : cleaners)
+    Cleaner cleaner = cleaners.at(cleanerId);
+    if (cleaner.getCleanerId().empty())
     {
         return -1; // Cleaner not found
     }
@@ -114,7 +115,7 @@ float AirWatcher::measureCleanerImpact(string cleanerId) const
 
 bool AirWatcher::checkMalfunction(string sensorId)
 {
-    Sensor sensor = sensorslist.at(sensorId);
+    Sensor sensor = sensors.at(sensorId);
 
     // TODO
     return false;
@@ -139,9 +140,10 @@ void AirWatcher::awardPoints(string userId)
 
 User AirWatcher::login(string userId, string password)
 {
-    for (const auto &pair : users)
+    User user = users.at(userId);
+    if (user.getUserId().empty())
     {
-        return User(""); // Return an invalid user if not found
+        return User(""); // Return an invalid user if user ID is not found
     }
     if (user.connecter(password))
     {
