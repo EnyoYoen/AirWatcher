@@ -34,6 +34,14 @@ Sensor::Sensor(const Sensor &unSensor)
     this->reliable = unSensor.reliable;
 }
 
+Sensor::Sensor()
+{
+    this->sensorId = "";
+    this->latitude = 0.0;
+    this->longitude = 0.0;
+    this->reliable = true;
+}
+
 Sensor::Sensor(string sensorId, double latitude, double longitude)
 {
     this->sensorId = sensorId;

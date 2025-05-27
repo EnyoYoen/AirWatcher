@@ -38,6 +38,8 @@ public:
     //
 
     //-------------------------------------------- Constructeurs - destructeur
+    PrivateUser();
+
     PrivateUser(string id);
     // Mode d'emploi :
     //

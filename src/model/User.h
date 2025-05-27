@@ -31,6 +31,8 @@ class User
     //----------------------------------------------------------------- PUBLIC
 
 public:
+    User();
+
     User(string id);
     // Mode d'emploi (constructeur de copie) :
     //
