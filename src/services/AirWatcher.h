@@ -77,7 +77,7 @@ public:
     // Contrat :
     //
 
-    list<Sensor> findSimilarSensors(long sensorId);
+    list<Sensor> findSimilarSensors(string sensorId);
     // Mode d'emploi :
     //
     // Contrat :
@@ -95,7 +95,7 @@ public:
     // Contrat :
     //
 
-    bool checkMalfunction(long sensorId);
+    bool checkMalfunction(string sensorId);
     // Mode d'emploi :
     //
     // Contrat :
@@ -107,19 +107,19 @@ public:
     // Contrat :
     //
 
-    bool checkUnreliableSensor(long sensorId, long userId);
+    bool checkUnreliableSensor(string sensorId, string userId);
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    void awardPoints(long userId);
+    void awardPoints(string userId);
     // Mode d'emploi :
     //
     // Contrat :
     //
 
-    User login(long userId, string password);
+    User login(string userId, string password);
     // Mode d'emploi :
     //
     // Contrat :
