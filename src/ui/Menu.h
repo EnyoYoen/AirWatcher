@@ -28,8 +28,14 @@ enum MenuChoice
     FIND_SIMILAR_SENSORS_MENU,
     CHECK_MALFUNCTION_MENU,
     CHECK_UNRELIABLE_MENU,
-    AWARD_POINTS_MENU,
     EXIT
+};
+
+enum MenuRights
+{
+    NOT_LOGGED_IN = 0,
+    PRIVATE_USER,
+    ADMIN
 };
 
 class Menu
@@ -46,7 +52,7 @@ public:
         Méthodes (bloquante) pour afficher les menus
     ***************************************************/
     // Menu principal, qui permet de choisir entre les différents sous-menus et retourne le choix de l'utilisateur
-    MenuChoice mainMenu();
+    MenuChoice mainMenu(MenuRights rights);
 
     // Menu de connexion, qui demande le nom d'utilisateur et le mot de passe (et les retourne)
     pair<string, string> loginMenu();
@@ -73,10 +79,6 @@ public:
     // Menu de recherche de capteurs non fiables, qui demande quel capteur on veut
     // et retourne l'id du capteur
     string checkUnreliableMenu(const list<Sensor> &sensors, const list<User> &users);
-
-    // Menu de recompense de points, qui demande quel utilisateur on veut récompenser
-    // et retourne l'id de l'utilisateur
-    string awardPointsMenu(const list<User> &users);
 
     /**********************************************
         Méthodes pour afficher des informations

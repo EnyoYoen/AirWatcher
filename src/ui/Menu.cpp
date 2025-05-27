@@ -26,7 +26,7 @@ Menu::~Menu()
 
 // Méthodes (bloquante) pour afficher les menus
 
-MenuChoice Menu::mainMenu()
+MenuChoice Menu::mainMenu(MenuRights rights)
 {
     int choice;
     cout << endl;
@@ -38,8 +38,7 @@ MenuChoice Menu::mainMenu()
     cout << "5. Rechercher des capteurs similaires" << endl;
     cout << "6. Vérifier les capteurs en panne" << endl;
     cout << "7. Vérifier les capteurs non fiables" << endl;
-    cout << "8. Récompenser un utilisateur" << endl;
-    cout << "9. Quitter" << endl;
+    cout << "8. Quitter" << endl;
 
     bool invalidInput = false;
     do
@@ -135,12 +134,6 @@ string Menu::checkUnreliableMenu(const list<Sensor> &sensors, const list<User> &
 {
     cout << "Vérification des capteurs non fiables" << endl;
     return chooseSensorSubMenu(sensors);
-}
-
-string Menu::awardPointsMenu(const list<User> &users)
-{
-    cout << "Récompense de points" << endl;
-    return chooseUserSubMenu(users);
 }
 
 // Méthodes pour afficher des informations
