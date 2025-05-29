@@ -16,6 +16,7 @@ using namespace std;
 #include <fstream>
 #include <algorithm>
 #include <numeric>
+#include <array>
 
 //------------------------------------------------------ Include personnel
 #include "AirWatcher.h"
@@ -33,12 +34,97 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
+unordered_map<string, pair<float, float>> AirWatcher::varMean(const vector<Measurement> &measurements)
+{
+    unordered_map<string, pair<float, float>> result;
+
+    if (measurements.empty())
+        return result;
+
+    unordered_map<string, vector<float>> attributeValues;
+
+    for (const Measurement &measurement : measurements)
+    {
+        attributeValues[measurement.getAttribute()].push_back(measurement.getValue());
+    }
+
+    for (const auto &pair : attributeValues)
+    {
+        const string &attribute = pair.first;
+        const vector<float> &values = pair.second;
+
+        for (float value : values)
+        {
+            result[attribute].first += value;          // Sum
+            result[attribute].second += value * value; // Sum of squares
+        }
+
+        size_t n = values.size();
+
+        if (n > 0)
+        {
+            result[attribute].first /= n;                                                                                    // Mean
+            result[attribute].second = (result[attribute].second / n) - (result[attribute].first * result[attribute].first); // Variance
+        }
+        else
+        {
+            result[attribute] = {0.0, 0.0}; // If no values, set mean and variance to 0
+        }
+    }
+
+    return result;
+}
+
+bool AirWatcher::isSimilar(const Sensor &sensor1, const Sensor &sensor2, const vector<Measurement> &measurements1, const vector<Measurement> &measurements2)
+{
+    if (sensor1.getSensorId() == sensor2.getSensorId())
+    {
+        return false; // Same sensor, considered similar
+    }
+
+    auto varMean1 = varMean(measurements1);
+    auto varMean2 = varMean(measurements2);
+
+    float var1 = 0.0, var2 = 0.0;
+    float mean1 = 0.0, mean2 = 0.0;
+    string attrId;
+    for (const auto &attribute : varMean1)
+    {
+        attrId = attribute.first;
+        if (varMean2.find(attrId) != varMean2.end())
+        {
+            var1 += attribute.second.second; // Variance
+            mean1 += attribute.second.first; // Mean
+            var2 += varMean2[attrId].second; // Variance
+            mean2 += varMean2[attrId].first; // Mean
+        }
+    }
+
+    const double meanThreshold = 5.0; // adjust as needed
+    const double varThreshold = 0.5;  // adjust as needed
+
+    double varDiff = abs(var1 - var2);
+    double meanDiff = abs(mean1 - mean2);
+
+    if (varDiff > varThreshold || meanDiff > meanThreshold)
+    {
+        return false; // Sensors are not similar
+    }
+
+    return true;
+}
+
 list<Sensor> AirWatcher::findSimilarSensors(string sensorId)
 {
     Sensor sensor = sensors[sensorId];
     list<Sensor> similarSensors;
     for (const auto &pair : sensors)
     {
+        const Sensor &otherSensor = pair.second;
+        if (otherSensor.getSensorId() != sensorId && isSimilar(sensor, otherSensor, measurements[sensorId], measurements[otherSensor.getSensorId()]))
+        {
+            similarSensors.push_back(otherSensor);
+        }
     }
     return similarSensors;
 }
@@ -135,29 +221,16 @@ bool AirWatcher::checkMalfunction(string sensorId)
     }
     vector<Measurement> &sensorMeasurements = mit->second;
 
-    unordered_map<string, vector<float>> attributeAllValues;
-    for (const Measurement &measurement : sensorMeasurements)
-    {
-        attributeAllValues[measurement.getAttribute()].push_back(measurement.getValue());
-    }
+    auto varMeanResult = varMean(sensorMeasurements);
 
-    unordered_map<string, float> attributeVariances;
-    for (const auto &pair : attributeAllValues)
+    for (const auto &entry : varMeanResult)
     {
-        const vector<float> &values = pair.second;
-        if (values.size() > 1)
+        const string &attributeId = entry.first;
+        const pair<float, float> &varMeanPair = entry.second;
+
+        if (varMeanPair.second > threshold || varMeanPair.first < 0.0)
         {
-            float mean = accumulate(values.begin(), values.end(), 0.0f) / values.size();
-            float variance = 0.0f;
-            for (float v : values)
-            {
-                variance += (v - mean) * (v - mean);
-            }
-            variance /= (values.size() - 1);
-            if (variance > threshold)
-            {
-                return true;
-            }
+            return true; // Sensor is malfunctioning
         }
     }
 

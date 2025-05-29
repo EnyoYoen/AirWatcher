@@ -132,6 +132,8 @@ protected:
     void startMenu();
     void printError(const string &message, int errorCode);
     void loadData();
+    bool isSimilar(const Sensor &sensor1, const Sensor &sensor2, const vector<Measurement> &measurements1, const vector<Measurement> &measurements2);
+    unordered_map<string, pair<float, float>> varMean(const vector<Measurement> &measurements);
 
     Menu menu;
 
