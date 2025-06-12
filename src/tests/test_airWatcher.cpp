@@ -93,6 +93,33 @@ TEST(TestAirWatcher, affichageMenu)
     EXPECT_NE(actualOutput.find("9. Quitter"), std::string::npos);
 }
 
+TEST(TestAirWatcher, qualiteAir)
+{
+    std::istringstream input("1\nadmin\nadmin\n2\n2019-01-01 11:59:59\n2019-02-01 11:59:59\n44\n-1\n10\n9\n");
+
+    // Sauvegarde cin original
+    auto cin_backup = std::cin.rdbuf();
+
+    // Redirige cin vers notre input simulé
+    std::cin.rdbuf(input.rdbuf());
+
+    // Capture la sortie standard
+    std::ostringstream output;
+    auto cout_backup = std::cout.rdbuf(); // Sauvegarde std::cout
+    std::cout.rdbuf(output.rdbuf());
+
+    // Appelle la fonction qui attend l'entrée standard
+    AirWatcher aw;
+
+    // Restaure cin & cout
+    std::cin.rdbuf(cin_backup);
+    std::cout.rdbuf(cout_backup);
+
+    std::string actualOutput = output.str();
+    EXPECT_NE(actualOutput.find("Qualité de l'air moyenne : 67.235"), std::string::npos);
+}
+
+
 TEST(TestAirWatcher, banUser_UserExists)
 {
     std::istringstream input("1\nadmin\nadmin\n8\n1\n9\n");
