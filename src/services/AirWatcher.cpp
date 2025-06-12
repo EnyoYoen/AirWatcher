@@ -139,7 +139,7 @@ float AirWatcher::calculateAirQuality(time_t startTime, time_t endTime, double r
 
     float averageAQI = 0;
     int count = 0;
-    for (auto &pair : sensors)
+    for (const auto &pair : sensors)
     {
         const Sensor &sensor = pair.second;
         if (sensor.checkDistance(latitude, longitude, radius))
@@ -195,7 +195,7 @@ bool AirWatcher::measureCleanerImpact(string cleanerId, float *res)
             awardPoints(sensorId); // Award points for the sensor
             ++count;
             float beforeAQI = sensor.calculateAirQuality(startTime - 86400, startTime, measurements[sensorId]); // 1 day before
-            float afterAQI = sensor.calculateAirQuality(stopTime, stopTime + 86400, measurements.at(sensorId)); // 1 day after
+            float afterAQI = sensor.calculateAirQuality(stopTime, stopTime + 86400, measurements[sensorId]);    // 1 day after
             if (beforeAQI > 0 && afterAQI > 0)
             {
                 improvement += ((beforeAQI - afterAQI) / beforeAQI) * 100; // Percentage improvement
@@ -237,6 +237,7 @@ bool AirWatcher::checkMalfunction(string sensorId)
 
         if (varMeanPair.second > threshold || varMeanPair.first < 0.0)
         {
+            sensors[sensorId].banSensor(); // Ban the sensor if it is malfunctioning
             menu.debug("Finding malfunction for sensor " + sensorId + " took " + to_string(double(clock() - startClock) / CLOCKS_PER_SEC) + " seconds.\n");
             return true; // Sensor is malfunctioning
         }

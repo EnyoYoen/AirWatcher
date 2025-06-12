@@ -103,6 +103,7 @@ float Sensor::calculateAirQuality(time_t startTime, time_t endTime, vector<Measu
         if (measurement.getTimestamp() >= startTime && measurement.getTimestamp() <= endTime)
         {
             string attributeType = measurement.getAttribute();
+            printf("Processing measurement: %s", attributeType);
             if (attributeType == "PM10")
             {
                 totalPM10 += measurement.getValue();
