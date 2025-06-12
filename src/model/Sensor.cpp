@@ -66,6 +66,11 @@ string Sensor::getSensorId() const
     return sensorId;
 }
 
+bool Sensor::isReliable() const
+{
+    return reliable;
+}
+
 void Sensor::banSensor()
 {
     this->reliable = false;

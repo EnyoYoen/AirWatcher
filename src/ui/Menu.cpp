@@ -156,6 +156,10 @@ void Menu::printSimilarSensors(const list<Sensor> &sensors)
     {
         cout << sensor.toString() << endl;
     }
+    if (sensors.empty())
+    {
+        cout << "Aucun capteur similaire trouvé." << endl;
+    }
 }
 
 void Menu::printOneMalfunctionSensor(const Sensor &sensor, bool isMalfunctioning)
@@ -187,11 +191,14 @@ void Menu::printBannedUser(const User &user, bool isBanned)
     cout << "Utilisateur " << user.getUserId() << " : " << (isBanned ? "banni" : "non banni") << endl;
 }
 
-void Menu::printCleanerImpact(const Cleaner &cleaner, bool isValid, float * impact)
+void Menu::printCleanerImpact(const Cleaner &cleaner, bool isValid, float *impact)
 {
-    if (isValid) {
+    if (isValid)
+    {
         cout << "Impact du cleaner " << cleaner.getCleanerId() << " a modifié de " << *impact << " % la zone avoisinante" << endl;
-    } else {
+    }
+    else
+    {
         cout << "Le caclul de l'impact du cleaner " << cleaner.getCleanerId() << " a rencontré une erreur" << endl;
     }
 }

@@ -28,6 +28,7 @@ public:
 
     string toString() const;
     string getSensorId() const;
+    bool isReliable() const;
 
     void banSensor();
     bool checkDistance(double latitude, double longitude, double radius) const;
