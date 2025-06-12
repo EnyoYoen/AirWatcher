@@ -359,7 +359,7 @@ void AirWatcher::startMenu()
     string sensorId;
     string userId;
     string cleanerId;
-    tuple<time_t, time_t, double, double, double> QualiteAir;
+    tuple<time_t, time_t, double, double, double> airQualite;
 
     MenuRights rights = MenuRights::NOT_LOGGED_IN;
     MenuChoice choice = menu.mainMenu(rights);
@@ -386,8 +386,8 @@ void AirWatcher::startMenu()
             }
             break;
         case MenuChoice::AIR_QUALITY_MENU:
-            QualiteAir = menu.airQualityMenu();
-            menu.printAirQuality(calculateAirQuality(get<0>(QualiteAir), get<1>(QualiteAir), get<4>(QualiteAir), get<2>(QualiteAir), get<3>(QualiteAir)));
+            airQualite = menu.airQualityMenu();
+            menu.printQualiteAir(calculateAirQuality(get<0>(airQualite), get<1>(airQualite), get<4>(airQualite), get<2>(airQualite), get<3>(airQualite)));
             break;
         case MenuChoice::POINT_AIR_QUALITY_MENU:
             menu.pointAirQualityMenu();
