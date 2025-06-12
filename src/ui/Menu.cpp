@@ -82,17 +82,33 @@ tuple<time_t, time_t, double, double, double> Menu::airQualityMenu()
     time_t startTime, endTime;
     double latitude, longitude, radius;
 
-    cout << "Date de début (format : YYYY-MM-DD hh:mm:ss) : " <<endl;
+    cout << "Date de début (format : YYYY-MM-DD hh:mm:ss) : " << endl;
     string startDate;
-    cin.ignore(); 
     getline(cin, startDate);
     startTime = parseDateTime(startDate.c_str(), "%Y-%m-%d %H:%M:%S");
+    try
+    {
+        startTime = parseDateTime(startDate.c_str(), "%Y-%m-%d %H:%M:%S");
+    }
+    catch (const invalid_argument &e)
+    {
+        cerr << "Erreur : Format de date invalide. Veuillez réessayer." << endl;
+        startTime = 0; // Or handle appropriately
+    }
 
     cout << "Date de fin (format : YYYY-MM-DD hh:mm:ss) : " << endl;
     string endDate;
-    cin.ignore(); 
     getline(cin, endDate);
     endTime = parseDateTime(endDate.c_str(), "%Y-%m-%d %H:%M:%S");
+    try
+    {
+        endTime = parseDateTime(endDate.c_str(), "%Y-%m-%d %H:%M:%S");
+    }
+    catch (const invalid_argument &e)
+    {
+        cerr << "Erreur : Format de date invalide. Veuillez réessayer." << endl;
+        endTime = 0; // Or handle appropriately
+    }
 
     cout << "Latitude : ";
     cin >> latitude;
@@ -207,8 +223,8 @@ void Menu::printCleanerImpact(const Cleaner &cleaner, bool isValid, float *impac
 
 void Menu::printQualiteAir(float quali)
 {
-   
-    cout << "Qualité de l'air: " << quali  << endl;
+
+    cout << "Qualité de l'air: " << quali << endl;
 }
 
 // Méthodes de log
