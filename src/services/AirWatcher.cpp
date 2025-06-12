@@ -147,6 +147,7 @@ bool AirWatcher::checkMalfunction(string sensorId)
     unsigned long long inconsistentMeasurements = 0;
 
     unordered_map<string, float> attributeValues;
+    
     for (const Measurement &measurement : sensorMeasurements)
     {
         const string &attributeId = measurement.getAttribute();
