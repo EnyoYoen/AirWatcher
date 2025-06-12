@@ -82,17 +82,16 @@ tuple<time_t, time_t, double, double, double> Menu::airQualityMenu()
     time_t startTime, endTime;
     double latitude, longitude, radius;
 
-    cout << "Date de début (format : YYYY-MM-DD hh:mm:ss) : " <<endl;
+    cout << "Date de début (format : YYYY-MM-DD hh:mm:ss) : " << endl;
     string startDate;
-    cin.ignore(); 
     getline(cin, startDate);
     startTime = parseDateTime(startDate.c_str(), "%Y-%m-%d %H:%M:%S");
 
     cout << "Date de fin (format : YYYY-MM-DD hh:mm:ss) : " << endl;
     string endDate;
-    cin.ignore(); 
     getline(cin, endDate);
     endTime = parseDateTime(endDate.c_str(), "%Y-%m-%d %H:%M:%S");
+
 
     cout << "Latitude : ";
     cin >> latitude;
@@ -117,9 +116,9 @@ tuple<double, double, time_t> Menu::pointAirQualityMenu()
     cout << "Longitude : ";
     cin >> longitude;
 
-    cout << "Date de mesure (format : YYYY-MM-DD hh:mm:ss) : ";
+    cout << "Date de mesure (format : YYYY-MM-DD hh:mm:ss) : " << endl;
     string dateString;
-    cin >> dateString;
+    cin>> dateString;
     dateTime = parseDateTime(dateString.c_str(), "%Y-%m-%d %H:%M:%S");
 
     return make_tuple(latitude, longitude, dateTime);
