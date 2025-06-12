@@ -84,7 +84,6 @@ tuple<time_t, time_t, double, double, double> Menu::airQualityMenu()
     
     cout << "Date de début (format : YYYY-MM-DD hh:mm:ss) : ";
     string startDate;
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // vide le buffer au cas où
     std::getline(std::cin, startDate);
     startTime = parseDateTime(startDate.c_str(), "%Y-%m-%d %H:%M:%S");
 
