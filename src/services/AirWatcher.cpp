@@ -131,6 +131,8 @@ list<Sensor> AirWatcher::findSimilarSensors(string sensorId)
     return similarSensors;
 }
 
+// This function calculates the average air quality index (AQI) for sensors within a given radius and time range.
+// If no valid air quality data is found, the function returns -1.
 float AirWatcher::calculateAirQuality(time_t startTime, time_t endTime, double radius, double latitude, double longitude)
 {
     clock_t startClock = clock();
@@ -139,13 +141,13 @@ float AirWatcher::calculateAirQuality(time_t startTime, time_t endTime, double r
     int count = 0;
     for (auto &pair : sensors)
     {
-        Sensor sensor = pair.second;
+        const Sensor &sensor = pair.second;
         if (sensor.checkDistance(latitude, longitude, radius))
         {
-            awardPoints(sensor.getSensorId()); // Award points for the sensor
             float airQuality = sensor.calculateAirQuality(startTime, endTime, measurements[sensor.getSensorId()]);
             if (airQuality > 0)
             {
+                awardPoints(sensor.getSensorId()); // Award points for the sensor
                 averageAQI += airQuality;
                 count++;
             }
@@ -154,7 +156,7 @@ float AirWatcher::calculateAirQuality(time_t startTime, time_t endTime, double r
 
     clock_t endClock = clock();
     double elapsedTime = double(endClock - startClock) / CLOCKS_PER_SEC;
-    menu.debug("Cleaner impact calculation took " + to_string(elapsedTime) + " seconds.\n");
+    menu.debug("Air quality calculation took " + to_string(elapsedTime) + " seconds.\n");
 
     return (count > 0) ? (averageAQI / count) : -1;
 }
@@ -192,8 +194,8 @@ bool AirWatcher::measureCleanerImpact(string cleanerId, float *res)
         {
             awardPoints(sensorId); // Award points for the sensor
             ++count;
-            float beforeAQI = sensor.calculateAirQuality(startTime - 86400, startTime, measurements.at(sensorId)); // 1 day before
-            float afterAQI = sensor.calculateAirQuality(stopTime, stopTime + 86400, measurements.at(sensorId));    // 1 day after
+            float beforeAQI = sensor.calculateAirQuality(startTime - 86400, startTime, measurements[sensorId]); // 1 day before
+            float afterAQI = sensor.calculateAirQuality(stopTime, stopTime + 86400, measurements.at(sensorId)); // 1 day after
             if (beforeAQI > 0 && afterAQI > 0)
             {
                 improvement += ((beforeAQI - afterAQI) / beforeAQI) * 100; // Percentage improvement
