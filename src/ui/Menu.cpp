@@ -187,9 +187,13 @@ void Menu::printBannedUser(const User &user, bool isBanned)
     cout << "Utilisateur " << user.getUserId() << " : " << (isBanned ? "banni" : "non banni") << endl;
 }
 
-void Menu::printCleanerImpact(const Cleaner &cleaner, float impact)
+void Menu::printCleanerImpact(const Cleaner &cleaner, bool isValid, float * impact)
 {
-    cout << "Impact du cleaner " << cleaner.getCleanerId() << " : " << impact << endl;
+    if (isValid) {
+        cout << "Impact du cleaner " << cleaner.getCleanerId() << " a modifié de " << *impact << " % la zone avoisinante" << endl;
+    } else {
+        cout << "Le caclul de l'impact du cleaner " << cleaner.getCleanerId() << " a rencontré une erreur" << endl;
+    }
 }
 
 // Méthodes de log

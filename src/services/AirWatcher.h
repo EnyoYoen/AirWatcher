@@ -93,7 +93,7 @@ protected:
     // Contrat :
     //
 
-    float measureCleanerImpact(string cleanerId);
+    bool measureCleanerImpact(string cleanerId, float * res);
     // Mode d'emploi :
     //
     // Contrat :

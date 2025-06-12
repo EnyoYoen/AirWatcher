@@ -157,7 +157,7 @@ float AirWatcher::calculateAirQuality(time_t startTime, time_t endTime, double r
     return (count > 0) ? (averageAQI / count) : -1;
 }
 
-float AirWatcher::measureCleanerImpact(string cleanerId)
+bool AirWatcher::measureCleanerImpact(string cleanerId, float * res)
 {
     clock_t startClock = clock();
     time_t startTime;
@@ -170,17 +170,14 @@ float AirWatcher::measureCleanerImpact(string cleanerId)
     auto it = cleaners.find(cleanerId);
     if (it == cleaners.end())
     {
-        return -1; // Cleaner not found
+        return false; // Cleaner not found
     }
     // Get the key (cleanerId)
-    else
-    {
-        Cleaner cleaner = it->second;
-        startTime = cleaner.getStartTime();
-        stopTime = cleaner.getStopTime();
-        latitude = cleaner.getLatitude();
-        longitude = cleaner.getLongitude();
-    }
+    Cleaner cleaner = it->second;
+    startTime = cleaner.getStartTime();
+    stopTime = cleaner.getStopTime();
+    latitude = cleaner.getLatitude();
+    longitude = cleaner.getLongitude();
 
     int count = 0;
 
@@ -189,15 +186,15 @@ float AirWatcher::measureCleanerImpact(string cleanerId)
     {
         const Sensor &sensor = pair.second;
         const string &sensorId = pair.first;
-        if (sensor.checkDistance(latitude, longitude, 10))
+        if (sensor.checkDistance(latitude, longitude, 100))
         {
             awardPoints(sensorId); // Award points for the sensor
             ++count;
-            float beforeAQI = sensor.calculateAirQuality(startTime - 3600, startTime, measurements.at(sensorId)); // 1 hour before
-            float afterAQI = sensor.calculateAirQuality(stopTime, stopTime + 3600, measurements.at(sensorId));    // 1 hour after
+            float beforeAQI = sensor.calculateAirQuality(startTime - 86400, startTime, measurements.at(sensorId)); // 1 day before
+            float afterAQI = sensor.calculateAirQuality(stopTime, stopTime + 86400, measurements.at(sensorId));    // 1 day after
             if (beforeAQI > 0 && afterAQI > 0)
             {
-                improvement += (beforeAQI - afterAQI) / beforeAQI * 100; // Percentage improvement
+                improvement += ((beforeAQI - afterAQI) / beforeAQI) * 100; // Percentage improvement
             }
         }
     }
@@ -206,7 +203,11 @@ float AirWatcher::measureCleanerImpact(string cleanerId)
     double elapsedTime = double(endClock - startClock) / CLOCKS_PER_SEC;
     menu.debug("Cleaner impact calculation took " + to_string(elapsedTime) + " seconds.\n");
 
-    return (count > 0) ? (improvement / count) : -1; // Average improvement
+    if (count > 0) {
+        *res = improvement / count; // Average improvement
+    }
+
+    return (count > 0); 
 }
 
 bool AirWatcher::checkMalfunction(string sensorId)
@@ -358,6 +359,7 @@ void AirWatcher::startMenu()
 
     while (choice != MenuChoice::EXIT)
     {
+        float res = 0.0;
         switch (choice)
         {
         case MenuChoice::LOGIN_MENU:
@@ -384,7 +386,7 @@ void AirWatcher::startMenu()
             break;
         case MenuChoice::CLEANER_IMPACT_MENU:
             cleanerId = menu.cleanerImpactMenu(cleaners);
-            menu.printCleanerImpact(cleaners[cleanerId], measureCleanerImpact(cleanerId));
+            menu.printCleanerImpact(cleaners[cleanerId], measureCleanerImpact(cleanerId, &res), &res);
             break;
         case MenuChoice::FIND_SIMILAR_SENSORS_MENU:
             sensorId = menu.findSimilarSensorsMenu(sensors);
