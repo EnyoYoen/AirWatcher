@@ -78,6 +78,9 @@ public:
     // Contrat :
     //
 
+    //------------------------------------------------------------------ PRIVE
+protected:
+    //----------------------------------------------------- Méthodes protégées
     list<Sensor> findSimilarSensors(string sensorId);
     // Mode d'emploi :
     //
@@ -90,7 +93,7 @@ public:
     // Contrat :
     //
 
-    float measureCleanerImpact(string cleanerId);
+    bool measureCleanerImpact(string cleanerId, float * res);
     // Mode d'emploi :
     //
     // Contrat :
@@ -120,15 +123,17 @@ public:
     // Contrat :
     //
 
-    //------------------------------------------------------------------ PRIVE
+    list<Sensor> checkMalfunctionSensors();
 
-protected:
-    //----------------------------------------------------- Méthodes protégées
+    bool banUser(string userId);
+
+    //----------------------------------------------------- Attributs protégés
+
     void startMenu();
     void printError(const string &message, int errorCode);
     void loadData();
-
-    //----------------------------------------------------- Attributs protégés
+    bool isSimilar(const Sensor &sensor1, const Sensor &sensor2, const vector<Measurement> &measurements1, const vector<Measurement> &measurements2);
+    unordered_map<string, pair<float, float>> varMean(const vector<Measurement> &measurements);
 
     Menu menu;
 

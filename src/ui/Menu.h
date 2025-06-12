@@ -17,6 +17,7 @@
 #include "../model/Sensor.h"
 #include "../model/Cleaner.h"
 #include "../model/User.h"
+#include "../model/PrivateUser.h"
 
 using namespace std;
 
@@ -27,8 +28,9 @@ enum MenuChoice
     POINT_AIR_QUALITY_MENU,
     CLEANER_IMPACT_MENU,
     FIND_SIMILAR_SENSORS_MENU,
+    CHECK_ONE_MALFUNCTION_MENU,
     CHECK_MALFUNCTION_MENU,
-    CHECK_UNRELIABLE_MENU,
+    BAN_USER_MENU,
     EXIT
 };
 
@@ -75,18 +77,21 @@ public:
 
     // Menu de recherche de capteurs en panne, qui demande quel capteur on veut
     // et retourne l'id du capteur
-    string checkMalfunctionMenu(const unordered_map<string, Sensor> &sensors);
+    string checkOneMalfunctionMenu(const unordered_map<string, Sensor> &sensors);
 
-    // Menu de recherche de capteurs non fiables, qui demande quel capteur on veut
-    // et retourne l'id du capteur
-    string checkUnreliableMenu(const unordered_map<string, Sensor> &sensors, const unordered_map<string, User> &users);
+    // Menu de bannissement d'un utilisateur, qui demande quel utilisateur on veut bannir
+    // et retourne l'id de l'utilisateur
+    string banUserMenu(const unordered_map<string, PrivateUser> &users);
 
     /**********************************************
         Méthodes pour afficher des informations
     ***********************************************/
-    void printSimilarSensors(const unordered_map<string, Sensor> &sensors);
-    void printMalfunctionSensors(const unordered_map<string, Sensor> &sensors);
-    void printUnreliableSensors(const unordered_map<string, Sensor> &sensors);
+    void printSimilarSensors(const list<Sensor> &sensors);
+    void printOneMalfunctionSensor(const Sensor &sensor, bool isMalfunctioning);
+    void printMalfunctionSensors(const list<Sensor> &sensors);
+    void printUnreliableSensors(const list<Sensor> &sensors);
+    void printBannedUser(const User &user, bool isBanned);
+    void printCleanerImpact(const Cleaner &cleaner, bool isValid, float * impact);
 
     /************************************************
             Méthodes pour log des messages
@@ -99,7 +104,7 @@ public:
 protected:
     string chooseSensorSubMenu(const unordered_map<string, Sensor> &sensors);
     string chooseCleanerSubMenu(const unordered_map<string, Cleaner> &cleaners);
-    string chooseUserSubMenu(const unordered_map<string, User> &users);
+    string chooseUserSubMenu(const unordered_map<string, PrivateUser> &users);
 
     ostream *logStream;
 };

@@ -83,7 +83,7 @@ protected:
 
     //----------------------------------------------------- Attributs protégés
     bool reliable;
-    int points = 0;
+    int points;
     list<string> sensorIds;
 };
 
