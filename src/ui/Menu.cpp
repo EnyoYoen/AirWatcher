@@ -82,14 +82,16 @@ tuple<time_t, time_t, double, double, double> Menu::airQualityMenu()
     time_t startTime, endTime;
     double latitude, longitude, radius;
 
-    cout << "Date de début (format : YYYY-MM-DD hh:mm:ss) : ";
+    cout << "Date de début (format : YYYY-MM-DD hh:mm:ss) : " <<endl;
     string startDate;
-    cin >> startDate;
+    cin.ignore(); 
+    getline(cin, startDate);
     startTime = parseDateTime(startDate.c_str(), "%Y-%m-%d %H:%M:%S");
 
-    cout << "Date de fin (format : YYYY-MM-DD) : ";
+    cout << "Date de fin (format : YYYY-MM-DD hh:mm:ss) : " << endl;
     string endDate;
-    cin >> endDate;
+    cin.ignore(); 
+    getline(cin, endDate);
     endTime = parseDateTime(endDate.c_str(), "%Y-%m-%d %H:%M:%S");
 
     cout << "Latitude : ";
@@ -201,6 +203,12 @@ void Menu::printCleanerImpact(const Cleaner &cleaner, bool isValid, float *impac
     {
         cout << "Le caclul de l'impact du cleaner " << cleaner.getCleanerId() << " a rencontré une erreur" << endl;
     }
+}
+
+void Menu::printQualiteAir(float quali)
+{
+   
+    cout << "Qualité de l'air: " << quali  << endl;
 }
 
 // Méthodes de log
