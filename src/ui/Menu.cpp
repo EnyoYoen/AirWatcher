@@ -81,15 +81,16 @@ tuple<time_t, time_t, double, double, double> Menu::airQualityMenu()
 {
     time_t startTime, endTime;
     double latitude, longitude, radius;
-
+    
     cout << "Date de début (format : YYYY-MM-DD hh:mm:ss) : ";
     string startDate;
-    cin >> startDate;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // vide le buffer au cas où
+    std::getline(std::cin, startDate);
     startTime = parseDateTime(startDate.c_str(), "%Y-%m-%d %H:%M:%S");
 
     cout << "Date de fin (format : YYYY-MM-DD) : ";
     string endDate;
-    cin >> endDate;
+    std::getline(std::cin, endDate);
     endTime = parseDateTime(endDate.c_str(), "%Y-%m-%d %H:%M:%S");
 
     cout << "Latitude : ";
@@ -101,7 +102,7 @@ tuple<time_t, time_t, double, double, double> Menu::airQualityMenu()
     cout << "Rayon de recherche (en km) : ";
     cin >> radius;
 
-    return make_tuple(startTime, endTime, latitude, longitude, radius);
+    return make_tuple(startTime, endTime, radius, latitude, longitude);
 }
 
 tuple<double, double, time_t> Menu::pointAirQualityMenu()
@@ -148,6 +149,11 @@ string Menu::banUserMenu(const unordered_map<string, PrivateUser> &users)
 }
 
 // Méthodes pour afficher des informations
+
+void Menu::printAirQuality(float airQuality)
+{
+    cout << "Qualité de l'air moyenne : " << airQuality << endl;
+}
 
 void Menu::printSimilarSensors(const list<Sensor> &sensors)
 {

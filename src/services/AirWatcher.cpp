@@ -366,6 +366,7 @@ void AirWatcher::startMenu()
     while (choice != MenuChoice::EXIT)
     {
         float res = 0.0;
+        tuple<time_t, time_t, double, double, double> t;
         switch (choice)
         {
         case MenuChoice::LOGIN_MENU:
@@ -385,7 +386,8 @@ void AirWatcher::startMenu()
             }
             break;
         case MenuChoice::AIR_QUALITY_MENU:
-            menu.airQualityMenu();
+            t = menu.airQualityMenu();
+            menu.printAirQuality(calculateAirQuality(std::get<0>(t), std::get<1>(t), std::get<2>(t), std::get<3>(t), std::get<4>(t)));
             break;
         case MenuChoice::POINT_AIR_QUALITY_MENU:
             menu.pointAirQualityMenu();
