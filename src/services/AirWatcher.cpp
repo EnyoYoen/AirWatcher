@@ -260,6 +260,8 @@ bool AirWatcher::checkMalfunction(string sensorId)
         if (varMeanPair.second > threshold || varMeanPair.first < 0.0)
         {
             sensors[sensorId].banSensor(); // Ban the sensor if it is malfunctioning
+            string userId = sensorIdToUserId[sensorId];
+            banUser(userId); // Ban the user associated with the sensor
             menu.debug("Finding malfunction for sensor " + sensorId + " took " + to_string(double(clock() - startClock) / CLOCKS_PER_SEC) + " seconds.\n");
             return true; // Sensor is malfunctioning
         }
