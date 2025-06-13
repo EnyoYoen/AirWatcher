@@ -110,7 +110,7 @@ TEST(TestAirWatcher, connexionUser)
     std::cout.rdbuf(cout_backup);
 
     std::string actualOutput = output.str();
-    
+
     EXPECT_NE(actualOutput.find("1. Connexion"), std::string::npos);
 
     EXPECT_NE(actualOutput.find("2. Qualité de l'air"), std::string::npos);
@@ -291,7 +291,7 @@ TEST(TestAirWatcher, qualiteAirPointBadPoint)
 
 TEST(TestAirWatcher, impactCleaner)
 {
-    std::istringstream input("1\nadmin\nadmin123\n4\n1\n9\n");
+    std::istringstream input("1\nadmin\nadmin123\n4\n1\n100\n9\n");
 
     // Sauvegarde cin original
     auto cin_backup = std::cin.rdbuf();

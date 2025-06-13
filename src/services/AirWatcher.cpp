@@ -188,7 +188,7 @@ float AirWatcher::calculateAirQuality(time_t startTime, time_t endTime, double r
     return (count > 0) ? (averageAQI / count) : -1;
 }
 
-bool AirWatcher::measureCleanerImpact(string cleanerId, float *res)
+bool AirWatcher::measureCleanerImpact(string cleanerId, float *res, int radius)
 {
     clock_t startClock = clock();
     time_t startTime;
@@ -217,7 +217,7 @@ bool AirWatcher::measureCleanerImpact(string cleanerId, float *res)
     {
         const Sensor &sensor = pair.second;
         const string &sensorId = pair.first;
-        if (sensor.checkDistance(latitude, longitude, 100) && sensor.isReliable())
+        if (sensor.checkDistance(latitude, longitude, radius) && sensor.isReliable())
         {
             awardPoints(sensorId); // Award points for the sensor
             ++count;
@@ -464,6 +464,7 @@ void AirWatcher::startMenu()
     {
         float res = 0.0;
         tuple<time_t, time_t, double, double, double> t;
+        pair<string, int> idRadius;
         switch (choice)
         {
         case MenuChoice::LOGIN_MENU:
@@ -497,8 +498,8 @@ void AirWatcher::startMenu()
             menu.printAirQuality(valueAQI);
             break;
         case MenuChoice::CLEANER_IMPACT_MENU:
-            cleanerId = menu.cleanerImpactMenu(cleaners);
-            menu.printCleanerImpact(cleaners[cleanerId], measureCleanerImpact(cleanerId, &res), &res);
+            idRadius = menu.cleanerImpactMenu(cleaners);
+            menu.printCleanerImpact(cleaners[idRadius.first], measureCleanerImpact(idRadius.first, &res, idRadius.second), &res);
             break;
         case MenuChoice::FIND_SIMILAR_SENSORS_MENU:
             sensorId = menu.findSimilarSensorsMenu(sensors);
