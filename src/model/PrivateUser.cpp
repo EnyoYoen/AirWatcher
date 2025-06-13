@@ -49,7 +49,7 @@ void PrivateUser::addPoints()
     ++points;
 }
 
-int PrivateUser::getPoints()
+int PrivateUser::getPoints() const
 {
     return points;
 }
