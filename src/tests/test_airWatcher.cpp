@@ -35,7 +35,7 @@ TEST(TestAirWatcher, affichageMenuConnexion)
 TEST(TestAirWatcher, connexionAdmin)
 {
 
-    std::istringstream input("1\nadmin\nadmin\n9\n");
+    std::istringstream input("1\nadmin\nadmin123\n9\n");
 
     // Sauvegarde cin original
     auto cin_backup = std::cin.rdbuf();
@@ -56,12 +56,12 @@ TEST(TestAirWatcher, connexionAdmin)
     std::cout.rdbuf(cout_backup);
 
     std::string actualOutput = output.str();
-    EXPECT_NE(actualOutput.find("Login successful for user: admin"), std::string::npos);
+    EXPECT_NE(actualOutput.find("9. Quitter"), std::string::npos);
 }
 
 TEST(TestAirWatcher, affichageMenu)
 {
-    std::istringstream input("1\nadmin\nadmin\n9\n");
+    std::istringstream input("1\nadmin\nadmin123\n9\n");
 
     // Sauvegarde cin original
     auto cin_backup = std::cin.rdbuf();
@@ -95,7 +95,7 @@ TEST(TestAirWatcher, affichageMenu)
 
 TEST(TestAirWatcher, qualiteAir)
 {
-    std::istringstream input("1\nadmin\nadmin\n2\n2019-01-01 11:59:59\n2019-02-01 11:59:59\n44\n-1\n10\n9\n");
+    std::istringstream input("1\nadmin\nadmin123\n2\n2019-01-01 11:59:59\n2019-02-01 11:59:59\n44\n-1\n10\n9\n");
 
     // Sauvegarde cin original
     auto cin_backup = std::cin.rdbuf();
@@ -119,10 +119,9 @@ TEST(TestAirWatcher, qualiteAir)
     EXPECT_NE(actualOutput.find("Qualité de l'air moyenne : 67.235"), std::string::npos);
 }
 
-
 TEST(TestAirWatcher, banUser_UserExists)
 {
-    std::istringstream input("1\nadmin\nadmin\n8\n1\n9\n");
+    std::istringstream input("1\nadmin\nadmin123\n8\n1\n9\n");
 
     // Sauvegarde cin original
     auto cin_backup = std::cin.rdbuf();
@@ -161,7 +160,7 @@ TEST(TestAirWatcher, banUser_UserExists)
 
 TEST(TestAirWatcher, rechercheCapteursSimilaires_AucunTrouve)
 {
-    std::istringstream input("1\nadmin\nadmin\n5\n100\n9\n");
+    std::istringstream input("1\nadmin\nadmin123\n5\n100\n9\n");
 
     // Sauvegarde cin original
     auto cin_backup = std::cin.rdbuf();
@@ -199,7 +198,7 @@ TEST(TestAirWatcher, rechercheCapteursSimilaires_AucunTrouve)
 
 TEST(TestAirWatcher, rechercheCapteursSimilaires_Trouve)
 {
-    std::istringstream input("1\nadmin\nadmin\n5\n99\n9\n");
+    std::istringstream input("1\nadmin\nadmin123\n5\n99\n9\n");
 
     // Sauvegarde cin original
     auto cin_backup = std::cin.rdbuf();
@@ -237,7 +236,7 @@ TEST(TestAirWatcher, rechercheCapteursSimilaires_Trouve)
 
 TEST(TestAirWatcher, verifierCapteurEnPanne)
 {
-    std::istringstream input("1\nadmin\nadmin\n6\n100\n9\n");
+    std::istringstream input("1\nadmin\nadmin123\n6\n100\n9\n");
 
     // Sauvegarde cin original
     auto cin_backup = std::cin.rdbuf();
@@ -276,7 +275,7 @@ TEST(TestAirWatcher, verifierCapteurEnPanne)
 
 TEST(TestAirWatcher, verifierCapteurEnPanne_Fonctionnel)
 {
-    std::istringstream input("1\nadmin\nadmin\n6\n99\n9\n");
+    std::istringstream input("1\nadmin\nadmin123\n6\n99\n9\n");
 
     // Sauvegarde cin original
     auto cin_backup = std::cin.rdbuf();
@@ -315,7 +314,7 @@ TEST(TestAirWatcher, verifierCapteurEnPanne_Fonctionnel)
 
 TEST(TestAirWatcher, verifierCapteursEnPanne_Liste)
 {
-    std::istringstream input("1\nadmin\nadmin\n7\n9\n");
+    std::istringstream input("1\nadmin\nadmin123\n7\n9\n");
 
     // Sauvegarde cin original
     auto cin_backup = std::cin.rdbuf();
@@ -346,24 +345,24 @@ TEST(TestAirWatcher, verifierCapteursEnPanne_Liste)
     EXPECT_NE(actualOutput.find("8. Bannir un utilisateur"), std::string::npos);
     EXPECT_NE(actualOutput.find("9. Quitter"), std::string::npos);
     EXPECT_NE(actualOutput.find("Capteurs en panne"), std::string::npos);
-    EXPECT_NE(actualOutput.find("Sensor97 | Lat: 47.6 | Lon: 3.9 | Fiable"), std::string::npos);
-    EXPECT_NE(actualOutput.find("Sensor96 | Lat: 47.6 | Lon: 3.2 | Fiable"), std::string::npos);
-    EXPECT_NE(actualOutput.find("Sensor88 | Lat: 47.2 | Lon: 4.6 | Fiable"), std::string::npos);
-    EXPECT_NE(actualOutput.find("Sensor85 | Lat: 47.2 | Lon: 2.5 | Fiable"), std::string::npos);
-    EXPECT_NE(actualOutput.find("Sensor78 | Lat: 46.8 | Lon: 4.6 | Fiable"), std::string::npos);
-    EXPECT_NE(actualOutput.find("Sensor77 | Lat: 46.8 | Lon: 3.9 | Fiable"), std::string::npos);
-    EXPECT_NE(actualOutput.find("Sensor76 | Lat: 46.8 | Lon: 3.2 | Fiable"), std::string::npos);
-    EXPECT_NE(actualOutput.find("Sensor68 | Lat: 46.4 | Lon: 4.6 | Fiable"), std::string::npos);
-    EXPECT_NE(actualOutput.find("Sensor65 | Lat: 46.4 | Lon: 2.5 | Fiable"), std::string::npos);
-    EXPECT_NE(actualOutput.find("Sensor57 | Lat: 46 | Lon: 3.9 | Fiable"), std::string::npos);
-    EXPECT_NE(actualOutput.find("Sensor75 | Lat: 46.8 | Lon: 2.5 | Fiable"), std::string::npos);
-    EXPECT_NE(actualOutput.find("Sensor87 | Lat: 47.2 | Lon: 3.9 | Fiable"), std::string::npos);
-    EXPECT_NE(actualOutput.find("Sensor67 | Lat: 46.4 | Lon: 3.9 | Fiable"), std::string::npos);
-    EXPECT_NE(actualOutput.find("Sensor47 | Lat: 45.6 | Lon: 3.9 | Fiable"), std::string::npos);
-    EXPECT_NE(actualOutput.find("Sensor66 | Lat: 46.4 | Lon: 3.2 | Fiable"), std::string::npos);
-    EXPECT_NE(actualOutput.find("Sensor86 | Lat: 47.2 | Lon: 3.2 | Fiable"), std::string::npos);
-    EXPECT_NE(actualOutput.find("Sensor36 | Lat: 45.2 | Lon: 3.2 | Fiable"), std::string::npos);
-    EXPECT_NE(actualOutput.find("Sensor58 | Lat: 46 | Lon: 4.6 | Fiable"), std::string::npos);
-    EXPECT_NE(actualOutput.find("Sensor55 | Lat: 46 | Lon: 2.5 | Fiable"), std::string::npos);
-    EXPECT_NE(actualOutput.find("Sensor56 | Lat: 46 | Lon: 3.2 | Fiable"), std::string::npos);
+    EXPECT_NE(actualOutput.find("Sensor97 | Lat: 47.6 | Lon: 3.9 | Non fiable"), std::string::npos);
+    EXPECT_NE(actualOutput.find("Sensor96 | Lat: 47.6 | Lon: 3.2 | Non fiable"), std::string::npos);
+    EXPECT_NE(actualOutput.find("Sensor88 | Lat: 47.2 | Lon: 4.6 | Non fiable"), std::string::npos);
+    EXPECT_NE(actualOutput.find("Sensor85 | Lat: 47.2 | Lon: 2.5 | Non fiable"), std::string::npos);
+    EXPECT_NE(actualOutput.find("Sensor78 | Lat: 46.8 | Lon: 4.6 | Non fiable"), std::string::npos);
+    EXPECT_NE(actualOutput.find("Sensor77 | Lat: 46.8 | Lon: 3.9 | Non fiable"), std::string::npos);
+    EXPECT_NE(actualOutput.find("Sensor76 | Lat: 46.8 | Lon: 3.2 | Non fiable"), std::string::npos);
+    EXPECT_NE(actualOutput.find("Sensor68 | Lat: 46.4 | Lon: 4.6 | Non fiable"), std::string::npos);
+    EXPECT_NE(actualOutput.find("Sensor65 | Lat: 46.4 | Lon: 2.5 | Non fiable"), std::string::npos);
+    EXPECT_NE(actualOutput.find("Sensor57 | Lat: 46 | Lon: 3.9 | Non fiable"), std::string::npos);
+    EXPECT_NE(actualOutput.find("Sensor75 | Lat: 46.8 | Lon: 2.5 | Non fiable"), std::string::npos);
+    EXPECT_NE(actualOutput.find("Sensor87 | Lat: 47.2 | Lon: 3.9 | Non fiable"), std::string::npos);
+    EXPECT_NE(actualOutput.find("Sensor67 | Lat: 46.4 | Lon: 3.9 | Non fiable"), std::string::npos);
+    EXPECT_NE(actualOutput.find("Sensor47 | Lat: 45.6 | Lon: 3.9 | Non fiable"), std::string::npos);
+    EXPECT_NE(actualOutput.find("Sensor66 | Lat: 46.4 | Lon: 3.2 | Non fiable"), std::string::npos);
+    EXPECT_NE(actualOutput.find("Sensor86 | Lat: 47.2 | Lon: 3.2 | Non fiable"), std::string::npos);
+    EXPECT_NE(actualOutput.find("Sensor36 | Lat: 45.2 | Lon: 3.2 | Non fiable"), std::string::npos);
+    EXPECT_NE(actualOutput.find("Sensor58 | Lat: 46 | Lon: 4.6 | Non fiable"), std::string::npos);
+    EXPECT_NE(actualOutput.find("Sensor55 | Lat: 46 | Lon: 2.5 | Non fiable"), std::string::npos);
+    EXPECT_NE(actualOutput.find("Sensor56 | Lat: 46 | Lon: 3.2 | Non fiable"), std::string::npos);
 }
