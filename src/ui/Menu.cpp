@@ -96,7 +96,7 @@ tuple<time_t, time_t, double, double, double> Menu::airQualityMenu()
         startTime = 0; // Or handle appropriately
     }
 
-    cout << "Date de fin (format : YYYY-MM-DD hh:mm:ss) : " << endl;
+    cout << "Date de fin (format : YYYY-MM-DD hh:mm:ss) : ";
     string endDate;
 
     std::getline(std::cin, endDate);
@@ -170,7 +170,11 @@ string Menu::banUserMenu(const unordered_map<string, PrivateUser> &users)
 
 void Menu::printAirQuality(float airQuality)
 {
-    cout << "Qualité de l'air moyenne : " << airQuality << endl;
+    if (airQuality == -1) {
+        cout << "No valid air quality data found for the specified parameters.";
+    } else {
+        cout << "Qualité de l'air moyenne : " << airQuality << endl;
+    }
 }
 
 void Menu::printSimilarSensors(const list<Sensor> &sensors)
@@ -225,12 +229,6 @@ void Menu::printCleanerImpact(const Cleaner &cleaner, bool isValid, float *impac
     {
         cout << "Le calcul de l'impact du cleaner " << cleaner.getCleanerId() << " a rencontré une erreur" << endl;
     }
-}
-
-void Menu::printQualiteAir(float quali)
-{
-
-    cout << "Qualité de l'air: " << quali << endl;
 }
 
 void Menu::printInvalidCredentials()
