@@ -149,10 +149,19 @@ tuple<double, double, time_t> Menu::pointAirQualityMenu()
     return make_tuple(latitude, longitude, dateTime);
 }
 
-string Menu::cleanerImpactMenu(const unordered_map<string, Cleaner> &cleaners)
+pair<string, int> Menu::cleanerImpactMenu(const unordered_map<string, Cleaner> &cleaners)
 {
     cout << "Impact des cleaners" << endl;
-    return chooseCleanerSubMenu(cleaners);
+
+    string cleanerId = chooseCleanerSubMenu(cleaners);
+
+    int radius;
+    cout << "Rayon : ";
+    cin >> radius;
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    return make_pair(cleanerId, radius);
 }
 
 string Menu::findSimilarSensorsMenu(const unordered_map<string, Sensor> &sensors)

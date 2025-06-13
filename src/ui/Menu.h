@@ -69,7 +69,7 @@ public:
 
     // Menu d'impact des cleaners, qui demande quel cleaner on veut mesurer l'impact
     // et retourne l'id du cleaner
-    string cleanerImpactMenu(const unordered_map<string, Cleaner> &cleaners);
+    pair<string, int> cleanerImpactMenu(const unordered_map<string, Cleaner> &cleaners);
 
     // Menu de recherche de capteurs similaires, qui demande quel capteur on veut
     // et retourne l'id du capteur

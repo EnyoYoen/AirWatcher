@@ -464,6 +464,7 @@ void AirWatcher::startMenu()
     {
         float res = 0.0;
         tuple<time_t, time_t, double, double, double> t;
+        pair<string, int> idRadius;
         switch (choice)
         {
         case MenuChoice::LOGIN_MENU:
@@ -497,8 +498,8 @@ void AirWatcher::startMenu()
             menu.printAirQuality(valueAQI);
             break;
         case MenuChoice::CLEANER_IMPACT_MENU:
-            cleanerId = menu.cleanerImpactMenu(cleaners);
-            menu.printCleanerImpact(cleaners[cleanerId], measureCleanerImpact(cleanerId, &res), &res);
+            idRadius = menu.cleanerImpactMenu(cleaners);
+            menu.printCleanerImpact(cleaners[idRadius.first], measureCleanerImpact(idRadius.first, &res, idRadius.second), &res);
             break;
         case MenuChoice::FIND_SIMILAR_SENSORS_MENU:
             sensorId = menu.findSimilarSensorsMenu(sensors);
