@@ -434,10 +434,7 @@ void AirWatcher::startMenu()
         case MenuChoice::AIR_QUALITY_MENU:
             airQualite = menu.airQualityMenu();
             valueAQI = calculateAirQuality(get<0>(airQualite), get<1>(airQualite), get<4>(airQualite), get<2>(airQualite), get<3>(airQualite));
-            if (valueAQI == -1)
-                menu.error("No valid air quality data found for the specified parameters.");
-            else
-                menu.printQualiteAir(valueAQI);
+            menu.printAirQuality(valueAQI);
             break;
         case MenuChoice::POINT_AIR_QUALITY_MENU:
             menu.pointAirQualityMenu();
