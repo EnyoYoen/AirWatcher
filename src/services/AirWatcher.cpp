@@ -142,7 +142,7 @@ float AirWatcher::calculateAirQuality(time_t startTime, time_t endTime, double r
     for (const auto &pair : sensors)
     {
         const Sensor &sensor = pair.second;
-        if (sensor.checkDistance(latitude, longitude, radius))
+        if (sensor.checkDistance(latitude, longitude, radius) && sensor.isReliable())
         {
             float airQuality = sensor.calculateAirQuality(startTime, endTime, measurements[sensor.getSensorId()]);
             if (airQuality > 0)
@@ -190,7 +190,7 @@ bool AirWatcher::measureCleanerImpact(string cleanerId, float *res)
     {
         const Sensor &sensor = pair.second;
         const string &sensorId = pair.first;
-        if (sensor.checkDistance(latitude, longitude, 100))
+        if (sensor.checkDistance(latitude, longitude, 100) && sensor.isReliable())
         {
             awardPoints(sensorId); // Award points for the sensor
             ++count;
@@ -362,6 +362,7 @@ void AirWatcher::startMenu()
     string sensorId;
     string userId;
     string cleanerId;
+    float valueAQI;
     tuple<time_t, time_t, double, double, double> airQualite;
 
     MenuRights rights = MenuRights::NOT_LOGGED_IN;
@@ -390,7 +391,11 @@ void AirWatcher::startMenu()
             break;
         case MenuChoice::AIR_QUALITY_MENU:
             airQualite = menu.airQualityMenu();
-            menu.printQualiteAir(calculateAirQuality(get<0>(airQualite), get<1>(airQualite), get<4>(airQualite), get<2>(airQualite), get<3>(airQualite)));
+            valueAQI = calculateAirQuality(get<0>(airQualite), get<1>(airQualite), get<4>(airQualite), get<2>(airQualite), get<3>(airQualite));
+            if (valueAQI == -1)
+                menu.error("No valid air quality data found for the specified parameters.");
+            else
+                menu.printQualiteAir(valueAQI);
             break;
         case MenuChoice::POINT_AIR_QUALITY_MENU:
             menu.pointAirQualityMenu();

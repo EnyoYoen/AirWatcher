@@ -217,7 +217,7 @@ void Menu::printCleanerImpact(const Cleaner &cleaner, bool isValid, float *impac
     }
     else
     {
-        cout << "Le caclul de l'impact du cleaner " << cleaner.getCleanerId() << " a rencontré une erreur" << endl;
+        cout << "Le calcul de l'impact du cleaner " << cleaner.getCleanerId() << " a rencontré une erreur" << endl;
     }
 }
 
