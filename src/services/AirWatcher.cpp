@@ -161,9 +161,9 @@ float AirWatcher::calculateAirQuality(time_t startTime, time_t endTime, double r
 
     float averageAQI = 0;
     int count = 0;
-    for (const auto &pair : sensors)
+    for (auto &pair : sensors)
     {
-        const Sensor &sensor = pair.second;
+        Sensor &sensor = pair.second;
         if (sensor.checkDistance(latitude, longitude, radius) && sensor.isReliable())
         {
             float airQuality = sensor.calculateAirQuality(startTime, endTime, measurements[sensor.getSensorId()]);
@@ -430,7 +430,7 @@ void AirWatcher::startMenu()
             break;
         case MenuChoice::AIR_QUALITY_MENU:
             airQualite = menu.airQualityMenu();
-            valueAQI = calculateAirQuality(get<0>(airQualite), get<1>(airQualite), get<4>(airQualite), get<2>(airQualite), get<3>(airQualite));
+            valueAQI = calculateAirQuality(get<0>(airQualite), get<1>(airQualite), get<2>(airQualite), get<3>(airQualite), get<4>(airQualite));
             menu.printAirQuality(valueAQI);
             break;
         case MenuChoice::POINT_AIR_QUALITY_MENU:
