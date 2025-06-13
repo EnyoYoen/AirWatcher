@@ -86,7 +86,6 @@ tuple<time_t, time_t, double, double, double> Menu::airQualityMenu()
     string startDate;
     std::getline(std::cin, startDate);
 
-    startTime = parseDateTime(startDate.c_str(), "%Y-%m-%d %H:%M:%S");
     try
     {
         startTime = parseDateTime(startDate.c_str(), "%Y-%m-%d %H:%M:%S");
@@ -102,7 +101,6 @@ tuple<time_t, time_t, double, double, double> Menu::airQualityMenu()
 
     std::getline(std::cin, endDate);
 
-    endTime = parseDateTime(endDate.c_str(), "%Y-%m-%d %H:%M:%S");
     try
     {
         endTime = parseDateTime(endDate.c_str(), "%Y-%m-%d %H:%M:%S");
