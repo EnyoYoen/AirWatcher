@@ -300,7 +300,7 @@ float AirWatcher::pointAirQuality(double latitude, double longitude, time_t time
 
             clock_t endClock = clock();
             double elapsedTime = double(endClock - startClock) / CLOCKS_PER_SEC;
-            menu.debug("Qualité de l'air a un point a mis" + to_string(elapsedTime) + " secondes.\n");
+            menu.debug("Air quality at a point took " + to_string(elapsedTime) + " seconds.\n");
 
             return (airQuality > 0) ? airQuality : -1;
         }
@@ -493,7 +493,7 @@ void AirWatcher::startMenu()
             break;
         case MenuChoice::POINT_AIR_QUALITY_MENU:
             pointAir = menu.pointAirQualityMenu();
-            valueAQI = pointAirQuality(get<0>(pointAir),get<1>(pointAir),get<2>(pointAir));
+            valueAQI = pointAirQuality(get<0>(pointAir), get<1>(pointAir), get<2>(pointAir));
             menu.printAirQuality(valueAQI);
             break;
         case MenuChoice::CLEANER_IMPACT_MENU:
