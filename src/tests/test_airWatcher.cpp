@@ -315,9 +315,61 @@ TEST(TestAirWatcher, impactCleaner)
     EXPECT_NE(actualOutput.find("Impact du cleaner Cleaner0 a modifié de 0.891204 % la zone avoisinante"), std::string::npos);
 }
 
+TEST(TestAirWatcher, impactCleanerBigRadius)
+{
+    std::istringstream input("1\nadmin\nadmin123\n4\n2\n10000\n9\n");
+
+    // Sauvegarde cin original
+    auto cin_backup = std::cin.rdbuf();
+
+    // Redirige cin vers notre input simulé
+    std::cin.rdbuf(input.rdbuf());
+
+    // Capture la sortie standard
+    std::ostringstream output;
+    auto cout_backup = std::cout.rdbuf(); // Sauvegarde std::cout
+    std::cout.rdbuf(output.rdbuf());
+
+    // Appelle la fonction qui attend l'entrée standard
+    AirWatcher aw;
+
+    // Restaure cin & cout
+    std::cin.rdbuf(cin_backup);
+    std::cout.rdbuf(cout_backup);
+
+    std::string actualOutput = output.str();
+    EXPECT_NE(actualOutput.find("Impact du cleaner Cleaner1 a modifié de -15.9259 % la zone avoisinante"), std::string::npos);
+}
+
+TEST(TestAirWatcher, impactCleanerBadRadius)
+{
+    std::istringstream input("1\nadmin\nadmin123\n4\n1\n-50\n9\n");
+
+    // Sauvegarde cin original
+    auto cin_backup = std::cin.rdbuf();
+
+    // Redirige cin vers notre input simulé
+    std::cin.rdbuf(input.rdbuf());
+
+    // Capture la sortie standard
+    std::ostringstream output;
+    auto cout_backup = std::cout.rdbuf(); // Sauvegarde std::cout
+    std::cout.rdbuf(output.rdbuf());
+
+    // Appelle la fonction qui attend l'entrée standard
+    AirWatcher aw;
+
+    // Restaure cin & cout
+    std::cin.rdbuf(cin_backup);
+    std::cout.rdbuf(cout_backup);
+
+    std::string actualOutput = output.str();
+    EXPECT_NE(actualOutput.find("Le calcul de l'impact du cleaner Cleaner0 a rencontré une erreur"), std::string::npos);
+}
+
 TEST(TestAirWatcher, impactCleanerInvalidChoiceThenOK)
 {
-    std::istringstream input("1\nadmin\nadmin123\n4\n100\n1\n9\n");
+    std::istringstream input("1\nadmin\nadmin123\n4\n1000\n1\n100\n9\n");
 
     // Sauvegarde cin original
     auto cin_backup = std::cin.rdbuf();
