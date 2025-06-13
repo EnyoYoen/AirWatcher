@@ -64,7 +64,7 @@ public:
     // Contrat :
     //
 
-    int getPoints();
+    int getPoints() const;
     // Mode d'emploi :
     // Accéder à 'points'
     // Contrat :

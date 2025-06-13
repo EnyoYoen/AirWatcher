@@ -224,9 +224,9 @@ void Menu::printUnreliableSensors(const list<Sensor> &sensors)
     }
 }
 
-void Menu::printBannedUser(const User &user, bool isBanned)
+void Menu::printBannedUser(const PrivateUser &user, bool isBanned)
 {
-    cout << "Utilisateur " << user.getUserId() << " : " << (isBanned ? "banni" : "non banni") << endl;
+    cout << "Utilisateur " << user.getUserId() << " (" << user.getPoints() << " points) : " << (isBanned ? "banni" : "non banni") << endl;
 }
 
 void Menu::printCleanerImpact(const Cleaner &cleaner, bool isValid, float *impact)
@@ -330,6 +330,7 @@ string Menu::chooseCleanerSubMenu(const unordered_map<string, Cleaner> &cleaners
 string Menu::chooseUserSubMenu(const unordered_map<string, PrivateUser> &users)
 {
     cout << "Choisissez un utilisateur : " << endl;
+    cout << "0. Annuler" << endl;
     int i = 1;
     for (const auto &user : users)
     {
@@ -347,8 +348,13 @@ string Menu::chooseUserSubMenu(const unordered_map<string, PrivateUser> &users)
         cin >> choice;
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        invalidInput = choice < 1 || choice > users.size() || cin.fail();
+        invalidInput = choice < 0 || choice > users.size() || cin.fail();
     } while (invalidInput);
+
+    if (choice == 0)
+    {
+        return string();
+    }
 
     auto it = users.begin();
     advance(it, choice - 1);

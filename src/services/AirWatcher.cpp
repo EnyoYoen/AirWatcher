@@ -518,7 +518,10 @@ void AirWatcher::startMenu()
             break;
         case MenuChoice::BAN_USER_MENU:
             userId = menu.banUserMenu(privateUsers);
-            menu.printBannedUser(users[userId], banUser(userId));
+            if (!userId.empty())
+            {
+                menu.printBannedUser(privateUsers[userId], banUser(userId));
+            }
             break;
         default:
             menu.error("Invalid choice");

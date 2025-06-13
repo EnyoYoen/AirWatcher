@@ -270,7 +270,7 @@ TEST(TestAirWatcher, banUser_UserExists)
     EXPECT_NE(actualOutput.find("Choisissez un utilisateur"), std::string::npos);
     EXPECT_NE(actualOutput.find("1. User0"), std::string::npos);
     EXPECT_NE(actualOutput.find("2. User1"), std::string::npos);
-    EXPECT_NE(actualOutput.find("Utilisateur User0 : banni"), std::string::npos);
+    EXPECT_NE(actualOutput.find("Utilisateur User0 (0 points) : banni"), std::string::npos);
 }
 
 TEST(TestAirWatcher, rechercheCapteursSimilaires_AucunTrouve)
