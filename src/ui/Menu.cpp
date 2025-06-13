@@ -131,13 +131,19 @@ tuple<double, double, time_t> Menu::pointAirQualityMenu()
 
     cout << "Latitude : ";
     cin >> latitude;
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     cout << "Longitude : ";
     cin >> longitude;
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     cout << "Date de mesure (format : YYYY-MM-DD hh:mm:ss) : ";
     string dateString;
     cin >> dateString;
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     dateTime = parseDateTime(dateString.c_str(), "%Y-%m-%d %H:%M:%S");
 
     return make_tuple(latitude, longitude, dateTime);
@@ -171,9 +177,12 @@ string Menu::banUserMenu(const unordered_map<string, PrivateUser> &users)
 
 void Menu::printAirQuality(float airQuality)
 {
-    if (airQuality == -1) {
-        cout << "No valid air quality data found for the specified parameters.";
-    } else {
+    if (airQuality == -1)
+    {
+        cout << "Aucune donnée de qualité de l'air disponible pour cette période." << endl;
+    }
+    else
+    {
         cout << "Qualité de l'air moyenne : " << airQuality << endl;
     }
 }
