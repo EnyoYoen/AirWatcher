@@ -75,11 +75,11 @@ unordered_map<string, pair<float, float>> AirWatcher::varMean(const vector<Measu
     return result;
 }
 
-bool AirWatcher::isSimilar(const Sensor &sensor1, const Sensor &sensor2, const vector<Measurement> &measurements1, const vector<Measurement> &measurements2)
+int AirWatcher::isSimilar(const Sensor &sensor1, const Sensor &sensor2, const vector<Measurement> &measurements1, const vector<Measurement> &measurements2)
 {
     if (sensor1.getSensorId() == sensor2.getSensorId())
     {
-        return false; // Same sensor, not considered similar
+        return -1; // Same sensor, not considered similar
     }
 
     auto varMean1 = varMean(measurements1);
@@ -108,10 +108,10 @@ bool AirWatcher::isSimilar(const Sensor &sensor1, const Sensor &sensor2, const v
 
     if (varDiff > varThreshold || meanDiff > meanThreshold)
     {
-        return false; // Sensors are not similar
+        return -1; // Sensors are not similar
     }
 
-    return true;
+    return varDiff + meanDiff;
 }
 
 list<Sensor> AirWatcher::findSimilarSensors(string sensorId)
@@ -119,15 +119,37 @@ list<Sensor> AirWatcher::findSimilarSensors(string sensorId)
     clock_t startClock = clock();
     Sensor sensor = sensors[sensorId];
     list<Sensor> similarSensors;
+    list<int> similarityScores;
     for (const auto &pair : sensors)
     {
         const Sensor &otherSensor = pair.second;
-        if (otherSensor.getSensorId() != sensorId && otherSensor.isReliable() && isSimilar(sensor, otherSensor, measurements[sensorId], measurements[otherSensor.getSensorId()]))
+        int similarityScore = isSimilar(sensor, otherSensor, measurements[sensorId], measurements[otherSensor.getSensorId()]);
+        if (otherSensor.getSensorId() != sensorId && otherSensor.isReliable() && similarityScore > 0)
         {
+            similarityScores.push_back(similarityScore);
             similarSensors.push_back(otherSensor);
         }
     }
     menu.debug("Finding similar sensors took " + to_string(double(clock() - startClock) / CLOCKS_PER_SEC) + " seconds.\n");
+
+    // Sort similarSensors based on similarity scores (descending order)
+    vector<pair<int, Sensor>> scoredSensors;
+    auto simIt = similarityScores.begin();
+    auto sensIt = similarSensors.begin();
+    while (simIt != similarityScores.end() && sensIt != similarSensors.end())
+    {
+        scoredSensors.emplace_back(*simIt, *sensIt);
+        ++simIt;
+        ++sensIt;
+    }
+    sort(scoredSensors.begin(), scoredSensors.end(), [](const pair<int, Sensor> &a, const pair<int, Sensor> &b)
+         { return a.first < b.first; });
+    similarSensors.clear();
+    for (const auto &p : scoredSensors)
+    {
+        similarSensors.push_back(p.second);
+    }
+
     return similarSensors;
 }
 
@@ -371,6 +393,7 @@ void AirWatcher::startMenu()
     while (choice != MenuChoice::EXIT)
     {
         float res = 0.0;
+        tuple<time_t, time_t, double, double, double> t;
         switch (choice)
         {
         case MenuChoice::LOGIN_MENU:

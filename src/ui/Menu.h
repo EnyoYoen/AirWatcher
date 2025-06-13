@@ -86,6 +86,7 @@ public:
     /**********************************************
         Méthodes pour afficher des informations
     ***********************************************/
+    void printAirQuality(float airQuality);
     void printSimilarSensors(const list<Sensor> &sensors);
     void printOneMalfunctionSensor(const Sensor &sensor, bool isMalfunctioning);
     void printMalfunctionSensors(const list<Sensor> &sensors);
