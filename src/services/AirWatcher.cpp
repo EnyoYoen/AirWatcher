@@ -117,6 +117,11 @@ int AirWatcher::isSimilar(const Sensor &sensor1, const Sensor &sensor2, const ve
 list<Sensor> AirWatcher::findSimilarSensors(string sensorId)
 {
     clock_t startClock = clock();
+    if (sensors.find(sensorId) == sensors.end())
+    {
+        menu.error("Sensor with ID " + sensorId + " not found.");
+        return {};
+    }
     Sensor sensor = sensors[sensorId];
     list<Sensor> similarSensors;
     list<int> similarityScores;
@@ -449,6 +454,11 @@ void AirWatcher::startMenu()
             break;
         case MenuChoice::CHECK_ONE_MALFUNCTION_MENU:
             sensorId = menu.checkOneMalfunctionMenu(sensors);
+            if (sensors.find(sensorId) == sensors.end())
+            {
+                menu.error("Sensor ID not found: " + sensorId);
+                break;
+            }
             menu.printOneMalfunctionSensor(sensors[sensorId], checkMalfunction(sensorId));
             break;
         case MenuChoice::CHECK_MALFUNCTION_MENU:
@@ -494,6 +504,11 @@ bool AirWatcher::banUser(string userId)
     privateUser.setReliable(false);
     for (const string &sensorId : privateUser.getSensorIds())
     {
+        if (sensors.find(sensorId) == sensors.end())
+        {
+            menu.error("Sensor ID not found: " + sensorId);
+            continue;
+        }
         sensors[sensorId].banSensor();
     }
     menu.debug("User " + userId + " has been banned.");
