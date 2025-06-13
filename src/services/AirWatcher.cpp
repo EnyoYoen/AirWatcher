@@ -397,7 +397,7 @@ void AirWatcher::startMenu()
             if (user.has_value())
             {
                 menu.debug("Login successful for user: " + user->getUserId());
-                if (dynamic_cast<PrivateUser *>(&*user))
+                if (users.find(user->getUserId()) != users.end() && privateUsers.find(user->getUserId()) != privateUsers.end())
                 {
                     rights = MenuRights::PRIVATE_USER;
                 }
@@ -500,9 +500,9 @@ AirWatcher::AirWatcher()
 #ifdef MAP
     cout << "Appel au constructeur de <AirWatcher>" << endl;
 #endif
-    // ofstream *logStream = new ofstream("log.txt");
-    // menu.setLogStream(logStream);
-    menu.setLogStream(&cout);
+    ofstream *logStream = new ofstream("log.txt");
+    menu.setLogStream(logStream);
+    // menu.setLogStream(&cout);
 
     loadData();
 
