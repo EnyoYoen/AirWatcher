@@ -100,7 +100,7 @@ protected:
     // Contrat :
     //
 
-    bool checkMalfunction(string sensorId);
+    bool checkMalfunction(string sensorId, bool debug = true);
     // Mode d'emploi :
     //
     // Contrat :
