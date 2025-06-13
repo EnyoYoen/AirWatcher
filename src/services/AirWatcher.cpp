@@ -188,7 +188,7 @@ float AirWatcher::calculateAirQuality(time_t startTime, time_t endTime, double r
     return (count > 0) ? (averageAQI / count) : -1;
 }
 
-bool AirWatcher::measureCleanerImpact(string cleanerId, float *res)
+bool AirWatcher::measureCleanerImpact(string cleanerId, float *res, int radius)
 {
     clock_t startClock = clock();
     time_t startTime;
@@ -217,7 +217,7 @@ bool AirWatcher::measureCleanerImpact(string cleanerId, float *res)
     {
         const Sensor &sensor = pair.second;
         const string &sensorId = pair.first;
-        if (sensor.checkDistance(latitude, longitude, 100) && sensor.isReliable())
+        if (sensor.checkDistance(latitude, longitude, radius) && sensor.isReliable())
         {
             awardPoints(sensorId); // Award points for the sensor
             ++count;

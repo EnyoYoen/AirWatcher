@@ -94,7 +94,7 @@ protected:
     // Contrat :
     //
 
-    bool measureCleanerImpact(string cleanerId, float *res);
+    bool measureCleanerImpact(string cleanerId, float *res, int radius);
     // Mode d'emploi :
     //
     // Contrat :
