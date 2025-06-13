@@ -50,6 +50,7 @@ MenuChoice Menu::mainMenu(MenuRights rights)
         cout << i + 1 << ". " << menuOptions[i] << endl;
     }
     cout << maxOptions << ". " << menuOptions.back() << endl;
+    cout << "Veuillez choisir une option (1-" << maxOptions << ") : ";
 
     bool invalidInput = false;
     do

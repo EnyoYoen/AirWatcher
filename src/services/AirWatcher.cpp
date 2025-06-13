@@ -130,7 +130,7 @@ list<Sensor> AirWatcher::findSimilarSensors(string sensorId)
             similarSensors.push_back(otherSensor);
         }
     }
-    menu.debug("Finding similar sensors took " + to_string(double(clock() - startClock) / CLOCKS_PER_SEC) + " seconds.\n");
+    menu.debug("Finding similar sensors took " + to_string(double(clock() - startClock) / CLOCKS_PER_SEC) + " seconds.");
 
     // Sort similarSensors based on similarity scores (descending order)
     vector<pair<int, Sensor>> scoredSensors;
@@ -178,7 +178,7 @@ float AirWatcher::calculateAirQuality(time_t startTime, time_t endTime, double r
 
     clock_t endClock = clock();
     double elapsedTime = double(endClock - startClock) / CLOCKS_PER_SEC;
-    menu.debug("Air quality calculation took " + to_string(elapsedTime) + " seconds.\n");
+    menu.debug("Air quality calculation took " + to_string(elapsedTime) + " seconds.");
 
     return (count > 0) ? (averageAQI / count) : -1;
 }
@@ -227,7 +227,7 @@ bool AirWatcher::measureCleanerImpact(string cleanerId, float *res)
 
     clock_t endClock = clock();
     double elapsedTime = double(endClock - startClock) / CLOCKS_PER_SEC;
-    menu.debug("Cleaner impact calculation took " + to_string(elapsedTime) + " seconds.\n");
+    menu.debug("Cleaner impact calculation took " + to_string(elapsedTime) + " seconds.");
 
     if (count > 0)
     {
@@ -237,7 +237,7 @@ bool AirWatcher::measureCleanerImpact(string cleanerId, float *res)
     return (count > 0);
 }
 
-bool AirWatcher::checkMalfunction(string sensorId)
+bool AirWatcher::checkMalfunction(string sensorId, bool debug)
 {
     clock_t startClock = clock();
     const float threshold = 5.0;
@@ -262,11 +262,14 @@ bool AirWatcher::checkMalfunction(string sensorId)
             sensors[sensorId].banSensor(); // Ban the sensor if it is malfunctioning
             string userId = sensorIdToUserId[sensorId];
             banUser(userId); // Ban the user associated with the sensor
-            menu.debug("Finding malfunction for sensor " + sensorId + " took " + to_string(double(clock() - startClock) / CLOCKS_PER_SEC) + " seconds.\n");
+            if (debug)
+                menu.debug("Finding malfunction for sensor " + sensorId + " took " + to_string(double(clock() - startClock) / CLOCKS_PER_SEC) + " seconds.");
             return true; // Sensor is malfunctioning
         }
     }
-    menu.debug("Finding malfunction for sensor " + sensorId + " took " + to_string(double(clock() - startClock) / CLOCKS_PER_SEC) + " seconds.\n");
+
+    if (debug)
+        menu.debug("Finding malfunction for sensor " + sensorId + " took " + to_string(double(clock() - startClock) / CLOCKS_PER_SEC) + " seconds.");
 
     return false;
 }
@@ -468,15 +471,17 @@ void AirWatcher::startMenu()
 
 list<Sensor> AirWatcher::checkMalfunctionSensors()
 {
+    clock_t startClock = clock();
     list<Sensor> malfunctioningSensors;
     for (const auto &pair : sensors)
     {
         const Sensor &sensor = pair.second;
-        if (checkMalfunction(sensor.getSensorId()))
+        if (checkMalfunction(sensor.getSensorId(), false))
         {
             malfunctioningSensors.push_back(sensor);
         }
     }
+    menu.debug("Checking malfunctioning sensors took " + to_string(double(clock() - startClock) / CLOCKS_PER_SEC) + " seconds.");
     return malfunctioningSensors;
 }
 
