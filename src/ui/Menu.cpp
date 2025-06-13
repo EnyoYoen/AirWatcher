@@ -85,12 +85,33 @@ tuple<time_t, time_t, double, double, double> Menu::airQualityMenu()
     cout << "Date de début (format : YYYY-MM-DD hh:mm:ss) : ";
     string startDate;
     std::getline(std::cin, startDate);
-    startTime = parseDateTime(startDate.c_str(), "%Y-%m-%d %H:%M:%S");
 
-    cout << "Date de fin (format : YYYY-MM-DD) : ";
+    startTime = parseDateTime(startDate.c_str(), "%Y-%m-%d %H:%M:%S");
+    try
+    {
+        startTime = parseDateTime(startDate.c_str(), "%Y-%m-%d %H:%M:%S");
+    }
+    catch (const invalid_argument &e)
+    {
+        cerr << "Erreur : Format de date invalide. Veuillez réessayer." << endl;
+        startTime = 0; // Or handle appropriately
+    }
+
+    cout << "Date de fin (format : YYYY-MM-DD hh:mm:ss) : " << endl;
     string endDate;
+  
     std::getline(std::cin, endDate);
+
     endTime = parseDateTime(endDate.c_str(), "%Y-%m-%d %H:%M:%S");
+    try
+    {
+        endTime = parseDateTime(endDate.c_str(), "%Y-%m-%d %H:%M:%S");
+    }
+    catch (const invalid_argument &e)
+    {
+        cerr << "Erreur : Format de date invalide. Veuillez réessayer." << endl;
+        endTime = 0; // Or handle appropriately
+    }
 
     cout << "Latitude : ";
     cin >> latitude;
@@ -204,8 +225,14 @@ void Menu::printCleanerImpact(const Cleaner &cleaner, bool isValid, float *impac
     }
     else
     {
-        cout << "Le caclul de l'impact du cleaner " << cleaner.getCleanerId() << " a rencontré une erreur" << endl;
+        cout << "Le calcul de l'impact du cleaner " << cleaner.getCleanerId() << " a rencontré une erreur" << endl;
     }
+}
+
+void Menu::printQualiteAir(float quali)
+{
+
+    cout << "Qualité de l'air: " << quali << endl;
 }
 
 // Méthodes de log
