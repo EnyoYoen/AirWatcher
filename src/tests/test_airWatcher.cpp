@@ -32,6 +32,33 @@ TEST(TestAirWatcher, affichageMenuConnexion)
     EXPECT_NE(actualOutput.find("2. Quitter"), std::string::npos);
 }
 
+TEST(TestAirWatcher, wrongConnect)
+{
+
+    std::istringstream input("1\nmauvaisPseudo\nmauvaisMDP\n2\n");
+
+    // Sauvegarde cin original
+    auto cin_backup = std::cin.rdbuf();
+
+    // Redirige cin vers notre input simulé
+    std::cin.rdbuf(input.rdbuf());
+
+    // Capture la sortie standard
+    std::ostringstream output;
+    auto cout_backup = std::cout.rdbuf(); // Sauvegarde std::cout
+    std::cout.rdbuf(output.rdbuf());
+
+    // Appelle la fonction qui attend l'entrée standard
+    AirWatcher aw;
+
+    // Restaure cin & cout
+    std::cin.rdbuf(cin_backup);
+    std::cout.rdbuf(cout_backup);
+
+    std::string actualOutput = output.str();
+    EXPECT_NE(actualOutput.find("Identifiants invalides, veuillez réessayer."), std::string::npos);
+}
+
 TEST(TestAirWatcher, connexionAdmin)
 {
 
@@ -57,6 +84,42 @@ TEST(TestAirWatcher, connexionAdmin)
 
     std::string actualOutput = output.str();
     EXPECT_NE(actualOutput.find("9. Quitter"), std::string::npos);
+}
+
+TEST(TestAirWatcher, connexionUser)
+{
+
+    std::istringstream input("1\nUser0\nd\n5\n");
+
+    // Sauvegarde cin original
+    auto cin_backup = std::cin.rdbuf();
+
+    // Redirige cin vers notre input simulé
+    std::cin.rdbuf(input.rdbuf());
+
+    // Capture la sortie standard
+    std::ostringstream output;
+    auto cout_backup = std::cout.rdbuf(); // Sauvegarde std::cout
+    std::cout.rdbuf(output.rdbuf());
+
+    // Appelle la fonction qui attend l'entrée standard
+    AirWatcher aw;
+
+    // Restaure cin & cout
+    std::cin.rdbuf(cin_backup);
+    std::cout.rdbuf(cout_backup);
+
+    std::string actualOutput = output.str();
+    
+    EXPECT_NE(actualOutput.find("1. Connexion"), std::string::npos);
+
+    EXPECT_NE(actualOutput.find("2. Qualité de l'air"), std::string::npos);
+
+    EXPECT_NE(actualOutput.find("3. Qualité de l'air à un point"), std::string::npos);
+
+    EXPECT_NE(actualOutput.find("4. Impact des cleaners"), std::string::npos);
+
+    EXPECT_NE(actualOutput.find("5. Quitter"), std::string::npos);
 }
 
 TEST(TestAirWatcher, affichageMenu)
@@ -117,6 +180,32 @@ TEST(TestAirWatcher, qualiteAir)
 
     std::string actualOutput = output.str();
     EXPECT_NE(actualOutput.find("Qualité de l'air moyenne : 67.235"), std::string::npos);
+}
+
+TEST(TestAirWatcher, impactCleaner)
+{
+    std::istringstream input("1\nadmin\nadmin123\n4\n1\n9\n");
+
+    // Sauvegarde cin original
+    auto cin_backup = std::cin.rdbuf();
+
+    // Redirige cin vers notre input simulé
+    std::cin.rdbuf(input.rdbuf());
+
+    // Capture la sortie standard
+    std::ostringstream output;
+    auto cout_backup = std::cout.rdbuf(); // Sauvegarde std::cout
+    std::cout.rdbuf(output.rdbuf());
+
+    // Appelle la fonction qui attend l'entrée standard
+    AirWatcher aw;
+
+    // Restaure cin & cout
+    std::cin.rdbuf(cin_backup);
+    std::cout.rdbuf(cout_backup);
+
+    std::string actualOutput = output.str();
+    EXPECT_NE(actualOutput.find("Impact du cleaner Cleaner0 a modifié de 0.891204 % la zone avoisinante"), std::string::npos);
 }
 
 TEST(TestAirWatcher, banUser_UserExists)
