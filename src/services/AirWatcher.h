@@ -25,6 +25,7 @@
 #include "../model/Cleaner.h"
 #include "../model/Provider.h"
 #include "../model/User.h"
+#include "../model/Admin.h"
 #include "../model/Attribute.h"
 #include "../ui/Menu.h"
 
@@ -143,6 +144,7 @@ protected:
     unordered_map<string, Cleaner> cleaners;
     unordered_map<string, Provider> providers;
     unordered_map<string, PrivateUser> privateUsers;
+    unordered_map<string, Admin> admins;
     unordered_map<string, User> users;
     unordered_map<string, string> sensorIdToUserId; // Maps sensor IDs to user IDs for easy access
 };

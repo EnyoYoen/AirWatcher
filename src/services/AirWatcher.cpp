@@ -291,10 +291,19 @@ optional<User> AirWatcher::login(string userId, string password)
         menu.error("Login failed: User ID not found.");
         return optional<User>(); // Return an empty optional if user ID is not found
     }
-    User user = it->second;
-    if (user.connecter(password))
+
+    auto itPrivateUser = privateUsers.find(userId);
+    if (itPrivateUser == privateUsers.end())
     {
-        return user; // Return the user if login is successful
+        auto itAdmin = admins.find(userId);
+        if (itAdmin->second.connecter(password))
+        {
+            return optional<User>(itAdmin->second);
+        }
+    }
+    else if (itPrivateUser->second.connecter(password))
+    {
+        return optional<User>(itPrivateUser->second);
     }
 
     menu.error("Login failed: Invalid user ID or password.");
@@ -345,6 +354,7 @@ void AirWatcher::loadData()
 {
     printError("Loading sensors : ", DataLoader::loadSensors(sensors));
     printError("Loading users : ", DataLoader::loadUsers(users, privateUsers));
+    printError("Loading admins : ", DataLoader::loadAdmins(users, admins));
     printError("Loading providers : ", DataLoader::loadProviders(providers, cleaners));
     printError("Loading measurements : ", DataLoader::loadMeasurements(measurements, attributes));
 

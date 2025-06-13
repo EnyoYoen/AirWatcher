@@ -229,9 +229,14 @@ int DataLoader::loadUsers(unordered_map<string, User> &userList, unordered_map<s
         }
     }
 
-    // Add Admin user
+    return NO_ERROR;
+}
+
+int DataLoader::loadAdmins(unordered_map<string, User> &userList, unordered_map<string, Admin> &adminList)
+{
     Admin admin;
     userList[admin.getUserId()] = admin;
+    adminList[admin.getUserId()] = admin;
 
     return NO_ERROR;
 }
