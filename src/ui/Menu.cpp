@@ -39,7 +39,7 @@ MenuChoice Menu::mainMenu(MenuRights rights)
         "Bannir un utilisateur",
         "Quitter"};
 
-    int maxOptions = MenuRights::NOT_LOGGED_IN == rights ? 2 : MenuRights::PRIVATE_USER == rights ? 4
+    int maxOptions = MenuRights::NOT_LOGGED_IN == rights ? 2 : MenuRights::PRIVATE_USER == rights ? 5
                                                                                                   : 9;
 
     int choice;
@@ -81,7 +81,7 @@ tuple<time_t, time_t, double, double, double> Menu::airQualityMenu()
 {
     time_t startTime, endTime;
     double latitude, longitude, radius;
-    
+
     cout << "Date de début (format : YYYY-MM-DD hh:mm:ss) : ";
     string startDate;
     std::getline(std::cin, startDate);
@@ -99,7 +99,7 @@ tuple<time_t, time_t, double, double, double> Menu::airQualityMenu()
 
     cout << "Date de fin (format : YYYY-MM-DD hh:mm:ss) : " << endl;
     string endDate;
-  
+
     std::getline(std::cin, endDate);
 
     endTime = parseDateTime(endDate.c_str(), "%Y-%m-%d %H:%M:%S");
@@ -233,6 +233,11 @@ void Menu::printQualiteAir(float quali)
 {
 
     cout << "Qualité de l'air: " << quali << endl;
+}
+
+void Menu::printInvalidCredentials()
+{
+    cout << "Identifiants invalides, veuillez réessayer." << endl;
 }
 
 // Méthodes de log

@@ -421,6 +421,10 @@ void AirWatcher::startMenu()
                     rights = MenuRights::ADMIN;
                 }
             }
+            else
+            {
+                menu.printInvalidCredentials();
+            }
             break;
         case MenuChoice::AIR_QUALITY_MENU:
             airQualite = menu.airQualityMenu();
@@ -526,6 +530,8 @@ AirWatcher::AirWatcher()
     loadData();
 
     startMenu();
+
+    menu.debug("AirWatcher service ended successfully.");
 } //----- Fin de AirWatcher
 
 AirWatcher::~AirWatcher()

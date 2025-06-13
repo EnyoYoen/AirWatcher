@@ -92,8 +92,9 @@ public:
     void printMalfunctionSensors(const list<Sensor> &sensors);
     void printUnreliableSensors(const list<Sensor> &sensors);
     void printBannedUser(const User &user, bool isBanned);
-    void printCleanerImpact(const Cleaner &cleaner, bool isValid, float * impact);
+    void printCleanerImpact(const Cleaner &cleaner, bool isValid, float *impact);
     void printQualiteAir(float quali);
+    void printInvalidCredentials();
 
     /************************************************
             Méthodes pour log des messages
