@@ -81,6 +81,11 @@ bool Sensor::checkDistance(double latitude, double longitude, double radius) con
     return distance(this->latitude, this->longitude, latitude, longitude) <= radius;
 }
 
+double Sensor::getDistance(double latitude, double longitude) const
+{
+    return distance(this->latitude, this->longitude, latitude, longitude);
+}
+
 float Sensor::calculateAirQuality(time_t startTime, time_t endTime, vector<Measurement> measurements) const
 {
     float totalPM10 = 0;

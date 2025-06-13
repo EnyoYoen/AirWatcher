@@ -166,9 +166,9 @@ float AirWatcher::calculateAirQuality(time_t startTime, time_t endTime, double r
 
     float averageAQI = 0;
     int count = 0;
-    for (const auto &pair : sensors)
+    for (auto &pair : sensors)
     {
-        const Sensor &sensor = pair.second;
+        Sensor &sensor = pair.second;
         if (sensor.checkDistance(latitude, longitude, radius) && sensor.isReliable())
         {
             float airQuality = sensor.calculateAirQuality(startTime, endTime, measurements[sensor.getSensorId()]);
@@ -281,8 +281,57 @@ bool AirWatcher::checkMalfunction(string sensorId, bool debug)
 
 float AirWatcher::pointAirQuality(double latitude, double longitude, time_t time)
 {
-    // TODO
-    return 0.0;
+    clock_t startClock = clock();
+
+    float averageAQI = 0;
+    float weightedSum = 0;
+    float weightTotal = 0;
+    int count = 0;
+
+    for (auto &pair : sensors)
+    {
+        Sensor sensor = pair.second;
+        double dist = sensor.getDistance(latitude, longitude);
+
+        if (dist <= 0.5)
+        {
+            awardPoints(sensor.getSensorId());
+            float airQuality = sensor.calculateAirQuality(time - 86400, time, measurements.at(pair.first));
+
+            clock_t endClock = clock();
+            double elapsedTime = double(endClock - startClock) / CLOCKS_PER_SEC;
+            menu.debug("Qualité de l'air a un point a mis" + to_string(elapsedTime) + " secondes.\n");
+
+            return (airQuality > 0) ? airQuality : -1;
+        }
+    }
+
+    // Sinon, on analyse avec tous les capteurs dans un rayon de 50 km
+    for (auto &pair : sensors)
+    {
+        Sensor sensor = pair.second;
+        double dist = sensor.getDistance(latitude, longitude);
+
+        if (dist <= 50.0)
+        {
+            awardPoints(sensor.getSensorId());
+            float airQuality = sensor.calculateAirQuality(time - 86400, time, measurements.at(pair.first));
+
+            if (airQuality > 0)
+            {
+                float weight = 1.0f / (dist * dist + 0.0001f);
+                weightedSum += airQuality * weight;
+                weightTotal += weight;
+                count++;
+            }
+        }
+    }
+
+    clock_t endClock = clock();
+    double elapsedTime = double(endClock - startClock) / CLOCKS_PER_SEC;
+    menu.debug("Qualité de l'air a un point a mis" + to_string(elapsedTime) + " secondes.\n");
+
+    return (weightTotal > 0) ? (weightedSum / weightTotal) : -1;
 }
 
 void AirWatcher::awardPoints(string sensorId)
@@ -406,6 +455,7 @@ void AirWatcher::startMenu()
     string cleanerId;
     float valueAQI;
     tuple<time_t, time_t, double, double, double> airQualite;
+    tuple<double, double, time_t> pointAir;
 
     MenuRights rights = MenuRights::NOT_LOGGED_IN;
     MenuChoice choice = menu.mainMenu(rights);
@@ -438,11 +488,13 @@ void AirWatcher::startMenu()
             break;
         case MenuChoice::AIR_QUALITY_MENU:
             airQualite = menu.airQualityMenu();
-            valueAQI = calculateAirQuality(get<0>(airQualite), get<1>(airQualite), get<4>(airQualite), get<2>(airQualite), get<3>(airQualite));
+            valueAQI = calculateAirQuality(get<0>(airQualite), get<1>(airQualite), get<2>(airQualite), get<3>(airQualite), get<4>(airQualite));
             menu.printAirQuality(valueAQI);
             break;
         case MenuChoice::POINT_AIR_QUALITY_MENU:
-            menu.pointAirQualityMenu();
+            pointAir = menu.pointAirQualityMenu();
+            valueAQI = pointAirQuality(get<0>(pointAir),get<1>(pointAir),get<2>(pointAir));
+            menu.printAirQuality(valueAQI);
             break;
         case MenuChoice::CLEANER_IMPACT_MENU:
             cleanerId = menu.cleanerImpactMenu(cleaners);

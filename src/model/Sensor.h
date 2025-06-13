@@ -32,6 +32,7 @@ public:
 
     void banSensor();
     bool checkDistance(double latitude, double longitude, double radius) const;
+    double getDistance(double latitude, double longitude) const;
     float calculateAirQuality(time_t startTime, time_t endTime, vector<Measurement> measurements) const;
 
 protected:
